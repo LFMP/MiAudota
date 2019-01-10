@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/models/anuncios.dart';
+import 'package:miaudota_app/pages/anuncioAnimal_page.dart';
+import 'package:miaudota_app/pages/listaAnuncios_page.dart';
 import 'package:miaudota_app/pages/cadastro_animal.dart';
+import 'package:miaudota_app/pages/profile_page.dart';
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
+import 'package:miaudota_app/repositories/usuario.dart';
 
 class HomePage extends StatefulWidget {
   var anuncios = new List<Anuncio>();
@@ -26,12 +30,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    ListaPage(),
+    CadastroAnimalPage(),
+    AnimalPage(),
+    //ProfilePage(),
+  ];
   AnuncioBloc bloc = AnuncioBloc();
 
   @override
   void initState() {
     super.initState();
     bloc.add(AnuncioLoad());
+  }
+
+  int _selectedIndex = 0;
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -58,92 +77,50 @@ class _HomePageState extends State<HomePage> {
         if (state is AnuncioLoadedState) {
           anuncios = state.anuncios;
           return Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Home Page',
-                  style: TextStyle(
-                    color: AppStyle.colorWhite,
-                  ),
+            appBar: AppBar(
+              title: const Text(
+                'Home Page',
+                style: TextStyle(
+                  color: AppStyle.colorWhite,
                 ),
-                actions: <Widget>[
-                  IconButton(
-                    onPressed: () => Navigator.of(context).push(
-                      SlideRoute(
-                        page: CadastroAnimalPage(),
-                        direction: SlideDirection.RIGHT_LEFT,
-                      ),
-                    ),
-                    icon: Icon(Icons.call_to_action),
-                  ),
-                ],
               ),
-              bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    title: Text('Home'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.business),
-                    title: Text('Business'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.school),
-                    title: Text('School'),
-                  ),
-                ],
-                selectedItemColor: Colors.amber[800],
-              ),
-              body: ListView.separated(
-                padding: EdgeInsets.all(8),
-                itemCount: anuncios.length,
-                itemBuilder: (context, index) {
-                  final anuncio = anuncios[index];
-
-                  return Column(
-                    children: <Widget>[
-                      Container(
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: NetworkImage(
-                                      'https://pbs.twimg.com/media/DySmEisVYAI0YIb.jpg'),
-                                ),
-                                title:
-                                    Text(anuncio.titulo, textScaleFactor: 1.5),
-                                subtitle: Text(anuncio.descricao,
-                                    textScaleFactor: 1.0),
-                              ),
-                              ButtonBar(
-                                children: <Widget>[
-                                  FlatButton(
-                                    child: const Text('Ver Mais'),
-                                    color: AppStyle.colorCyanNineHundred,
-                                    onPressed: () => print('vermais'),
-                                  ),
-                                  IconButton(
-                                    icon: anuncio.id == 1
-                                        ? Icon(Icons.favorite)
-                                        : Icon(Icons.favorite_border),
-                                    color: Colors.red,
-                                    onPressed: null,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-              ));
+              actions: <Widget>[],
+            ),
+            body: _children[_currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              onTap: onTabTapped,
+              currentIndex: _currentIndex,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Principal'),
+                  backgroundColor: AppStyle.colorCyan,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  title: Text('Perfil'),
+                  backgroundColor: AppStyle.colorCyan,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add_circle),
+                  title: Text('Animal'),
+                  backgroundColor: AppStyle.colorCyan,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add_circle),
+                  title: Text('Item'),
+                  backgroundColor: AppStyle.colorCyan,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.help),
+                  title: Text('Ajuda'),
+                  backgroundColor: AppStyle.colorCyan,
+                ),
+              ],
+              selectedItemColor: Colors.black,
+              showUnselectedLabels: true,
+            ),
+          );
         }
       },
     );

@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/pages/cadastro_animal.dart';
 import 'package:miaudota_app/pages/home_page.dart';
+import 'package:miaudota_app/pages/anuncioAnimal_page.dart';
 import 'package:miaudota_app/utils/style.dart';
 
 void main() {

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +12,7 @@ class CadastroAnimalPage extends StatefulWidget {
 }
 
 class _AnimalState extends State<CadastroAnimalPage> {
+  File _image;
   final titleController = TextEditingController();
   final racaController = TextEditingController();
   final idadeController = MaskedTextController(mask: '00');
@@ -18,19 +21,18 @@ class _AnimalState extends State<CadastroAnimalPage> {
   final porteController = TextEditingController();
   final descController = TextEditingController();
 
-  File _imagem;
-  Future getImage() async {
-    var imagem = await ImagePicker.pickImage(source: ImageSource.gallery);
-
+  Future<void> getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final String encoded = base64Encode(image.readAsBytesSync());
     setState(() {
-      _imagem = imagem;
+      _image = image;
     });
   }
 
-  final _formkey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    final _formkey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -235,7 +237,7 @@ class _AnimalState extends State<CadastroAnimalPage> {
               ),
               Container(
                 alignment: Alignment.center,
-                child: _imagem == null ? Text('') : Image.file(_imagem),
+                child: _image == null ? Text('') : Image.file(_image),
               ),
               SizedBox(
                 height: 20,
