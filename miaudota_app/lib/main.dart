@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:miaudota_app/blocs/authentication.dart';
 import 'package:miaudota_app/blocs/events/authentication.dart';
 import 'package:miaudota_app/blocs/states/authentication.dart';
+import 'package:miaudota_app/pages/cadastro_item.dart';
+import 'package:miaudota_app/pages/ajuda_page.dart';
+import 'package:miaudota_app/pages/teste.dart';
+import 'package:miaudota_app/pages/blank_page.dart';
 import 'package:miaudota_app/blocs/usuario.dart';
 import 'package:miaudota_app/pages/login_page.dart';
 import 'package:miaudota_app/pages/profile_page.dart';
@@ -20,15 +24,22 @@ import 'package:miaudota_app/utils/style.dart';
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UsuarioRepository();
-  runApp(
-    BlocProvider<AuthenticationBloc>(
-      builder: (context) {
-        return AuthenticationBloc(userRepository: userRepository)
-          ..add(AppStarted());
-      },
-      child: MiAudota(userRepository: userRepository),
-    ),
-  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthenticationBloc>(
+        builder: (context) {
+          return AuthenticationBloc(userRepository: userRepository)
+            ..add(AppStarted());
+        },
+      ),
+      BlocProvider<AnuncioBloc>(
+        builder: (context) {
+          return AnuncioBloc();
+        },
+      ),
+    ],
+    child: MiAudota(userRepository: userRepository),
+  ));
 }
 
 class SimpleBlocDelegate extends BlocDelegate {
@@ -71,6 +82,7 @@ class MiAudota extends StatelessWidget {
           }
           if (state is AuthenticationAuthenticated) {
             anuncioBloc.add(AnuncioLoad());
+            // return CadastroItem();
             return HomePage();
             //HomePage(); //BlocProvider<UserProfile>(
             //   builder: (context) => UserProfile(userRepository),

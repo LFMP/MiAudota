@@ -19,13 +19,13 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AppStarted) {
-      final bool hasToken = await userRepository.hasToken();
+      // final bool hasToken = await userRepository.hasToken();
 
-      if (hasToken) {
-        yield AuthenticationAuthenticated();
-      } else {
-        yield AuthenticationUnauthenticated();
-      }
+      // if (hasToken) {
+      // yield AuthenticationAuthenticated();
+      // } else {
+      yield AuthenticationUnauthenticated();
+      // }
     }
 
     if (event is LoggedIn) {

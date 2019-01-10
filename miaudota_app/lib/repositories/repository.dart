@@ -8,4 +8,8 @@ class Repository {
   static const API_REPLACE_USER = '$API_USUARIOS/\$/replace';
   static const API_USUARIOS_LOGIN = '$API_USUARIOS/login/?include=user';
   static const API_ANUNCIOS = '$API_URL/Anuncios';
+  static const API_ANUNCIOS_FILTER =
+      '$API_ANUNCIOS?filter={"include":["animal", "item"]}';
+  static const API_ITEM = '$API_URL/Itens';
+  static const API_ANIMAL = '$API_URL/Animais';
 }

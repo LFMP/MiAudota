@@ -1,8 +1,7 @@
-// To parse this JSON data, do
-//
-//     final anuncio = anuncioFromJson(jsonString);
-
 import 'dart:convert';
+
+import 'package:miaudota_app/models/animal.dart';
+import 'package:miaudota_app/models/modelo_Item.dart';
 
 List<Anuncio> anuncioFromJson(String str) =>
     List<Anuncio>.from(json.decode(str).map((x) => Anuncio.fromJson(x)));
@@ -16,8 +15,8 @@ class Anuncio {
   String foto;
   DateTime data;
   int id;
-  int animalId;
-  int itemId;
+  Animal animal;
+  Item item;
 
   Anuncio({
     this.titulo,
@@ -25,29 +24,30 @@ class Anuncio {
     this.foto,
     this.data,
     this.id,
-    this.animalId,
-    this.itemId,
+    this.animal,
+    this.item,
   });
 
   factory Anuncio.fromJson(Map<String, dynamic> json) => Anuncio(
-        titulo: json["titulo"],
-        descricao: json["descricao"],
-        foto: json["foto"],
-        data: DateTime.parse(json["data"]),
-        id: json["id"],
-        animalId: json["animalId"],
-        itemId: json["itemId"],
-      );
+      titulo: json["titulo"],
+      descricao: json["descricao"],
+      foto: json["foto"],
+      data: DateTime.parse(json["data"]),
+      id: json["id"],
+      animal: json["animal"] == null ? null : Animal.fromJson(json["animal"]),
+      item: json["item"] == null ? null : Item.fromJson(json["item"]));
 
-  Map<String, dynamic> toJson() => {
-        "titulo": titulo,
-        "descricao": descricao,
-        "foto": foto,
-        "data": data.toIso8601String(),
-        "id": id,
-        "animalId": animalId,
-        "itemId": itemId,
-      };
+  Map<String, dynamic> toJson() {
+    final json = {
+      "titulo": titulo,
+      "descricao": descricao,
+      "foto": foto,
+      "data": data.toIso8601String(),
+    };
+    if (item != null) json["itemId"] = item.id.toString();
+    if (animal != null) json["animalId"] = animal.id.toString();
+    return json;
+  }
 
   static List<Anuncio> fromJsonList(List list) => list == null || list.isEmpty
       ? []

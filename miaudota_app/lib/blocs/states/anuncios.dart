@@ -23,5 +23,3 @@ class AnuncioErrorState extends AnuncioState {
 }
 
 class AnuncioLoadingState extends AnuncioState {}
-
-class SuccessCreateState extends AnuncioState {}

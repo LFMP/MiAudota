@@ -20,11 +20,34 @@ class AnuncioBloc extends Bloc<AnuncioEvent, AnuncioState> {
   Stream<AnuncioState> mapEventToState(AnuncioEvent event) async* {
     if (event is AnuncioLoad) {
       yield AnuncioLoadingState();
+      yield* _atualizarLista();
+    }
+
+    if (event is AnuncioCreate) {
+      yield AnuncioLoadingState();
       try {
-        final List<Anuncio> response = await repo.getAnuncios();
-        yield AnuncioLoadedState(anuncios: response);
+        final Anuncio response =
+            await AnuncioRepository.createAnuncio(event.item);
+        if (response != null)
+          yield* _atualizarLista();
+        else
+          yield AnuncioErrorState(errormsg: "Erro!");
       } catch (e) {
         yield AnuncioErrorState(errormsg: e.toString());
+      }
+
+      if (event is AnuncioDelete) {
+        yield AnuncioLoadingState();
+        try {
+          final bool response =
+              await AnuncioRepository.deleteAnuncio(event.item);
+          if (response)
+            yield* _atualizarLista();
+          else
+            yield AnuncioErrorState(errormsg: "Erro!");
+        } catch (e) {
+          yield AnuncioErrorState(errormsg: e.toString());
+        }
       }
     }
 
@@ -37,5 +60,14 @@ class AnuncioBloc extends Bloc<AnuncioEvent, AnuncioState> {
     //     yield AnuncioErrorState(errormsg: e.toString());
     //   }
     // }
+  }
+
+  Stream<AnuncioState> _atualizarLista() async* {
+    try {
+      final List<Anuncio> response = await repo.getAnuncios();
+      yield AnuncioLoadedState(anuncios: response);
+    } catch (e) {
+      yield AnuncioErrorState(errormsg: e.toString());
+    }
   }
 }

@@ -38,18 +38,26 @@ var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
 
 // Build the providers/passport config
+
 var config = {};
 try {
 	config = require('../providers.json');
-  // If using custom passport module
-  console.log(config['facebook-login']);
-  console.log(config['facebook-login'].verifyMethod);
-	config['facebook-login'].verifyMethod = function(req, token, details, verified) {
-		verified(null, details);
-  }
-  console.log(config['facebook-login']);
-  console.log(config['facebook-login'].verifyMethod);
 } catch (err) {
 	console.trace(err);
 	process.exit(1); // fatal
 }
+// var config = {};
+// try {
+// 	config = require('../providers.json');
+//   // If using custom passport module
+//   console.log(config['facebook-login']);
+//   console.log(config['facebook-login'].verifyMethod);
+// 	config['facebook-login'].verifyMethod = function(req, token, details, verified) {
+// 		verified(null, details);
+//   }
+//   console.log(config['facebook-login']);
+//   console.log(config['facebook-login'].verifyMethod);
+// } catch (err) {
+// 	console.trace(err);
+// 	process.exit(1); // fatal
+// }

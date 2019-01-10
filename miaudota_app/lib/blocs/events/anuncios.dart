@@ -8,17 +8,17 @@ abstract class AnuncioEvent extends Equatable {
 class AnuncioLoad extends AnuncioEvent {}
 
 class AnuncioCreate extends AnuncioEvent {
-  final String titulo;
-  final String descricao;
-  final String raca;
-  final String idade;
-  final String sexo;
-  final String porte;
-  AnuncioCreate(
-      {this.titulo,
-      this.descricao,
-      this.raca,
-      this.idade,
-      this.sexo,
-      this.porte});
+  final Anuncio item;
+  AnuncioCreate({this.item});
+
+  @override
+  List get props => [this.item];
+}
+
+class AnuncioDelete extends AnuncioEvent {
+  final Anuncio item;
+  AnuncioDelete({this.item});
+
+  @override
+  List get props => [this.item];
 }

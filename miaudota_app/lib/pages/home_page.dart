@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    bloc = BlocProvider.of<AnuncioBloc>(context);
     bloc.add(AnuncioLoad());
   }
 
@@ -55,7 +56,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Anuncio> anuncios;
     return BlocBuilder(
       bloc: bloc,
       builder: (context, state) {
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           );
         }
         if (state is AnuncioLoadedState) {
-          anuncios = state.anuncios;
+          final anuncios = state.anuncios;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
