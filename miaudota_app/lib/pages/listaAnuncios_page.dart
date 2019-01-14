@@ -2,6 +2,7 @@ import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/models/anuncios.dart';
 import 'package:miaudota_app/pages/home_page.dart';
@@ -12,32 +13,22 @@ import 'package:miaudota_app/repositories/usuario.dart';
 class ListaPage extends StatefulWidget {
   var anuncios = new List<Anuncio>();
 
-  ListaPage() {
-    // anuncios = [];
-    // anuncios.add(
-    // Anuncios(title: "Cachorro filhote", sexo: "Macho", favorito: false));
-    // anuncios
-    // .add(Anuncios(title: "Gato filhote", sexo: "Macho", favorito: false));
-    // anuncios.add(
-    // Anuncios(title: "Cachorro adulto", sexo: "Macho", favorito: false));
-  }
-
   @override
   _ListaPageState createState() => _ListaPageState();
 }
 
 class _ListaPageState extends State<ListaPage> {
-  AnuncioBloc bloc = AnuncioBloc();
+  AnuncioBloc bloc;
 
   @override
   void initState() {
     super.initState();
+    bloc = BlocProvider.of<AnuncioBloc>(context);
     bloc.add(AnuncioLoad());
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Anuncio> anuncios;
     return BlocBuilder(
       bloc: bloc,
       builder: (context, state) {
@@ -45,28 +36,29 @@ class _ListaPageState extends State<ListaPage> {
           return Scaffold(
             appBar: AppBar(
               title: const Text(
-                'Pagina Principal',
+                'Miaudota',
+                textAlign: prefix0.TextAlign.center,
                 style: TextStyle(
                   color: AppStyle.colorWhite,
                 ),
               ),
             ),
             body: Center(
-              child: HomePage(),
+              child: CircularProgressIndicator(),
             ),
           );
         }
         if (state is AnuncioLoadedState) {
-          anuncios = state.anuncios;
+          final anuncios = state.anuncios;
           return Scaffold(
               appBar: AppBar(
                 title: const Text(
-                  'Pagina Principal',
+                  'Miaudota',
+                  textAlign: prefix0.TextAlign.center,
                   style: TextStyle(
                     color: AppStyle.colorWhite,
                   ),
                 ),
-                actions: <Widget>[],
               ),
               body: ListView.separated(
                 padding: EdgeInsets.all(8),
@@ -100,7 +92,8 @@ class _ListaPageState extends State<ListaPage> {
                                     onPressed: () => print('vermais'),
                                   ),
                                   IconButton(
-                                    icon: anuncio.id == 1
+                                    icon: anuncio.animal.id != null ||
+                                            anuncio.item.id != null
                                         ? Icon(Icons.favorite)
                                         : Icon(Icons.favorite_border),
                                     color: Colors.red,

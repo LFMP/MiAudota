@@ -16,7 +16,6 @@ import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:miaudota_app/models/modelo_Item.dart';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroItem extends StatefulWidget {
   CadastroItem();

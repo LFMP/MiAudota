@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
-
+import 'package:flushbar/flushbar_route.dart';
+import 'package:miaudota_app/utils/slider.dart';
 import 'package:flutter/material.dart';
+import 'package:miaudota_app/pages/ajuda_page.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -47,6 +49,18 @@ class _AnimalState extends State<CadastroAnimalPage> {
           color: AppStyle.colorWhite,
           icon: Icon(Icons.arrow_back),
         ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => Navigator.of(context).push(
+              SlideRoute(
+                page: AjudaCadastroAnimal(),
+                direction: SlideDirection.RIGHT_LEFT,
+              ),
+            ),
+            color: AppStyle.colorWhite,
+            icon: Icon(Icons.help),
+          )
+        ],
       ),
       body: Form(
         key: _formkey,

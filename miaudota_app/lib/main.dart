@@ -78,7 +78,7 @@ class MiAudota extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is AuthenticationUninitialized) {
-            return SplashPage();
+            return HomePage(); //SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
             anuncioBloc.add(AnuncioLoad());
@@ -92,7 +92,7 @@ class MiAudota extends StatelessWidget {
             // );
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginPage(userRepository: userRepository);
+            return HomePage(); //LoginPage(userRepository: userRepository);
           }
           if (state is AuthenticationLoading) {
             return LoadingIndicator();
