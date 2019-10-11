@@ -8,7 +8,7 @@ miaudota_app/.atom/
 miaudota_app/.buildlog/
 miaudota_app/.history
 miaudota_app/.svn/
-api/node_modules/
+**/node_modules/**/*
 
 # IntelliJ related
 miaudota_app/*.iml
