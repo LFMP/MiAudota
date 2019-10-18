@@ -1,0 +1,22 @@
+{
+  "name": "Contato",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ddd": {
+      "type": "number",
+      "required": true
+    },
+    "telefone": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
