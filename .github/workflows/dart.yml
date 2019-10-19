@@ -11,6 +11,8 @@ jobs:
       image:  cirrusci/flutter
     
     steps:
+    - name: test
+      run: ls -la
     - name: Analyze lib code
       run: flutter analyze miaudota_app/lib/
     - name: Analyze test code
