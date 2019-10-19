@@ -12,9 +12,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    - name: debugging
+      run: flutter help analyze
     - name: Enter in the directory of app
       run: cd miaudota_app/
     - name: Analyze lib code
       run: flutter analyze
     - name: Run tests
-      run: pub run test --merge-coverage miaudota_app/test/
+      run: pub run test --merge-coverage test/
