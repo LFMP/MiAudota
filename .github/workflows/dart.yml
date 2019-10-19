@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     
     container:
-      image:  cirrusci/flutter:latest
+      image:  gableroux/flutter
     
     steps:
     - uses: actions/checkout@v1
-    # - name: Analyze code
-    #   run: flutter analyze
+    - name: Analyze code
+      run: |
+        cd miaudota_app
+        flutter analyze
     - name: Run tests
       run: |
         cd miaudota_app
