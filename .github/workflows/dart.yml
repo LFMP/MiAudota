@@ -1,0 +1,20 @@
+name: Dart CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    container:
+      image:  google/dart:latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Enter app directory
+      run: cd miaudota_app/
+    - name: Analyze code
+      run: pub analyze
+    - name: Run tests
+      run: pub run test --merge-coverage test/
