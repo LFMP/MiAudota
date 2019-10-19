@@ -19,4 +19,5 @@ jobs:
     - name: Run tests
       run: |
         cd miaudota_app
-        flutter test --merge-coverage test/
+        flutter test --coverage test/
+        genhtml coverage/lcov.info --output=coverage
