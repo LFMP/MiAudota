@@ -1,0 +1,19 @@
+name: Dart CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    container:
+      image:  circleci/flutter
+    
+    steps:
+    - name: Analyze lib code
+      run: flutter analyze miaudota_app/lib/
+    - name: Analyze test code
+      run: flutter analyze miaudota_app/test/
+    - name: Run tests
+      run: pub run test --merge-coverage miaudota_app/test/
