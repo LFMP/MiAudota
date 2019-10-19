@@ -14,7 +14,9 @@ jobs:
     - uses: actions/checkout@v1
     # - name: Analyze code
     #   run: flutter analyze
-    - name: List files
+    - name: cd
       run: cd miaudota_app
+    - name: ls
+      run: ls
     - name: Run tests
       run: flutter test --merge-coverage
