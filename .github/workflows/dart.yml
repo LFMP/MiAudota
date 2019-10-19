@@ -15,6 +15,6 @@ jobs:
     - name: Enter app directory
       run: cd miaudota_app/
     - name: Analyze code
-      run: pub analyze
+      run: dart analyze
     - name: Run tests
-      run: pub run test --merge-coverage test/
+      run: dart test --merge-coverage test/
