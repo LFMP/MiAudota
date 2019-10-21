@@ -1,0 +1,50 @@
+{
+	"name": "Usuario",
+	"base": "User",
+	"idInjection": true,
+	"options": {
+		"validateUpsert": true
+	},
+	"properties": {
+		"nome": {
+			"type": "string"
+		}
+	},
+	"validations": [],
+	"relations": {
+		"normal": {
+			"type": "belongsTo",
+			"model": "Normal",
+			"foreignKey": "",
+			"options": {
+				"nestRemoting": true
+			}
+		},
+		"entidade": {
+			"type": "belongsTo",
+			"model": "Entidade",
+			"foreignKey": "",
+			"options": {
+				"nestRemoting": true
+			}
+		},
+		"enderecos": {
+			"type": "hasMany",
+			"model": "Endereco",
+			"foreignKey": "",
+			"options": {
+				"nestRemoting": true
+			}
+		},
+		"contatos": {
+			"type": "hasMany",
+			"model": "Contato",
+			"foreignKey": "",
+			"options": {
+				"nestRemoting": true
+			}
+		}
+	},
+	"acls": [],
+	"methods": {}
+}

@@ -1,0 +1,12 @@
+{
+	"administrador": {
+		"realm": "admin",
+		"username": "administrador",
+		"email": "admin@admin.com",
+		"password": "admin",
+		"cpf": "07050724955",
+		"nome": "administrador",
+		"emailVerified": true
+	},
+	"roles": ["Normal", "Entidade", "admin"]
+}
