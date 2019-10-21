@@ -34,5 +34,25 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Anuncio": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Item": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Tag": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Ajuda": {
+    "dataSource": "db",
+    "public": true
+  },
+  "categoria": {
+    "dataSource": "db",
+    "public": true
   }
 }
