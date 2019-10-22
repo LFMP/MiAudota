@@ -1,0 +1,23 @@
+{
+  "name": "Item",
+  "plural": "Itens",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "qtdatual": {
+      "type": "number",
+      "required": true
+    },
+    "qtdsolicitado": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
