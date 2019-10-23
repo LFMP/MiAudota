@@ -16,6 +16,9 @@
     },
     "HoraFechamento": {
       "type": "date"
+    },
+    "Chat":{
+      "type": "string"
     }
   },
   "validations": [],
