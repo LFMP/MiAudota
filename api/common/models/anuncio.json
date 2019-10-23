@@ -40,6 +40,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "animal": {
+      "type": "belongsTo",
+      "model": "Animal",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [],

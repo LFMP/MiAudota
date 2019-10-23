@@ -1,21 +1,29 @@
 {
-  "name": "Categoria",
+  "name": "Favorito",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "nome": {
-      "type": "string",
+    "data": {
+      "type": "date",
       "required": true
     }
   },
   "validations": [],
   "relations": {
-    "ajudas": {
-      "type": "hasMany",
-      "model": "Ajuda",
+    "usuario": {
+      "type": "belongsTo",
+      "model": "Usuario",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "anuncio": {
+      "type": "belongsTo",
+      "model": "Anuncio",
       "foreignKey": "",
       "options": {
         "nestRemoting": true
