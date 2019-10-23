@@ -1,0 +1,28 @@
+{
+  "name": "Animal",
+  "plural": "Animais",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "sexo": {
+      "type": "string"
+    },
+    "raca": {
+      "type": "string",
+      "required": true
+    },
+    "porte": {
+      "type": "string"
+    },
+    "idade": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
