@@ -1,0 +1,41 @@
+{
+  "name": "SAC",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Protocolo": {
+      "type": "number",
+      "required": true
+    },
+    "HoraAbertura": {
+      "type": "date",
+      "required": true
+    },
+    "HoraFechamento": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Administrador": {
+      "type": "hasOne",
+      "model": "Usuario",
+      "foreignKey": ""
+    },
+    "Usuario": {
+      "type": "hasOne",
+      "model": "Usuario",
+      "foreignKey": ""
+    },
+    "Entidade": {
+      "type": "hasOne",
+      "model": "Entidade",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
