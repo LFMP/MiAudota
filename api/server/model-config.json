@@ -36,24 +36,44 @@
     "dataSource": "db",
     "public": false
   },
-  "Usuario": {
+  "Anuncio": {
     "dataSource": "db",
     "public": true
   },
-  "Normal": {
+  "Item": {
     "dataSource": "db",
     "public": true
   },
-  "Entidade": {
+  "Tag": {
     "dataSource": "db",
     "public": true
   },
-  "Endereco": {
+  "Ajuda": {
     "dataSource": "db",
     "public": true
   },
-  "Contato": {
+  "categoria": {
     "dataSource": "db",
     "public": true
-  }
+  },
+	"Usuario": {
+		"dataSource": "db",
+		"public": true
+	},
+	"Normal": {
+		"dataSource": "db",
+		"public": true
+	},
+	"Entidade": {
+		"dataSource": "db",
+		"public": true
+	},
+	"Endereco": {
+		"dataSource": "db",
+		"public": true
+	},
+	"Contato": {
+		"dataSource": "db",
+		"public": true
+	}
 }

@@ -9,6 +9,7 @@ miaudota_app/.buildlog/
 miaudota_app/.history
 miaudota_app/.svn/
 **/node_modules/**/*
+miaudota_app/coverage
 
 # IntelliJ related
 miaudota_app/*.iml

@@ -1,0 +1,23 @@
+name: Dart CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    container:
+      image:  gableroux/flutter
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Analyze code
+      run: |
+        cd miaudota_app
+        flutter analyze
+    - name: Run tests
+      run: |
+        cd miaudota_app
+        flutter test --coverage test/
+        genhtml coverage/lcov.info --output=coverage
