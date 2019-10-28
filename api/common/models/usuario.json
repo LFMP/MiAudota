@@ -43,6 +43,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "favoritos": {
+      "type": "hasMany",
+      "model": "favorito",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [

@@ -75,5 +75,9 @@
   "Contato": {
     "dataSource": "db",
     "public": true
+  },
+  "favorito": {
+    "dataSource": "db",
+    "public": true
   }
 }
