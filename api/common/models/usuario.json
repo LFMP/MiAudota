@@ -1,50 +1,76 @@
 {
-	"name": "Usuario",
-	"base": "User",
-	"idInjection": true,
-	"options": {
-		"validateUpsert": true
-	},
-	"properties": {
-		"nome": {
-			"type": "string"
+  "name": "Usuario",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "nome": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "normal": {
+      "type": "hasOne",
+      "model": "Normal",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "entidade": {
+      "type": "hasOne",
+      "model": "Entidade",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "enderecos": {
+      "type": "hasMany",
+      "model": "Endereco",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "contatos": {
+      "type": "hasMany",
+      "model": "Contato",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+			"accessType": "WRITE",
+			"principalType": "ROLE",
+			"principalId": "admin",
+			"permission": "ALLOW"
+		},
+		{
+			"accessType": "*",
+			"principalType": "ROLE",
+			"principalId": "$everyone",
+			"permission": "DENY"
+		},
+		{
+			"accessType": "WRITE",
+			"principalType": "ROLE",
+			"principalId": "$everyone",
+			"permission": "ALLOW"
+		},
+		{
+			"acessType": "EXECUTE",
+			"principalType": "ROLE",
+			"principalId": "$owner",
+			"permission": "ALLOW",
+			"property": "deleteById"
 		}
-	},
-	"validations": [],
-	"relations": {
-		"normal": {
-			"type": "belongsTo",
-			"model": "Normal",
-			"foreignKey": "",
-			"options": {
-				"nestRemoting": true
-			}
-		},
-		"entidade": {
-			"type": "belongsTo",
-			"model": "Entidade",
-			"foreignKey": "",
-			"options": {
-				"nestRemoting": true
-			}
-		},
-		"enderecos": {
-			"type": "hasMany",
-			"model": "Endereco",
-			"foreignKey": "",
-			"options": {
-				"nestRemoting": true
-			}
-		},
-		"contatos": {
-			"type": "hasMany",
-			"model": "Contato",
-			"foreignKey": "",
-			"options": {
-				"nestRemoting": true
-			}
-		}
-	},
-	"acls": [],
-	"methods": {}
+  ],
+  "methods": {}
 }
