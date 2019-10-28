@@ -13,7 +13,7 @@
   "validations": [],
   "relations": {
     "normal": {
-      "type": "belongsTo",
+      "type": "hasOne",
       "model": "Normal",
       "foreignKey": "",
       "options": {
@@ -21,7 +21,7 @@
       }
     },
     "entidade": {
-      "type": "belongsTo",
+      "type": "hasOne",
       "model": "Entidade",
       "foreignKey": "",
       "options": {
@@ -53,6 +53,32 @@
       }
     }
   },
-  "acls": [],
+  "acls": [
+    {
+			"accessType": "WRITE",
+			"principalType": "ROLE",
+			"principalId": "admin",
+			"permission": "ALLOW"
+		},
+		{
+			"accessType": "*",
+			"principalType": "ROLE",
+			"principalId": "$everyone",
+			"permission": "DENY"
+		},
+		{
+			"accessType": "WRITE",
+			"principalType": "ROLE",
+			"principalId": "$everyone",
+			"permission": "ALLOW"
+		},
+		{
+			"acessType": "EXECUTE",
+			"principalType": "ROLE",
+			"principalId": "$owner",
+			"permission": "ALLOW",
+			"property": "deleteById"
+		}
+  ],
   "methods": {}
 }
