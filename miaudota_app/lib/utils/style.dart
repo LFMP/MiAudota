@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppStyle {
-  static final Color colorCyan = Colors.cyan;
-  static final Color colorCyanEightHundred = Colors.cyan[800];
-  static final Color colorCyanNineHundred = Colors.cyan[900];
-  static final Color colorWhite = Colors.white;
-  static final Color colorBlack = Colors.black;
+  static const Color colorCyan = Colors.cyan;
+  static const Color colorCyanEightHundred = Color(0xFF00838F);
+  static const Color colorCyanNineHundred = Color(0xFF006064);
+  static const Color colorWhite = Colors.white;
+  static const Color colorBlack = Colors.black;
 
-  static final double pullHeight = 50.0;
+  static const double pullHeight = 50.0;
 }
