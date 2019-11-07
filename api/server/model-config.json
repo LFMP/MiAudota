@@ -36,6 +36,10 @@
     "dataSource": "db",
     "public": false
   },
+  "Animal": {
+    "dataSource": "db",
+    "public": true
+  },
   "Anuncio": {
     "dataSource": "db",
     "public": true

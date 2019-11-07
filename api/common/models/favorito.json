@@ -1,10 +1,8 @@
 {
   "name": "Favorito",
+  "plural": "Favoritos",
   "base": "PersistedModel",
   "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
   "properties": {
     "data": {
       "type": "date",
