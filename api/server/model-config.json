@@ -76,7 +76,7 @@
     "dataSource": "db",
     "public": true
   },
-  "favorito": {
+  "Favorito": {
     "dataSource": "db",
     "public": true
   }
