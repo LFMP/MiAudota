@@ -5,8 +5,6 @@ enum SlideDirection { TOP_BOTTOM, BOTTOM_TOP, LEFT_RIGHT, RIGHT_LEFT }
 const DIRECTION = [Offset(0, -1), Offset(0, 1), Offset(-1, 0), Offset(1, 0)];
 
 class SlideRoute extends PageRouteBuilder {
-  final Widget page;
-  final SlideDirection direction;
   SlideRoute({
     @required this.page,
     @required this.direction,
@@ -34,4 +32,6 @@ class SlideRoute extends PageRouteBuilder {
             child: child,
           ),
         );
+  final Widget page;
+  final SlideDirection direction;
 }

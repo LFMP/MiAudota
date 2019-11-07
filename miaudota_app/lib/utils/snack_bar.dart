@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 
 class CustomSnackBar {
-  Flushbar _customBar;
-
   CustomSnackBar(
     String message, {
     Color color = Colors.red,
   }) {
     _customBar = SimpleSnackBar.generateSnackBar(message, color: color);
   }
-
+  Flushbar _customBar;
   void show(BuildContext context) => _customBar?.show(context);
 
   void hide() => _customBar?.dismiss();
