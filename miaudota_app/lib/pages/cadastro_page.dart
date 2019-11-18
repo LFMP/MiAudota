@@ -2,119 +2,300 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-class CadastroPage extends StatelessWidget {
+class PessoaFisica extends StatelessWidget {
   final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  // final _cpfController = TextEditingController();
-  // final _cnpjController = TextEditingController();
   final _nameController = TextEditingController();
-
+  final _passwordController = TextEditingController();
+  final _cpfController = TextEditingController();
+  final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: AppStyle.padding,
-        color: AppStyle.colorCyan,
-        child: ListView(
-          children: <Widget>[
-            const SizedBox(
-              height: 40,
-            ),
-            TextFormField(
-              controller: _usernameController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: 'Username',
-                labelStyle: TextStyle(
-                  color: AppStyle.colorWhite,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: TextStyle(
+    return Container(
+      padding: AppStyle.padding,
+      color: AppStyle.colorWhite,
+      child: ListView(
+        children: <Widget>[
+          TextFormField(
+            controller: _usernameController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Username',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
                 fontSize: 20,
-                color: AppStyle.colorWhite,
               ),
             ),
-            const SizedBox(
-              height: 10,
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
             ),
-            TextFormField(
-              controller: _nameController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: 'Nome completo',
-                labelStyle: TextStyle(
-                  color: AppStyle.colorWhite,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: TextStyle(
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _nameController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Nome',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
                 fontSize: 20,
-                color: AppStyle.colorWhite,
               ),
             ),
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'E-mail',
-                labelStyle: TextStyle(
-                  color: AppStyle.colorWhite,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: TextStyle(
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          TextFormField(
+            controller: _cpfController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'CPF',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
                 fontSize: 20,
-                color: AppStyle.colorWhite,
               ),
             ),
-            const SizedBox(
-              height: 10,
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
             ),
-            TextFormField(
-              controller: _passwordController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: 'Senha',
-                labelStyle: TextStyle(
-                  color: AppStyle.colorWhite,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: TextStyle(
+          ),
+          TextFormField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'E-mail',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
                 fontSize: 20,
-                color: AppStyle.colorWhite,
               ),
             ),
-            const SizedBox(
-              height: 40,
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: AppStyle.colorWhite,
-                borderRadius: const BorderRadius.all(Radius.circular(60)),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _passwordController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Senha',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
               ),
-              child: SizedBox(
-                child: FlatButton(
-                  child: Container(
-                    child: Text(
-                      'Próximo',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: AppStyle.colorCyanEightHundred,
-                      ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: AppStyle.colorCyan,
+              borderRadius: const BorderRadius.all(Radius.circular(60)),
+            ),
+            child: SizedBox(
+              child: FlatButton(
+                child: Container(
+                  child: Text(
+                    'Próximo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: AppStyle.colorWhite,
                     ),
                   ),
-                  onPressed: () => print('próximo'),
                 ),
+                onPressed: () => print('próximo'),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PessoaJuridica extends StatelessWidget {
+  final _usernameController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _cnpjController = TextEditingController();
+  final _emailController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppStyle.padding,
+      color: AppStyle.colorWhite,
+      child: ListView(
+        children: <Widget>[
+          TextFormField(
+            controller: _usernameController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Username',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _nameController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Razão social',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          TextFormField(
+            controller: _cnpjController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'CNPJ',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          TextFormField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'E-mail',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _passwordController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Senha',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: AppStyle.colorCyan,
+              borderRadius: const BorderRadius.all(Radius.circular(60)),
+            ),
+            child: SizedBox(
+              child: FlatButton(
+                child: Container(
+                  child: Text(
+                    'Próximo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: AppStyle.colorWhite,
+                    ),
+                  ),
+                ),
+                onPressed: () => print('próximo'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CadastroPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Informações básicas',
+            style: TextStyle(
+              color: AppStyle.colorWhite,
+            ),
+          ),
+          bottom: TabBar(
+            tabs: const <Widget>[
+              Tab(
+                text: 'Pessoa Física',
+                icon: Icon(
+                  Icons.person,
+                  color: AppStyle.colorWhite,
+                ),
+              ),
+              Tab(
+                text: 'Pessoa Jurídica',
+                icon: Icon(
+                  Icons.people,
+                  color: AppStyle.colorWhite,
+                ),
+              )
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            PessoaFisica(),
+            PessoaJuridica(),
           ],
         ),
       ),
