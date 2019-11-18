@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:miaudota_app/pages/login_page.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MiAudota());
 
-class MyApp extends StatelessWidget {
+class MiAudota extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MiAudota',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: AppStyle.colorCyan,

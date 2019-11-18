@@ -12,7 +12,6 @@ class AppStarted extends AuthenticationEvent {}
 
 class LoggedIn extends AuthenticationEvent {
   const LoggedIn({@required this.token});
-
   final String token;
 
   @override
