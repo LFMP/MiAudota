@@ -37,7 +37,6 @@ class AuthResponse extends APIResponse {
 
   @override
   bool get isSucessfull => statusCode == 200;
-  bool get hasPermission => realm == 'Petiano' || realm == 'Ajudante';
 
   Map<String, dynamic> toJson() => {
         'id': token ?? token,
