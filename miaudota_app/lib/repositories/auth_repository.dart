@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart'; // For debug only
 // Foreign
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // Repositories
 import 'package:miaudota_app/repositories/repository.dart';
 // Models
@@ -9,6 +10,7 @@ import 'package:miaudota_app/models/authorization.dart';
 import 'package:miaudota_app/models/api_response.dart';
 
 class AuthRepository extends Repository {
+  static const storage = FlutterSecureStorage();
   static Future<APIResponse> login(AuthRequest request) async {
     try {
       final response = await http.post(
@@ -24,6 +26,10 @@ class AuthRepository extends Repository {
 
       if (response.statusCode == 200) {
         print('[Login sucessfull]');
+
+        await storage.write(key: 'token', value: result.token);
+        await storage.write(key: 'realm', value: result.realm);
+        await storage.write(key: 'userId', value: result.userId);
         return result;
       } else {
         print('[Login failed]');
@@ -34,5 +40,17 @@ class AuthRepository extends Repository {
       debugPrintStack();
       return APIError(message: e.toString());
     }
+  }
+
+  static Future<void> deleteToken() async {
+    await storage.delete(key: 'token');
+  }
+
+  static Future<bool> hasToken() async {
+    final String token = await storage.read(key: 'token');
+    if (token != null) {
+      return true;
+    }
+    return false;
   }
 }
