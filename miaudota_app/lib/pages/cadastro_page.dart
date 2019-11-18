@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:miaudota_app/pages/cadastro_page.dart';
-import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-class LoginPage extends StatelessWidget {
-  final _userController = TextEditingController();
+class CadastroPage extends StatelessWidget {
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  // final _cpfController = TextEditingController();
+  // final _cnpjController = TextEditingController();
+  final _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +18,49 @@ class LoginPage extends StatelessWidget {
         color: AppStyle.colorCyan,
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              width: 180,
-              height: 180,
-              child: Image.asset('assets/logoMiaudotaEscrito.png'),
-            ),
             const SizedBox(
               height: 40,
             ),
             TextFormField(
-              controller: _userController,
+              controller: _usernameController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: 'Username',
+                labelStyle: TextStyle(
+                  color: AppStyle.colorWhite,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),
+              ),
+              style: TextStyle(
+                fontSize: 20,
+                color: AppStyle.colorWhite,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: _nameController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: 'Nome completo',
+                labelStyle: TextStyle(
+                  color: AppStyle.colorWhite,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),
+              ),
+              style: TextStyle(
+                fontSize: 20,
+                color: AppStyle.colorWhite,
+              ),
+            ),
+            TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'E-mail ou username',
+                labelText: 'E-mail',
                 labelStyle: TextStyle(
                   color: AppStyle.colorWhite,
                   fontWeight: FontWeight.w400,
@@ -71,7 +103,7 @@ class LoginPage extends StatelessWidget {
                 child: FlatButton(
                   child: Container(
                     child: Text(
-                      'Login',
+                      'Próximo',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -79,37 +111,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => print('login'),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: AppStyle.colorWhite,
-                borderRadius: const BorderRadius.all(Radius.circular(60)),
-              ),
-              child: SizedBox(
-                child: FlatButton(
-                  child: Container(
-                    child: Text(
-                      'Cadastrar-se',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: AppStyle.colorCyanEightHundred,
-                      ),
-                    ),
-                  ),
-                  onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                    SlideRoute(
-                      page: CadastroPage(),
-                      direction: SlideDirection.RIGHT_LEFT,
-                    ),
-                    (_) => true,
-                  ),
+                  onPressed: () => print('próximo'),
                 ),
               ),
             ),
