@@ -14,7 +14,9 @@ class APIError extends APIResponse {
   }) : super(statusCode: statusCode);
 
   factory APIError.fromJson(Map<String, dynamic> json) {
-    if (json == null || json['error'] == null) return null;
+    if (json == null || json['error'] == null) {
+      return null;
+    }
     json = json['error'];
     return APIError(
       statusCode: json['statusCode'] ?? json['statusCode'],
