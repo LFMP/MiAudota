@@ -6,12 +6,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // Repositories
 import 'package:miaudota_app/repositories/repository.dart';
 // Models
-import 'package:miaudota_app/models/authorization.dart';
+import 'package:miaudota_app/models/authentication.dart';
 import 'package:miaudota_app/models/api_response.dart';
 
 class AuthRepository extends Repository {
   static const storage = FlutterSecureStorage();
-  static Future<APIResponse> login(AuthRequest request) async {
+  Future<APIResponse> login(AuthRequest request) async {
     try {
       final response = await http.post(
         Repository.API_USUARIOS_LOGIN,
@@ -42,15 +42,19 @@ class AuthRepository extends Repository {
     }
   }
 
-  static Future<void> deleteToken() async {
+  Future<void> deleteToken() async {
     await storage.delete(key: 'token');
   }
 
-  static Future<bool> hasToken() async {
+  Future<bool> hasToken() async {
     final String token = await storage.read(key: 'token');
     if (token != null) {
       return true;
     }
     return false;
+  }
+
+  Future<void> persistToken(String token) async {
+    await storage.write(key: 'token', value: token);
   }
 }
