@@ -19,7 +19,7 @@
   "relations": {
     "categoria": {
       "type": "belongsTo",
-      "model": "categoria",
+      "model": "Categoria",
       "foreignKey": "",
       "options": {
         "nestRemoting": true
