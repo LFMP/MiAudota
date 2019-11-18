@@ -41,7 +41,7 @@
         "nestRemoting": true
       }
     },
-    "Animal": {
+    "animal": {
       "type": "hasOne",
       "model": "Animal",
       "foreignKey": "",
