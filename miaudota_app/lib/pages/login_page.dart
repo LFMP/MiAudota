@@ -44,6 +44,7 @@ class LoginPage extends StatelessWidget {
               height: 10,
             ),
             TextFormField(
+              obscureText: true,
               controller: _passwordController,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
