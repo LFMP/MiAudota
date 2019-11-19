@@ -108,8 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                       ),
                     ),
-                    onPressed: () =>
-                        state is! LoginLoading ? _onLoginButtonPressed : null,
+                    onPressed: () => _onLoginButtonPressed(),
                   ),
                 ),
               ),

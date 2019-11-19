@@ -31,7 +31,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           username: event.username,
           password: event.password,
         );
-
         authenticationBloc.add(LoggedIn(token: token));
         yield LoginInitial();
       } catch (error) {

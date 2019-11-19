@@ -5,7 +5,7 @@ import 'package:miaudota_app/repositories/repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UsuarioRepository {
-  static const storage = FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
   Future<String> authenticate({
     @required String username,
     @required String password,
@@ -13,7 +13,6 @@ class UsuarioRepository {
     try {
       final response = await http.post(
         Repository.API_USUARIOS_LOGIN,
-        headers: {'Content-Type': 'application/json'},
         body: {
           'username': username,
           'password': password,
@@ -22,10 +21,10 @@ class UsuarioRepository {
       final body = json.decode(response?.body);
       if (response.statusCode == 200) {
         print('[Login sucessfull]');
-        await storage.write(key: 'token', value: body.token);
-        await storage.write(key: 'realm', value: body.realm);
-        await storage.write(key: 'userId', value: body.userId);
-        return body.id;
+        // await storage.write(key: 'token', value: body['id']);
+        // await storage.write(key: 'realm', value: body['realm']);
+        // await storage.write(key: 'userId', value: body['userId']);
+        return body['id'];
       } else {
         print('[Login failed]');
         return null;
