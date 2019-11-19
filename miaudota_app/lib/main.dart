@@ -70,6 +70,7 @@ class MiAudota extends StatelessWidget {
           if (state is AuthenticationLoading) {
             return LoadingIndicator();
           }
+          return LoginPage(userRepository: userRepository);
         },
       ),
     );
