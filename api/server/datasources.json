@@ -6,7 +6,8 @@
     "password": "${DSPASSWORD}",
     "name": "db",
     "connector": "mysql",
-    "user": "root"
+    "user": "root",
+    "maxOfflineRequests": 100
   },
   "email": {
     "name": "email",
