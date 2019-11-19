@@ -32,3 +32,20 @@ boot(app, __dirname, function(err) {
   if (require.main === module)
     app.start();
 });
+
+var loopbackPassport = require('loopback-component-passport');
+var PassportConfigurator = loopbackPassport.PassportConfigurator;
+var passportConfigurator = new PassportConfigurator(app);
+
+// Build the providers/passport config
+var config = {};
+try {
+	config = require('../providers.json');
+	// If using custom passport module
+	config['custom-example'].verifyMethod = function(req, token, details, verified) {
+		verified(null, details);
+	}
+} catch (err) {
+	console.trace(err);
+	process.exit(1); // fatal
+}
