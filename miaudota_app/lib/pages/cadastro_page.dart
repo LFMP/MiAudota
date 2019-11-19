@@ -273,8 +273,8 @@ class CadastroPage extends StatelessWidget {
               color: AppStyle.colorWhite,
             ),
           ),
-          bottom: TabBar(
-            tabs: const <Widget>[
+          bottom: const TabBar(
+            tabs: <Widget>[
               Tab(
                 text: 'Pessoa Física',
                 icon: Icon(

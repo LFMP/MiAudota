@@ -92,9 +92,9 @@ class _LoginFormState extends State<LoginForm> {
                 height: 40,
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppStyle.colorWhite,
-                  borderRadius: const BorderRadius.all(Radius.circular(60)),
+                  borderRadius: BorderRadius.all(Radius.circular(60)),
                 ),
                 child: SizedBox(
                   child: FlatButton(
@@ -116,9 +116,9 @@ class _LoginFormState extends State<LoginForm> {
                 height: 25,
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppStyle.colorWhite,
-                  borderRadius: const BorderRadius.all(Radius.circular(60)),
+                  borderRadius: BorderRadius.all(Radius.circular(60)),
                 ),
                 child: SizedBox(
                   child: FlatButton(
