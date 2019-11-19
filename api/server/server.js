@@ -41,10 +41,14 @@ var passportConfigurator = new PassportConfigurator(app);
 var config = {};
 try {
 	config = require('../providers.json');
-	// If using custom passport module
-	config['custom-example'].verifyMethod = function(req, token, details, verified) {
+  // If using custom passport module
+  console.log(config['facebook-login']);
+  console.log(config['facebook-login'].verifyMethod);
+	config['facebook-login'].verifyMethod = function(req, token, details, verified) {
 		verified(null, details);
-	}
+  }
+  console.log(config['facebook-login']);
+  console.log(config['facebook-login'].verifyMethod);
 } catch (err) {
 	console.trace(err);
 	process.exit(1); // fatal

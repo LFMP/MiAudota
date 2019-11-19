@@ -1,3 +1,4 @@
+{
 "facebook-login": {
     "provider": "facebook",
     "module": "passport-facebook",
@@ -26,3 +27,4 @@
     "link": true,
     "failureFlash": true
   }
+}
