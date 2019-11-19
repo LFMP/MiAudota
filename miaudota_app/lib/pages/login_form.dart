@@ -63,7 +63,7 @@ class _LoginFormState extends State<LoginForm> {
                     fontSize: 20,
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   color: AppStyle.colorWhite,
                 ),
@@ -83,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
                     fontSize: 20,
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   color: AppStyle.colorWhite,
                 ),
