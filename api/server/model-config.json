@@ -36,6 +36,10 @@
     "dataSource": "db",
     "public": false
   },
+  "Animal": {
+    "dataSource": "db",
+    "public": true
+  },
   "Anuncio": {
     "dataSource": "db",
     "public": true
@@ -76,7 +80,7 @@
     "dataSource": "db",
     "public": true
   },
-  "favorito": {
+  "Favorito": {
     "dataSource": "db",
     "public": true
   }

@@ -46,7 +46,7 @@
     },
     "favoritos": {
       "type": "hasMany",
-      "model": "favorito",
+      "model": "Favorito",
       "foreignKey": "",
       "options": {
         "nestRemoting": true
