@@ -4,17 +4,23 @@ import 'package:miaudota_app/blocs/events/login.dart';
 import 'package:miaudota_app/blocs/login.dart';
 import 'package:miaudota_app/blocs/states/login.dart';
 import 'package:miaudota_app/pages/cadastro_page.dart';
+import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({Key key, this.userRepository}) : super(key: key);
+  final UsuarioRepository userRepository;
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _LoginFormState createState() => _LoginFormState(userRepository);
 }
 
 class _LoginFormState extends State<LoginForm> {
+  _LoginFormState(this.userRepository);
   final _userController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final UsuarioRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +140,9 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                       SlideRoute(
-                        page: CadastroPage(),
+                        page: CadastroPage(
+                          userRepository: userRepository,
+                        ),
                         direction: SlideDirection.RIGHT_LEFT,
                       ),
                       (_) => true,

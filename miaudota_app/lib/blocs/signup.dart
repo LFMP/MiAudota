@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:miaudota_app/blocs/authentication.dart';
 import 'package:miaudota_app/blocs/events/signup.dart';
 import 'package:miaudota_app/blocs/states/signup.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
@@ -10,12 +9,9 @@ import 'package:miaudota_app/repositories/usuario.dart';
 class SignUPBloc extends Bloc<SignUPEvent, SignUPState> {
   SignUPBloc({
     @required this.userRepository,
-    @required this.authenticationBloc,
-  })  : assert(userRepository != null),
-        assert(authenticationBloc != null);
+  })  : assert(userRepository != null);
 
   final UsuarioRepository userRepository;
-  final AuthenticationBloc authenticationBloc;
 
   @override
   SignUPState get initialState => SignUPInitial();
