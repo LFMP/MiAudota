@@ -6,14 +6,14 @@ abstract class SignUPEvent extends Equatable {
 }
 
 class SignUPButtonPressed extends SignUPEvent {
-  const SignUPButtonPressed(
-    this.cpf,
-    this.cnpj, {
+  const SignUPButtonPressed({
     @required this.nome,
     @required this.realm,
     @required this.username,
     @required this.email,
     @required this.password,
+    this.cpf,
+    this.cnpj,
   });
 
   final String nome;

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miaudota_app/blocs/events/signup.dart';
+import 'package:miaudota_app/blocs/signup.dart';
 import 'package:miaudota_app/utils/style.dart';
 
 class PessoaFisica extends StatelessWidget {
@@ -10,6 +13,19 @@ class PessoaFisica extends StatelessWidget {
   final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    void _onSignUPButtonPressed() {
+      BlocProvider.of<SignUPBloc>(context).add(
+        SignUPButtonPressed(
+          username: _usernameController.text,
+          nome: _nameController.text,
+          password: _passwordController.text,
+          email: _emailController.text,
+          cpf: _cpfController.text,
+          realm: 'Normal',
+        ),
+      );
+    }
+
     return Container(
       padding: AppStyle.padding,
       color: AppStyle.colorWhite,
@@ -121,7 +137,7 @@ class PessoaFisica extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () => print('próximo'),
+                onPressed: () => _onSignUPButtonPressed(),
               ),
             ),
           ),
@@ -139,6 +155,19 @@ class PessoaJuridica extends StatelessWidget {
   final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    void _onSignUPButtonPressed() {
+      BlocProvider.of<SignUPBloc>(context).add(
+        SignUPButtonPressed(
+          username: _usernameController.text,
+          nome: _nameController.text,
+          password: _passwordController.text,
+          email: _emailController.text,
+          realm: 'Entidade',
+          cnpj: _cnpjController.text,
+        ),
+      );
+    }
+
     return Container(
       padding: AppStyle.padding,
       color: AppStyle.colorWhite,
@@ -250,7 +279,7 @@ class PessoaJuridica extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () => print('próximo'),
+                onPressed: () => _onSignUPButtonPressed(),
               ),
             ),
           ),

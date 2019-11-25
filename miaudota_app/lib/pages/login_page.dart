@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
             userRepository: userRepository,
           );
         },
-        child: LoginForm(),
+        child: LoginForm(userRepository: userRepository),
       ),
     );
   }
