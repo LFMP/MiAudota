@@ -60,12 +60,12 @@ class UsuarioRepository {
       final body = json.decode(response?.body);
       if (response.statusCode == 200) {
         print('[Sign UP sucessfull]');
-        await storage.write(key: 'userId', value: body['id']);
-        await storage.write(key: 'nome', value: body['user']['nome']);
-        await storage.write(key: 'realm', value: body['user']['realm']);
-        await storage.write(key: 'username', value: body['user']['username']);
-        await storage.write(key: 'email', value: body['user']['email']);
-        return body['id'];
+        await storage.write(key: 'userId', value: body['id'].toString());
+        await storage.write(key: 'nome', value: body['nome']);
+        await storage.write(key: 'realm', value: body['realm']);
+        await storage.write(key: 'username', value: body['username']);
+        await storage.write(key: 'email', value: body['email']);
+        return body['id'].toString();
       } else {
         print('[Sign UP failed]');
         return null;
@@ -91,7 +91,7 @@ class UsuarioRepository {
       final body = json.decode(response?.body);
       if (response.statusCode == 200) {
         print('[Normal sucessfull]');
-        await storage.write(key: 'nomalId', value: body['id']);
+        await storage.write(key: 'nomalId', value: body['id'].toString());
         await storage.write(key: 'cpf', value: body['cpf']);
       } else {
         print('[Normal failed]');
@@ -116,7 +116,7 @@ class UsuarioRepository {
       final body = json.decode(response?.body);
       if (response.statusCode == 200) {
         print('[Entidade sucessfull]');
-        await storage.write(key: 'nomalId', value: body['id']);
+        await storage.write(key: 'nomalId', value: body['id'].toString());
         await storage.write(key: 'cnpj', value: body['cnpj']);
       } else {
         print('[Entidade failed]');

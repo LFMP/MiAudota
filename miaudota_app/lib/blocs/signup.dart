@@ -20,7 +20,6 @@ class SignUPBloc extends Bloc<SignUPEvent, SignUPState> {
   Stream<SignUPState> mapEventToState(SignUPEvent event) async* {
     if (event is SignUPButtonPressed) {
       yield SignUPLoading();
-
       try {
         final userID = await userRepository.signUp(
           username: event.username,
