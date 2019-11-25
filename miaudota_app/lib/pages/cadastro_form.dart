@@ -12,9 +12,10 @@ class PessoaFisica extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    void _onSignUPButtonPressed() {
+    Future<void> _onSignUPButtonPressed() async {
       BlocProvider.of<SignUPBloc>(context).add(
         SignUPButtonPressed(
           username: _usernameController.text,
@@ -130,7 +131,7 @@ class PessoaFisica extends StatelessWidget {
               child: FlatButton(
                 child: Container(
                   child: Text(
-                    'Próximo',
+                    'Concluir',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -138,7 +139,8 @@ class PessoaFisica extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () => _onSignUPButtonPressed(),
+                onPressed: () => _onSignUPButtonPressed()
+                    .whenComplete(() => Navigator.of(context).pop()),
               ),
             ),
           ),

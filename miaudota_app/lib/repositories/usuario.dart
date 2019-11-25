@@ -23,7 +23,7 @@ class UsuarioRepository {
         print('[Login sucessfull]');
         print(body.toString());
         await storage.write(key: 'token', value: body['id']);
-        await storage.write(key: 'userId', value: body['userId']);
+        await storage.write(key: 'userId', value: body['userId'].toString());
         await storage.write(key: 'nome', value: body['user']['nome']);
         await storage.write(key: 'realm', value: body['user']['realm']);
         await storage.write(key: 'username', value: body['user']['username']);
