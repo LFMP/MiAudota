@@ -3,6 +3,7 @@ import 'package:miaudota_app/blocs/authentication.dart';
 import 'package:miaudota_app/blocs/events/authentication.dart';
 import 'package:miaudota_app/blocs/states/authentication.dart';
 import 'package:miaudota_app/pages/cadastro_item.dart';
+import 'package:miaudota_app/pages/blank_page.dart';
 import 'package:miaudota_app/pages/login_page.dart';
 import 'package:miaudota_app/pages/splash_page.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
