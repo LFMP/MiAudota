@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miaudota_app/blocs/authentication.dart';
 import 'package:miaudota_app/blocs/events/authentication.dart';
 import 'package:miaudota_app/blocs/states/authentication.dart';
+import 'package:miaudota_app/pages/cadastro_item.dart';
 import 'package:miaudota_app/pages/login_page.dart';
 import 'package:miaudota_app/pages/splash_page.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
@@ -62,7 +63,7 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return SplashPage();
+            return Item();
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);
