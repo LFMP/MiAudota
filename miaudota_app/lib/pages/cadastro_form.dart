@@ -130,7 +130,7 @@ class PessoaFisica extends StatelessWidget {
             child: SizedBox(
               child: FlatButton(
                 child: Container(
-                  child: Text(
+                  child: const Text(
                     'Concluir',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -286,7 +286,7 @@ class PessoaJuridica extends StatelessWidget {
                   child: SizedBox(
                     child: FlatButton(
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           'Próximo',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
