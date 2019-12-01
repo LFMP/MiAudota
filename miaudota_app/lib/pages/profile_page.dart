@@ -7,25 +7,81 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool status = false;
+  bool _status = false;
+
+  Future<void> _inputTelefone(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Adicionar novo telefone'),
+          content: Row(
+            children: <Widget>[
+              SizedBox(
+                height: 80,
+                width: 80,
+                child: TextField(
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'DDD',
+                    hintText: 'ex. 44',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              SizedBox(
+                height: 80,
+                width: 170,
+                child: TextField(
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Telefone',
+                    hintText: 'ex. 999876543',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('Confirmar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-            'Edite seu perfil',
-            style: TextStyle(
-              color: AppStyle.colorWhite,
-            ),
+        title: const Text(
+          'Meu perfil',
+          style: TextStyle(
+            color: AppStyle.colorWhite,
+            fontWeight: FontWeight.bold,
           ),
-          centerTitle: true,
-          backgroundColor: AppStyle.colorCyan,
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, true),
-          )),
+        ),
+        centerTitle: true,
+        backgroundColor: AppStyle.colorCyan,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, true),
+        ),
+      ),
       body: Container(
         color: AppStyle.colorWhite,
         padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
@@ -68,7 +124,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Icons.edit,
                           color: AppStyle.colorWhite,
                         ),
-                        onTap: () => status = !status,
+                        onTap: () => setState(() {
+                          _status = !_status;
+                        }),
                       ),
                     ),
                   ],
@@ -79,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 5,
             ),
             TextFormField(
-              enabled: status,
+              enabled: _status,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Nome completo',
@@ -98,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 5,
             ),
             TextFormField(
-              enabled: status,
+              enabled: _status,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'E-mail',
@@ -114,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             TextFormField(
-              enabled: status,
+              enabled: _status,
               obscureText: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -155,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           Icons.add,
                           color: AppStyle.colorWhite,
                         ),
-                        onTap: () => status = !status,
+                        onTap: () => _inputTelefone(context),
                       ),
                     ),
                   ],
@@ -187,7 +245,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Icons.add,
                           color: AppStyle.colorWhite,
                         ),
-                        onTap: () => status = !status,
+                        onTap: () => setState(() {
+                          _status = !_status;
+                        }),
                       ),
                     ),
                   ],
