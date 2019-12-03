@@ -1,1 +1,5 @@
-<string name="facebook_app_id">565910527508593</string> <string name="fb_login_protocol_scheme">fb565910527508593</string>
+<resources>
+    <string name="app_name">Miaudota.</string>
+    <string name="facebook_app_id">565910527508593</string>
+    <string name="fb_login_protocol_scheme">fb565910527508593</string>
+</resources>
