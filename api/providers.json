@@ -1,30 +1,29 @@
 {
-"facebook-login": {
+  "facebook-login": {
     "provider": "facebook",
     "module": "passport-facebook",
-    "clientID": "1382071105299143",
-    "clientSecret": "ada7387f879ae9db409190dcd7527a0f",
-    "callbackURL": "http://localhost:3000/auth/facebook/callback",
-    "authPath": "http://localhost:3000/auth/facebook",
-    "callbackPath": "http://localhost:3000/auth/facebook/callback",
-    "successRedirect": "http://localhost:3000/auth/account",
-    "failureRedirect": "http://localhost:3000/login",
     "profileFields": ["gender", "link", "locale", "name", "timezone", "verified", "email", "updated_time"],
+    "clientID": "{facebook-client-id-1}",
+    "clientSecret": "{facebook-client-secret-1}",
+    "callbackURL": "http://localhost:3000/auth/facebook/callback",
+    "authPath": "/auth/facebook",
+    "callbackPath": "/auth/facebook/callback",
+    "successRedirect": "/auth/account",
     "scope": ["email"],
-    "failureFlash": true
+    "authOptions": {
+      "display": "popup"
+    }
   },
   "facebook-link": {
     "provider": "facebook",
     "module": "passport-facebook",
-    "clientID": "1382071105299143",
-    "clientSecret": "ada7387f879ae9db409190dcd7527a0f",
+    "clientID": "{facebook-client-id-2}",
+    "clientSecret": "{facebook-client-secret-2}",
     "callbackURL": "http://localhost:3000/link/facebook/callback",
-    "authPath": "http://localhost:3000/link/facebook",
-    "callbackPath": "http://localhost:3000/link/facebook/callback",
-    "successRedirect": "http://localhost:3000/auth/account",
-    "failureRedirect": "http://localhost:3000/login",
+    "authPath": "/link/facebook",
+    "callbackPath": "/link/facebook/callback",
+    "successRedirect": "/link/account",
     "scope": ["email", "user_likes"],
-    "link": true,
-    "failureFlash": true
+    "link": true
   }
 }
