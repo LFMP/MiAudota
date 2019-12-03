@@ -11,6 +11,8 @@ import 'package:miaudota_app/utils/loading.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
