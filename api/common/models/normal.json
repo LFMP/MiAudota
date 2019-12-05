@@ -25,12 +25,6 @@
   },
   "acls": [
     {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "admin",
-      "permission": "ALLOW"
-    },
-    {
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
@@ -43,11 +37,29 @@
       "permission": "ALLOW"
     },
     {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "acessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW",
-      "property": "deleteById",
-      "acessType": "EXECUTE"
+      "property": "deleteById"
     }
   ],
   "methods": {}
