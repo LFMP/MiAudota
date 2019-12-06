@@ -84,19 +84,17 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         color: AppStyle.colorWhite,
-        padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              width: 180,
-              height: 180,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(
-                    image: ExactAssetImage('assets/as.png'),
-                  ),
-                ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: const CircleAvatar(
+                backgroundImage: AssetImage('assets/as.png'),
+                minRadius: 90,
+                maxRadius: 150,
               ),
             ),
             const SizedBox(
