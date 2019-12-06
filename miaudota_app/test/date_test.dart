@@ -5,6 +5,12 @@ void main() {
   test('Fomatação da data', () {
     final dateformatter = DateFormatter();
     final DateTime data = DateTime.now();
-    expect(dateformatter.simpleFormat(data),'19/11/2019');
+    expect(
+        dateformatter.simpleFormat(data),
+        data.day.toString() +
+            '/' +
+            data.month.toString() +
+            '/' +
+            data.year.toString());
   });
 }
