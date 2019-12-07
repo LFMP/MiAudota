@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   cpf_cnpj_validator: ^1.0.5
   flutter_masked_text: ^0.8.0
+  image_picker: ^0.6.2+1
 
 dev_dependencies:
   flutter:

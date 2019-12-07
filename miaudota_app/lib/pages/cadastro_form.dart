@@ -23,7 +23,7 @@ class PessoaFisica extends StatelessWidget {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     final RegExp emailregex = RegExp(emailpattern);
 
-    Future<void> _onSignUPButtonPressed() async {
+    void _onSignUPButtonPressed() {
       BlocProvider.of<SignUPBloc>(context).add(
         SignUPButtonPressed(
           username: _usernameController.text,
@@ -188,8 +188,7 @@ class PessoaFisica extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => _onSignUPButtonPressed()
-                      .whenComplete(() => Navigator.of(context).pop()),
+                  onPressed: () => _onSignUPButtonPressed(),
                 ),
               ),
             ),
