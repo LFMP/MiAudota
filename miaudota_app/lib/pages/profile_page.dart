@@ -75,6 +75,106 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<void> _inputEndereco(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Adicionar novo endereço'),
+          content: Container(
+            height: 280,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 100,
+                      height: 80,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Número',
+                          hintText: 'ex. 666',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
+                      width: 100,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'CEP',
+                          hintText: 'ex. 87000000',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Complemento',
+                    hintText: 'ex. APTO 003',
+                  ),
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Rua',
+                    hintText: 'ex. Rua dos perdidos',
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      height: 80,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Cidade',
+                          hintText: 'ex. Padre Donizete',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
+                      width: 60,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Estado',
+                          hintText: 'ex. PR',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('Confirmar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -303,9 +403,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icons.add,
                             color: AppStyle.colorWhite,
                           ),
-                          onTap: () => setState(() {
-                            _status = !_status;
-                          }),
+                          onTap: () => _inputEndereco(context),
                         ),
                       ),
                     ),
