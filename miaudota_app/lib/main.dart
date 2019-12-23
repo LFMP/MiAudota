@@ -56,6 +56,7 @@ class MiAudota extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AnuncioBloc anuncioBloc = AnuncioBloc();
     return MaterialApp(
       title: 'MiAudota',
       debugShowCheckedModeBanner: false,
@@ -68,7 +69,8 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return CadastroAnimalPage();
+            anuncioBloc.add(AnuncioLoad());
+            return HomePage();
             //HomePage(); //BlocProvider<UserProfile>(
             //   builder: (context) => UserProfile(userRepository),
             //   child: ProfilePage(

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CadastroAnimalPage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class CadastroAnimalPage extends StatefulWidget {
 class _AnimalState extends State<CadastroAnimalPage> {
   final titleController = TextEditingController();
   final racaController = TextEditingController();
-  final idadeController = TextEditingController();
+  final idadeController = MaskedTextController(mask: '00');
   final photoController = TextEditingController();
   final sexoController = TextEditingController();
   final porteController = TextEditingController();
@@ -66,6 +67,10 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 5) {
+                    return "O campo deve conter de 5 a 30 caracteres";
+                  } else if (value.length > 30) {
+                    return "O campo deve conter de 5 a 30 caracteres";
                   }
                   return null;
                 },
@@ -91,6 +96,10 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 1) {
+                    return "O campo deve conter de 1 a 200 caracteres";
+                  } else if (value.length > 200) {
+                    return "O campo deve conter de 1 a 200 caracteres";
                   }
                   return null;
                 },
@@ -116,6 +125,10 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 5) {
+                    return "O campo deve conter de 5 a 30 caracteres";
+                  } else if (value.length > 30) {
+                    return "O campo deve conter de 5 a 30 caracteres";
                   }
                   return null;
                 },
@@ -141,6 +154,8 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 40) {
+                    return "O campo deve conter valor menor que 40";
                   }
                   return null;
                 },
@@ -166,6 +181,10 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 5) {
+                    return "O campo deve conter de 5 a 30 caracteres";
+                  } else if (value.length > 30) {
+                    return "O campo deve conter de 5 a 30 caracteres";
                   }
                   return null;
                 },
@@ -191,6 +210,10 @@ class _AnimalState extends State<CadastroAnimalPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'O campo não pode ser vazio';
+                  } else if (value.length < 5) {
+                    return "O campo deve conter de 5 a 30 caracteres";
+                  } else if (value.length > 30) {
+                    return "O campo deve conter de 5 a 30 caracteres";
                   }
                   return null;
                 },

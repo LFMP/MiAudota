@@ -6,24 +6,22 @@ abstract class AnuncioState extends Equatable {
   List<Object> get props => [];
 }
 
-class AnuncioNotInitState extends AnuncioState {
-
-}
+class AnuncioNotInitState extends AnuncioState {}
 
 class AnuncioLoadedState extends AnuncioState {
-  final List<Anuncios> anuncios;
+  final List<Anuncio> anuncios;
   AnuncioLoadedState({this.anuncios});
-  @override 
+  @override
   List<Object> get props => [this.anuncios];
 }
 
 class AnuncioErrorState extends AnuncioState {
   final String errormsg;
   AnuncioErrorState({this.errormsg});
-  @override 
+  @override
   List<Object> get props => [this.errormsg];
 }
 
-class AnuncioLoadingState extends AnuncioState {
-  
-}
+class AnuncioLoadingState extends AnuncioState {}
+
+class SuccessCreateState extends AnuncioState {}
