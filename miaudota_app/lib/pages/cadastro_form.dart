@@ -62,7 +62,7 @@ class PessoaFisica extends StatelessWidget {
                 }
                 return null;
               },
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppStyle.colorCyanEightHundred,
               ),
@@ -87,7 +87,7 @@ class PessoaFisica extends StatelessWidget {
                 }
                 return null;
               },
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppStyle.colorCyanEightHundred,
               ),
@@ -112,7 +112,7 @@ class PessoaFisica extends StatelessWidget {
                 }
                 return null;
               },
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppStyle.colorCyanEightHundred,
               ),
@@ -138,7 +138,7 @@ class PessoaFisica extends StatelessWidget {
                 }
                 return null;
               },
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppStyle.colorCyanEightHundred,
               ),
@@ -163,7 +163,7 @@ class PessoaFisica extends StatelessWidget {
                 }
                 return null;
               },
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppStyle.colorCyanEightHundred,
               ),
@@ -264,7 +264,7 @@ class PessoaJuridica extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: AppStyle.colorCyanEightHundred,
                     ),
@@ -289,7 +289,7 @@ class PessoaJuridica extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: AppStyle.colorCyanEightHundred,
                     ),
@@ -318,7 +318,7 @@ class PessoaJuridica extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: AppStyle.colorCyanEightHundred,
                     ),
@@ -340,7 +340,7 @@ class PessoaJuridica extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: AppStyle.colorCyanEightHundred,
                     ),
@@ -365,7 +365,7 @@ class PessoaJuridica extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: AppStyle.colorCyanEightHundred,
                     ),

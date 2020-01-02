@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 80,
                 child: TextField(
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'DDD',
                     hintText: 'ex. 44',
                   ),
@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 170,
                 child: TextField(
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Telefone',
                     hintText: 'ex. 999876543',
                   ),
@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 80,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Número',
                           hintText: 'ex. 666',
                         ),
@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 100,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'CEP',
                           hintText: 'ex. 87000000',
                         ),
@@ -114,14 +114,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 TextField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Complemento',
                     hintText: 'ex. APTO 003',
                   ),
                 ),
                 TextField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Rua',
                     hintText: 'ex. Rua dos perdidos',
                   ),
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 80,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Cidade',
                           hintText: 'ex. Padre Donizete',
                         ),
@@ -145,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 60,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Estado',
                           hintText: 'ex. PR',
                         ),
