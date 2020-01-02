@@ -312,9 +312,6 @@ class PessoaJuridica extends StatelessWidget {
                         if (!CNPJValidator.isValid(value)) {
                           return 'CNPJ inválido';
                         }
-                        if (!emailregex.hasMatch(value)) {
-                          return 'Email inválido';
-                        }
                       }
                       return null;
                     },
@@ -338,6 +335,9 @@ class PessoaJuridica extends StatelessWidget {
                       if (value.isEmpty) {
                         return 'O campo não pode ser vazio';
                       }
+                      if (!emailregex.hasMatch(value)) {
+                          return 'Email inválido';
+                        }
                       return null;
                     },
                     style: const TextStyle(

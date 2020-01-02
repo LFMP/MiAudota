@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,6 +13,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool _status = false;
   File _image;
+  final dddControler = MaskedTextController(mask: '00');
+  final telefoneControler = MaskedTextController(mask: '000000000');
+  final numeroControler = TextEditingController();
+  final cepControler = MaskedTextController(mask: '00000-000');
+  final cidadeControler = TextEditingController();
+  final estadoControler = TextEditingController();
+  final ruaControler = TextEditingController();
+  final complementoControler = TextEditingController();
 
   Future getImage() async {
     final image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -22,6 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _inputTelefone(BuildContext context) async {
+		final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -31,13 +42,25 @@ class _ProfilePageState extends State<ProfilePage> {
             children: <Widget>[
               SizedBox(
                 height: 80,
-                width: 80,
-                child: TextField(
+                width: 100,
+                child: TextFormField(
                   keyboardType: TextInputType.phone,
+                  controller: dddControler,
+									key: _dddKey,
                   decoration: const InputDecoration(
                     labelText: 'DDD',
                     hintText: 'ex. 44',
                   ),
+									autovalidate: true,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Obrigatorio';
+                    }
+										if (value.length > 2 || value.length < 2){
+											return 'Invalido';
+										}
+                    return null;
+                  },
                 ),
               ),
               const SizedBox(
@@ -45,13 +68,25 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(
                 height: 80,
-                width: 170,
-                child: TextField(
+                width: 120,
+                child: TextFormField(
                   keyboardType: TextInputType.phone,
+                  controller: telefoneControler,
+									key: _telefoneKey,
+									autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Telefone',
                     hintText: 'ex. 999876543',
                   ),
+									validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo obrigatorio';
+                    }
+										if (value.length > 9 || value.length < 8){
+											return 'Telefone invalido';
+										}
+                    return null;
+                  },
                 ),
               ),
             ],
@@ -76,55 +111,100 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _inputEndereco(BuildContext context) async {
+		final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
+		final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Adicionar novo endereço'),
           content: Container(
-            height: 280,
+            height: 322,
             child: Column(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
-                      width: 100,
+                      width: 70,
                       height: 80,
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
+                        controller: numeroControler,
+												key: _numeroKey,
+												autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Número',
                           hintText: 'ex. 666',
                         ),
+												validator: (value) {
+													if (value.isEmpty) {
+														return 'Obrigatorio';
+													}
+													return null;
+												},
                       ),
                     ),
                     SizedBox(
                       height: 80,
-                      width: 100,
-                      child: TextField(
+                      width: 140,
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
+                        controller: cepControler,
+												key: _cepKey,
+												autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'CEP',
-                          hintText: 'ex. 87000000',
+                          hintText: 'ex. 87000-000',
                         ),
+												validator: (value) {
+													if (value.isEmpty) {
+														return 'Campo obrigatorio';
+													}
+													if (value.length > 9 || value.length < 9){
+														return 'CEP invalido';
+													}
+													return null;
+												},
                       ),
                     ),
                   ],
                 ),
-                TextField(
-                  keyboardType: TextInputType.number,
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: complementoControler,
+									key: _complementoKey,
+									autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Complemento',
                     hintText: 'ex. APTO 003',
                   ),
+									validator: (value) {
+										if (value.isEmpty) {
+											return 'Campo obrigatorio';
+										}
+										return null;
+									},
                 ),
-                TextField(
-                  keyboardType: TextInputType.number,
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: ruaControler,
+									key: _ruaKey,
+									autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Rua',
                     hintText: 'ex. Rua dos perdidos',
                   ),
+									validator: (value) {
+										if (value.isEmpty) {
+											return 'Campo obrigatorio';
+										}
+										return null;
+									},
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,23 +212,44 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       width: 150,
                       height: 80,
-                      child: TextField(
-                        keyboardType: TextInputType.number,
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: cidadeControler,
+												key: _cidadeKey,
+												autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Cidade',
                           hintText: 'ex. Padre Donizete',
                         ),
+												validator: (value) {
+													if (value.isEmpty) {
+														return 'Campo obrigatorio';
+													}
+													return null;
+												},
                       ),
                     ),
                     SizedBox(
                       height: 80,
                       width: 60,
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
+                        controller: estadoControler,
+												key: _estadoKey,
+												autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Estado',
                           hintText: 'ex. PR',
                         ),
+												validator: (value) {
+													if (value.isEmpty) {
+														return 'Obrigatorio';
+													}
+													if (value.length != 2) {
+														return 'Invalido';
+													}
+													return null;
+												},
                       ),
                     ),
                   ],
