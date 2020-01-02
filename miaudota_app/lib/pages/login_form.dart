@@ -122,7 +122,7 @@ class _LoginFormState extends State<LoginForm> {
                   child: SizedBox(
                     child: FlatButton(
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           'Login',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _LoginFormState extends State<LoginForm> {
                   child: SizedBox(
                     child: FlatButton(
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           'Cadastrar-se',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,

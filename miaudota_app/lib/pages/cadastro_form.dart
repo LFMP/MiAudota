@@ -172,9 +172,9 @@ class PessoaFisica extends StatelessWidget {
               height: 40,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppStyle.colorCyan,
-                borderRadius: const BorderRadius.all(Radius.circular(60)),
+                borderRadius: BorderRadius.all(Radius.circular(60)),
               ),
               child: SizedBox(
                 child: FlatButton(
@@ -374,9 +374,9 @@ class PessoaJuridica extends StatelessWidget {
                     height: 40,
                   ),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppStyle.colorCyan,
-                      borderRadius: const BorderRadius.all(Radius.circular(60)),
+                      borderRadius: BorderRadius.all(Radius.circular(60)),
                     ),
                     child: SizedBox(
                       child: FlatButton(
