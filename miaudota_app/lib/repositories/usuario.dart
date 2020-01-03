@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
+import 'package:miaudota_app/models/contatos.dart';
 import 'package:miaudota_app/repositories/repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class UsuarioRepository {
+class UsuarioRepository extends Repository {
   static const storage = FlutterSecureStorage();
   Future<String> authenticate({
     @required String username,
@@ -123,6 +125,29 @@ class UsuarioRepository {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<List<ContatosModel>> getContatos({
+    @required String usuarioId,
+    @required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Repository.API_CONTATOS.replaceFirst('\$', usuarioId.toString()),
+        headers: {HttpHeaders.authorizationHeader: token},
+      );
+      final body = json.decode(response.body);
+      if (response.statusCode == 200) {
+        print('[GET contatos sucess]');
+        return ContatosModel.fromJsonList(body);
+      } else {
+        print('[GET contatos failed]');
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
