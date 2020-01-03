@@ -22,17 +22,19 @@ class _ProfilePageState extends State<ProfilePage> {
   final ruaControler = TextEditingController();
   final complementoControler = TextEditingController();
 
-  Future getImage() async {
-    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+  Future<void> getImage() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       _image = image;
     });
+
+    // final encoded = base64Encode(image.readAsBytesSync());
   }
 
   Future<void> _inputTelefone(BuildContext context) async {
-		final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -46,19 +48,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: TextFormField(
                   keyboardType: TextInputType.phone,
                   controller: dddControler,
-									key: _dddKey,
+                  key: _dddKey,
                   decoration: const InputDecoration(
                     labelText: 'DDD',
                     hintText: 'ex. 44',
                   ),
-									autovalidate: true,
+                  autovalidate: true,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Obrigatorio';
                     }
-										if (value.length > 2 || value.length < 2){
-											return 'Invalido';
-										}
+                    if (value.length > 2 || value.length < 2) {
+                      return 'Invalido';
+                    }
                     return null;
                   },
                 ),
@@ -72,19 +74,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: TextFormField(
                   keyboardType: TextInputType.phone,
                   controller: telefoneControler,
-									key: _telefoneKey,
-									autovalidate: true,
+                  key: _telefoneKey,
+                  autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Telefone',
                     hintText: 'ex. 999876543',
                   ),
-									validator: (value) {
+                  validator: (value) {
                     if (value.isEmpty) {
                       return 'Campo obrigatorio';
                     }
-										if (value.length > 9 || value.length < 8){
-											return 'Telefone invalido';
-										}
+                    if (value.length > 9 || value.length < 8) {
+                      return 'Telefone invalido';
+                    }
                     return null;
                   },
                 ),
@@ -111,12 +113,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _inputEndereco(BuildContext context) async {
-		final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
-		final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -135,18 +137,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: numeroControler,
-												key: _numeroKey,
-												autovalidate: true,
+                        key: _numeroKey,
+                        autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Número',
                           hintText: 'ex. 666',
                         ),
-												validator: (value) {
-													if (value.isEmpty) {
-														return 'Obrigatorio';
-													}
-													return null;
-												},
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Obrigatorio';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     SizedBox(
@@ -155,21 +157,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: cepControler,
-												key: _cepKey,
-												autovalidate: true,
+                        key: _cepKey,
+                        autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'CEP',
                           hintText: 'ex. 87000-000',
                         ),
-												validator: (value) {
-													if (value.isEmpty) {
-														return 'Campo obrigatorio';
-													}
-													if (value.length > 9 || value.length < 9){
-														return 'CEP invalido';
-													}
-													return null;
-												},
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Campo obrigatorio';
+                          }
+                          if (value.length > 9 || value.length < 9) {
+                            return 'CEP invalido';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -177,34 +179,34 @@ class _ProfilePageState extends State<ProfilePage> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   controller: complementoControler,
-									key: _complementoKey,
-									autovalidate: true,
+                  key: _complementoKey,
+                  autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Complemento',
                     hintText: 'ex. APTO 003',
                   ),
-									validator: (value) {
-										if (value.isEmpty) {
-											return 'Campo obrigatorio';
-										}
-										return null;
-									},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo obrigatorio';
+                    }
+                    return null;
+                  },
                 ),
                 TextFormField(
                   keyboardType: TextInputType.text,
                   controller: ruaControler,
-									key: _ruaKey,
-									autovalidate: true,
+                  key: _ruaKey,
+                  autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Rua',
                     hintText: 'ex. Rua dos perdidos',
                   ),
-									validator: (value) {
-										if (value.isEmpty) {
-											return 'Campo obrigatorio';
-										}
-										return null;
-									},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo obrigatorio';
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,18 +217,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         controller: cidadeControler,
-												key: _cidadeKey,
-												autovalidate: true,
+                        key: _cidadeKey,
+                        autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Cidade',
                           hintText: 'ex. Padre Donizete',
                         ),
-												validator: (value) {
-													if (value.isEmpty) {
-														return 'Campo obrigatorio';
-													}
-													return null;
-												},
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Campo obrigatorio';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     SizedBox(
@@ -235,21 +237,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: estadoControler,
-												key: _estadoKey,
-												autovalidate: true,
+                        key: _estadoKey,
+                        autovalidate: true,
                         decoration: const InputDecoration(
                           labelText: 'Estado',
                           hintText: 'ex. PR',
                         ),
-												validator: (value) {
-													if (value.isEmpty) {
-														return 'Obrigatorio';
-													}
-													if (value.length != 2) {
-														return 'Invalido';
-													}
-													return null;
-												},
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Obrigatorio';
+                          }
+                          if (value.length != 2) {
+                            return 'Invalido';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -310,8 +312,9 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(180)),
                 image: DecorationImage(
-                  image:
-                      _image ?? const AssetImage('assets/profile-picture.png'),
+                  image: _image == null
+                      ? const AssetImage('assets/profile-picture.png')
+                      : FileImage(_image),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -476,6 +479,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
+            // ListView.builder(
+            //   itemBuilder: (BuildContext context, int index) => const Card(
+            //     child: ListTile(
+            //       title: Text('numero do telefone'),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(
               height: 20,
             ),
