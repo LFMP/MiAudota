@@ -311,7 +311,8 @@ class PessoaJuridica extends StatelessWidget {
 class CadastroForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return new MaterialApp(
+    home: DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -347,6 +348,7 @@ class CadastroForm extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
