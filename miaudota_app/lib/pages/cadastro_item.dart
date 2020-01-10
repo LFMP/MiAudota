@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:miaudota_app/main.dart';
+import 'package:miaudota_app/pages/ajuda_page.dart';
+
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
@@ -86,7 +88,12 @@ class _CadastroItemState extends State<CadastroItem> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).push(
+              SlideRoute(
+                page: AjudaCadastroItem(),
+                direction: SlideDirection.RIGHT_LEFT,
+              ),
+            ),
             color: AppStyle.colorWhite,
             icon: Icon(Icons.help),
           )
