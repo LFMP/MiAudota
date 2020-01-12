@@ -93,6 +93,7 @@ class _LoginFormState extends State<LoginForm> {
                     obscureText: true,
                     controller: _passwordController,
                     keyboardType: TextInputType.text,
+                    autovalidate: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       labelStyle: TextStyle(
