@@ -1,7 +1,13 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:miaudota_app/blocs/events/usuario.dart';
+import 'package:miaudota_app/blocs/states/usuario.dart';
+import 'package:miaudota_app/blocs/usuario.dart';
+import 'package:miaudota_app/models/usuario.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _status = false;
-  File _image;
+  String _image;
   final dddControler = MaskedTextController(mask: '00');
   final telefoneControler = MaskedTextController(mask: '000000000');
   final numeroControler = TextEditingController();
@@ -21,15 +27,19 @@ class _ProfilePageState extends State<ProfilePage> {
   final estadoControler = TextEditingController();
   final ruaControler = TextEditingController();
   final complementoControler = TextEditingController();
+  final nomeControler = TextEditingController();
+  final emailControler = TextEditingController();
+  final senhaControler = TextEditingController();
+  static const storage = FlutterSecureStorage();
 
-  Future<void> getImage() async {
+  Future<void> setUserImage() async {
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
+    final String encoded = base64Encode(image.readAsBytesSync());
     setState(() {
-      _image = image;
+      _image = encoded;
     });
 
-    // final encoded = base64Encode(image.readAsBytesSync());
+    storage.write(key: 'imagem', value: encoded);
   }
 
   Future<void> _inputTelefone(BuildContext context) async {
@@ -280,253 +290,319 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Meu perfil',
-          style: TextStyle(
-            color: AppStyle.colorWhite,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppStyle.colorCyan,
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context, true),
-        ),
-      ),
-      body: Container(
-        color: AppStyle.colorWhite,
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: ListView(
-          children: <Widget>[
-            const SizedBox(
-              height: 10,
+    Future<void> _onUpdateButtonPressed() async {
+      final String email = await storage.read(key: 'email');
+      final String foto = await storage.read(key: 'imagem');
+      final String nome = await storage.read(key: 'nome');
+      final String password = await storage.read(key: 'password');
+      final String realm = await storage.read(key: 'realm');
+      final String username = await storage.read(key: 'username');
+      BlocProvider.of<UserProfile>(context).add(UpdateUserbuttonPressed(
+          email: email,
+          foto: foto,
+          nome: nome,
+          password: password,
+          realm: realm,
+          username: username));
+    }
+
+    final UserProfile _usuarioBloc = BlocProvider.of<UserProfile>(context);
+    return BlocListener<UserProfile, UserProfileState>(
+      listener: (context, state) {
+        if (state is UserProfileFailure) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${state.error}'),
+              backgroundColor: Colors.red,
             ),
-            Container(
-              width: 200,
-              height: 200,
-              alignment: const Alignment(0.0, 1.15),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(180)),
-                image: DecorationImage(
-                  image: _image == null
-                      ? const AssetImage('assets/profile-picture.png')
-                      : FileImage(_image),
-                  fit: BoxFit.fitHeight,
+          );
+        }
+      },
+      child: BlocBuilder(
+        bloc: _usuarioBloc,
+        builder: (context, state) {
+          if (state is UserProfileInitial) {
+            _usuarioBloc.add(const LoadUserInformations());
+          }
+          if (state is UserProfileLoaded) {
+            final UsuarioModel usuario = state.usuario;
+            _image = usuario.foto;
+            nomeControler.text = usuario.nome;
+            emailControler.text = usuario.email;
+            senhaControler.text = usuario.password;
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Meu perfil',
+                style: TextStyle(
+                  color: AppStyle.colorWhite,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              child: Container(
-                height: 56,
-                width: 56,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(56),
-                  ),
-                ),
-                child: SizedBox.expand(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppStyle.colorCyan,
-                      borderRadius: BorderRadius.all(Radius.circular(180)),
-                    ),
-                    child: FlatButton(
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      onPressed: () => getImage(),
-                    ),
-                  ),
-                ),
+              centerTitle: true,
+              backgroundColor: AppStyle.colorCyan,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context, true),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: const <Widget>[
-                    Text(
-                      'Informações pessoais',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            body: Container(
+              color: AppStyle.colorWhite,
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: 200,
+                    height: 200,
+                    alignment: const Alignment(0.0, 1.15),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(180)),
+                      image: DecorationImage(
+                        image: _image == null
+                            ? const AssetImage('assets/profile-picture.png')
+                            : MemoryImage(base64Decode(_image)),
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(
-                        backgroundColor: AppStyle.colorCyan,
-                        child: GestureDetector(
-                          child: const Icon(
-                            Icons.edit,
-                            color: AppStyle.colorWhite,
+                    child: Container(
+                      height: 56,
+                      width: 56,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(56),
+                        ),
+                      ),
+                      child: SizedBox.expand(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppStyle.colorCyan,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(180)),
                           ),
-                          onTap: () => setState(() {
-                            _status = !_status;
-                          }),
+                          child: FlatButton(
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () => setUserImage(),
+                          ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    enabled: _status,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: 'Nome completo',
-                      labelStyle: TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: const <Widget>[
+                          Text(
+                            'Informações pessoais',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: AppStyle.colorBlack,
-                    ),
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: CircleAvatar(
+                              backgroundColor: AppStyle.colorCyan,
+                              child: GestureDetector(
+                                child: const Icon(
+                                  Icons.edit,
+                                  color: AppStyle.colorWhite,
+                                ),
+                                onTap: () => setState(() {
+                                  _status = !_status;
+                                }),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  TextFormField(
-                    enabled: _status,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'E-mail',
-                      labelStyle: TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: AppStyle.colorBlack,
+                  Form(
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          enabled: _status,
+                          keyboardType: TextInputType.text,
+                          controller: nomeControler,
+                          decoration: InputDecoration(
+                            labelText: 'Nome completo',
+                            labelStyle: TextStyle(
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: AppStyle.colorBlack,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          enabled: _status,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailControler,
+                          decoration: InputDecoration(
+                            labelText: 'E-mail',
+                            labelStyle: TextStyle(
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: AppStyle.colorBlack,
+                          ),
+                        ),
+                        TextFormField(
+                          enabled: _status,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          controller: senhaControler,
+                          decoration: InputDecoration(
+                            labelText: 'Senha',
+                            labelStyle: TextStyle(
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: AppStyle.colorBlack,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  TextFormField(
-                    enabled: _status,
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      labelStyle: TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: const <Widget>[
+                          Text(
+                            'Telefones',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: AppStyle.colorBlack,
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: CircleAvatar(
+                              backgroundColor: AppStyle.colorCyan,
+                              child: GestureDetector(
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppStyle.colorWhite,
+                                ),
+                                onTap: () => _inputTelefone(context),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  // ListView.builder(
+                  //   itemBuilder:
+                  // (BuildContext context, int index) => const Card(
+                  //     child: ListTile(
+                  //       title: Text('numero do telefone'),
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: const <Widget>[
+                          Text(
+                            'Endereços',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: CircleAvatar(
+                              backgroundColor: AppStyle.colorCyan,
+                              child: GestureDetector(
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppStyle.colorWhite,
+                                ),
+                                onTap: () => _inputEndereco(context),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    child: FlatButton(
+                      color: AppStyle.colorCyanEightHundred,
+                      child: Container(
+                        child: const Text(
+                          'Atualizar',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppStyle.colorWhite,
+                          ),
+                        ),
+                      ),
+                      onPressed: () => _onUpdateButtonPressed(),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: const <Widget>[
-                    Text(
-                      'Telefones',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(
-                        backgroundColor: AppStyle.colorCyan,
-                        child: GestureDetector(
-                          child: const Icon(
-                            Icons.add,
-                            color: AppStyle.colorWhite,
-                          ),
-                          onTap: () => _inputTelefone(context),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            // ListView.builder(
-            //   itemBuilder: (BuildContext context, int index) => const Card(
-            //     child: ListTile(
-            //       title: Text('numero do telefone'),
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: const <Widget>[
-                    Text(
-                      'Endereços',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(
-                        backgroundColor: AppStyle.colorCyan,
-                        child: GestureDetector(
-                          child: const Icon(
-                            Icons.add,
-                            color: AppStyle.colorWhite,
-                          ),
-                          onTap: () => _inputEndereco(context),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

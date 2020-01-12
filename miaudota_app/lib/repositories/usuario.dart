@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:miaudota_app/models/contatos.dart';
+import 'package:miaudota_app/models/usuario.dart';
 import 'package:miaudota_app/repositories/repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -30,6 +31,7 @@ class UsuarioRepository extends Repository {
         await storage.write(key: 'realm', value: body['user']['realm']);
         await storage.write(key: 'username', value: body['user']['username']);
         await storage.write(key: 'email', value: body['user']['email']);
+        await storage.write(key: 'password', value: password);
         return body['id'];
       } else {
         print('[Login failed]');
@@ -128,6 +130,19 @@ class UsuarioRepository extends Repository {
     }
   }
 
+  Future<UsuarioModel> getLocalUsuario() async {
+    return UsuarioModel(
+      nome: await storage.read(key: 'nome'),
+      foto: await storage.read(key: 'imagem'),
+      realm: await storage.read(key: 'realm'),
+      username: await storage.read(key: 'username'),
+      email: await storage.read(key: 'email'),
+      password: await storage.read(key: 'password'),
+      id: await storage.read(key: 'userId'),
+      emailVerified: true,
+    );
+  }
+
   Future<List<ContatosModel>> getContatos({
     @required String usuarioId,
     @required String token,
@@ -148,6 +163,35 @@ class UsuarioRepository extends Repository {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<void> updateUsuario({
+    @required String nome,
+    @required String foto,
+    @required String realm,
+    @required String username,
+    @required String email,
+    @required String password,
+  }) async {
+    final userId = await storage.read(key: 'userId');
+    final token = await storage.read(key: 'token');
+    try {
+      await http.post(
+        Repository.API_REPLACE_USER.replaceFirst('\$', userId),
+        headers: {HttpHeaders.authorizationHeader: token},
+        body: {
+          'nome': nome,
+          'foto': foto,
+          'realm': realm,
+          'username': username,
+          'email': email,
+          'password': password,
+        },
+      );
+    } catch (e) {
+      print('[ERRO]: ');
+      print(e);
     }
   }
 
