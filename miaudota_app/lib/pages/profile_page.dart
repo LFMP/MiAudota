@@ -290,6 +290,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProfile _usuarioBloc = BlocProvider.of<UserProfile>(context);
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     Future<void> _onUpdateButtonPressed() async {
       final String email = await storage.read(key: 'email');
       final String foto = await storage.read(key: 'imagem');
@@ -306,7 +309,6 @@ class _ProfilePageState extends State<ProfilePage> {
           username: username));
     }
 
-    final UserProfile _usuarioBloc = BlocProvider.of<UserProfile>(context);
     return BlocListener<UserProfile, UserProfileState>(
       listener: (context, state) {
         if (state is UserProfileFailure) {
@@ -360,39 +362,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: 200,
                     height: 200,
                     alignment: const Alignment(0.0, 1.15),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(180)),
-                      image: DecorationImage(
-                        image: _image == null
+                    child: Container(
+                      child: CircleAvatar(
+                        radius: 100,
+                        backgroundImage: _image == null
                             ? const AssetImage('assets/profile-picture.png')
                             : MemoryImage(base64Decode(_image)),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    child: Container(
-                      height: 56,
-                      width: 56,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(56),
-                        ),
-                      ),
-                      child: SizedBox.expand(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppStyle.colorCyan,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(180)),
-                          ),
-                          child: FlatButton(
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            onPressed: () => setUserImage(),
-                          ),
+                        child: IconButton(
+                          padding: const EdgeInsets.only(top: 140),
+                          iconSize: 40,
+                          color: AppStyle.colorWhite,
+                          icon: const Icon(Icons.add_box),
+                          onPressed: () => setUserImage(),
                         ),
                       ),
                     ),
@@ -439,12 +420,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 5,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: <Widget>[
                         TextFormField(
                           enabled: _status,
                           keyboardType: TextInputType.text,
                           controller: nomeControler,
+                          autovalidate: true,
                           decoration: InputDecoration(
                             labelText: 'Nome completo',
                             labelStyle: TextStyle(
@@ -457,6 +440,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 20,
                             color: AppStyle.colorBlack,
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'O campo não pode ser vazio';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 5,
@@ -465,6 +454,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           enabled: _status,
                           keyboardType: TextInputType.emailAddress,
                           controller: emailControler,
+                          autovalidate: true,
                           decoration: InputDecoration(
                             labelText: 'E-mail',
                             labelStyle: TextStyle(
@@ -477,12 +467,19 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 20,
                             color: AppStyle.colorBlack,
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'O campo não pode ser vazio';
+                            }
+                            return null;
+                          },
                         ),
                         TextFormField(
                           enabled: _status,
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           controller: senhaControler,
+                          autovalidate: true,
                           decoration: InputDecoration(
                             labelText: 'Senha',
                             labelStyle: TextStyle(
@@ -495,6 +492,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 20,
                             color: AppStyle.colorBlack,
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'O campo não pode ser vazio';
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ),
@@ -595,7 +598,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                      onPressed: () => _onUpdateButtonPressed(),
+                      onPressed: () => _formKey.currentState.validate()
+                          ? _onUpdateButtonPressed()
+                          : null,
                     ),
                   ),
                 ],
