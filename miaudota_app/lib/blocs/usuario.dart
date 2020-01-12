@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:miaudota_app/blocs/events/usuario.dart';
 import 'package:miaudota_app/blocs/states/usuario.dart';
+import 'package:miaudota_app/models/contatos.dart';
 import 'package:miaudota_app/models/usuario.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
 
@@ -34,7 +35,9 @@ class UserProfile extends Bloc<UpdateUserEvent, UserProfileState> {
     if (event is LoadUserInformations) {
       yield const UserProfileLoading(null);
       final UsuarioModel usuario = await userRepository.getLocalUsuario();
-      yield UserProfileLoaded(usuario);
+      final List<ContatosModel> contatos =
+          await userRepository.getContatos(usuarioId: usuario.id);
+      yield UserProfileLoaded(usuario,contatos);
     }
   }
 }

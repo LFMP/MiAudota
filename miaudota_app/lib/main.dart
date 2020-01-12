@@ -66,7 +66,9 @@ class MiAudota extends StatelessWidget {
           if (state is AuthenticationAuthenticated) {
             return BlocProvider<UserProfile>(
               builder: (context) => UserProfile(userRepository),
-              child: ProfilePage(),
+              child: ProfilePage(
+                userRepository: userRepository,
+              ),
             );
           }
           if (state is AuthenticationUnauthenticated) {

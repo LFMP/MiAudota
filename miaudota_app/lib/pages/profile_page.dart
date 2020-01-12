@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -8,10 +7,16 @@ import 'package:miaudota_app/blocs/events/usuario.dart';
 import 'package:miaudota_app/blocs/states/usuario.dart';
 import 'package:miaudota_app/blocs/usuario.dart';
 import 'package:miaudota_app/models/usuario.dart';
+import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key key, @required this.userRepository})
+      : assert(userRepository != null),
+        super(key: key);
+  final UsuarioRepository userRepository;
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -307,6 +312,12 @@ class _ProfilePageState extends State<ProfilePage> {
           password: password,
           realm: realm,
           username: username));
+      // await Navigator.of(context).push(
+      //   SlideRoute(
+      //     page: BlankPage(),
+      //     direction: SlideDirection.RIGHT_LEFT,
+      //   ),
+      // );
     }
 
     return BlocListener<UserProfile, UserProfileState>(
@@ -332,6 +343,7 @@ class _ProfilePageState extends State<ProfilePage> {
             nomeControler.text = usuario.nome;
             emailControler.text = usuario.email;
             senhaControler.text = usuario.password;
+            print(state.contatos);
           }
 
           return Scaffold(
@@ -345,10 +357,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               centerTitle: true,
               backgroundColor: AppStyle.colorCyan,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context, true),
-              ),
             ),
             body: Container(
               color: AppStyle.colorWhite,

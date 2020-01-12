@@ -41,7 +41,6 @@ class ContatosModel {
   Map<String, dynamic> toMap() => {
         'ddd': ddd ?? ddd,
         'telefone': telefone ?? telefone,
-        'id': id ?? id,
         'usuarioId': usuarioId ?? usuarioId,
       };
 

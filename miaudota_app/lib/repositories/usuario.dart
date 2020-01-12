@@ -32,6 +32,7 @@ class UsuarioRepository extends Repository {
         await storage.write(key: 'username', value: body['user']['username']);
         await storage.write(key: 'email', value: body['user']['email']);
         await storage.write(key: 'password', value: password);
+        await storage.write(key: 'imagem', value: body['user']['foto']);
         return body['id'];
       } else {
         print('[Login failed]');
@@ -145,11 +146,12 @@ class UsuarioRepository extends Repository {
 
   Future<List<ContatosModel>> getContatos({
     @required String usuarioId,
-    @required String token,
   }) async {
+    final token = await storage.read(key: 'token');
+    print(token);
     try {
       final response = await http.get(
-        Repository.API_CONTATOS.replaceFirst('\$', usuarioId.toString()),
+        Repository.API_CONTATOS.replaceFirst('\$', usuarioId),
         headers: {HttpHeaders.authorizationHeader: token},
       );
       final body = json.decode(response.body);
