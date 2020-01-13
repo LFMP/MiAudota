@@ -64,5 +64,61 @@ class InsertEnderecoButtonPressed extends UpdateUserEvent {
   final String complemento;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [cep, rua, cidade, estado, numero, complemento];
+}
+
+class DeleteContatoButtonPressed extends UpdateUserEvent {
+  const DeleteContatoButtonPressed({@required this.id});
+  final String id;
+  @override
+  List<Object> get props => [id];
+}
+
+class DeleteEnderecoButtonPressed extends UpdateUserEvent {
+  const DeleteEnderecoButtonPressed({@required this.id});
+  final String id;
+  @override
+  List<Object> get props => [id];
+}
+
+class EditContatoButtonPressed extends UpdateUserEvent {
+  const EditContatoButtonPressed({
+    @required this.id,
+    @required this.ddd,
+    @required this.telefone,
+  });
+  final String id;
+  final String ddd;
+  final String telefone;
+  @override
+  List<Object> get props => [id, ddd, telefone];
+}
+
+class EditEnderecoButtonPressed extends UpdateUserEvent {
+  const EditEnderecoButtonPressed({
+    @required this.id,
+    @required this.cep,
+    @required this.rua,
+    @required this.cidade,
+    @required this.estado,
+    @required this.numero,
+    @required this.complemento,
+  });
+  final String id;
+  final String cep;
+  final String rua;
+  final String cidade;
+  final String estado;
+  final String numero;
+  final String complemento;
+  @override
+  List<Object> get props => [
+        id,
+        cep,
+        rua,
+        cidade,
+        estado,
+        numero,
+        complemento,
+      ];
 }

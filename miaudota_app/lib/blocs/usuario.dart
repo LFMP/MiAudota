@@ -71,5 +71,55 @@ class UserProfile extends Bloc<UpdateUserEvent, UserProfileState> {
         yield UserProfileFailure(error: e.toString());
       }
     }
+    if (event is DeleteContatoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.deleteContato(id: event.id);
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
+    if (event is DeleteEnderecoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.deleteEndereco(id: event.id);
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
+
+    if (event is EditContatoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.editContato(
+          id: event.id,
+          ddd: event.ddd,
+          telefone: event.telefone,
+        );
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
+
+    if (event is EditEnderecoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.editEndereco(
+          id: event.id,
+          cep: event.cep,
+          rua: event.rua,
+          cidade: event.cidade,
+          estado: event.estado,
+          numero: event.numero,
+          complemento: event.complemento,
+        );
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
   }
 }

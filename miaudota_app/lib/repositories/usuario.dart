@@ -195,6 +195,64 @@ class UsuarioRepository extends Repository {
         print('[Post contato sucess]');
         return true;
       } else {
+        print('[Post contato fail]');
+        print(response.body);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> editContato({
+    @required String ddd,
+    @required String telefone,
+    @required String id,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http.put(
+          Repository.API_CONTATOS.replaceFirst('\$', userId) + '/' + id,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: {
+            'ddd': ddd,
+            'telefone': telefone,
+            'id': id,
+            'usuarioId': userId,
+          });
+      if (response.statusCode == 200) {
+        print('[Edit contato sucess]');
+        return true;
+      } else {
+        print('[Edit contato fail]');
+        print(response.body);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteContato({
+    @required String id,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http.delete(
+          Repository.API_CONTATOS.replaceFirst('\$', userId) + '/' + id,
+          headers: {HttpHeaders.authorizationHeader: token});
+      if (response.statusCode == 204) {
+        print('[Delete contato sucess]');
+        return true;
+      } else {
+        print('[Delete contato fail]');
+        print(response.body);
         return false;
       }
     } catch (e) {
@@ -253,6 +311,70 @@ class UsuarioRepository extends Repository {
         print('[Post contato sucess]');
         return true;
       } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> editEndereco({
+    @required String cep,
+    @required String rua,
+    @required String cidade,
+    @required String estado,
+    @required String numero,
+    @required String complemento,
+    @required String id,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http.put(
+          Repository.API_ENDERECOS.replaceFirst('\$', userId) + '/' + id,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: {
+            'cep': cep,
+            'rua': rua,
+            'cidade': cidade,
+            'estado': estado,
+            'numero': numero,
+            'complemento': complemento,
+            'id': id,
+            'usuarioId': userId,
+          });
+      if (response.statusCode == 200) {
+        print('[Edit endereco sucess]');
+        return true;
+      } else {
+        print('[Edit endereco fail]');
+        print(response.body);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteEndereco({
+    @required String id,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http.delete(
+          Repository.API_ENDERECOS.replaceFirst('\$', userId) + '/' + id,
+          headers: {HttpHeaders.authorizationHeader: token});
+      if (response.statusCode == 204) {
+        print('[Delete endereco sucess]');
+        return true;
+      } else {
+        print('[Delete endereco fail]');
+        print(response.body);
         return false;
       }
     } catch (e) {

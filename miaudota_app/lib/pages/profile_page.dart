@@ -41,286 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
   final senhaControler = TextEditingController();
   static const storage = FlutterSecureStorage();
 
-  Future<void> setUserImage() async {
-    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    final String encoded = base64Encode(image.readAsBytesSync());
-    setState(() {
-      _image = encoded;
-    });
-
-    storage.write(key: 'imagem', value: encoded);
-  }
-
-  Future<void> _inputTelefone(
-      BuildContext context, UserProfile _usuarioBloc) async {
-    final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Adicionar novo telefone'),
-          content: Row(
-            children: <Widget>[
-              SizedBox(
-                height: 80,
-                width: 100,
-                child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  controller: dddControler,
-                  key: _dddKey,
-                  decoration: const InputDecoration(
-                    labelText: 'DDD',
-                    hintText: 'ex. 44',
-                  ),
-                  autovalidate: true,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Obrigatorio';
-                    }
-                    if (value.length > 2 || value.length < 2) {
-                      return 'Invalido';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                height: 80,
-                width: 120,
-                child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  controller: telefoneControler,
-                  key: _telefoneKey,
-                  autovalidate: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Telefone',
-                    hintText: 'ex. 999876643',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Campo obrigatorio';
-                    }
-                    if (value.length > 9 || value.length < 8) {
-                      return 'Telefone invalido';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: const Text('Confirmar'),
-              onPressed: () {
-                _usuarioBloc.add(
-                  InsertContatoButtonPressed(
-                      ddd: dddControler.text, telefone: telefoneControler.text),
-                );
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _inputEndereco(
-      BuildContext context, UserProfile _usuarioBloc) async {
-    final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
-    final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Adicionar novo endereço'),
-          content: Container(
-            height: 302,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 70,
-                      height: 72,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: numeroControler,
-                        key: _numeroKey,
-                        autovalidate: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Número',
-                          hintText: 'ex. 666',
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Obrigatorio';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 140,
-                      height: 72,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: cepControler,
-                        key: _cepKey,
-                        autovalidate: true,
-                        decoration: const InputDecoration(
-                          labelText: 'CEP',
-                          hintText: 'ex. 87000-000',
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Campo obrigatorio';
-                          }
-                          if (value.length > 9 || value.length < 9) {
-                            return 'CEP invalido';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 74,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: complementoControler,
-                    key: _complementoKey,
-                    autovalidate: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Complemento',
-                      hintText: 'ex. APTO 003',
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Campo obrigatorio';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 74,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: ruaControler,
-                    key: _ruaKey,
-                    autovalidate: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Rua',
-                      hintText: 'ex. Rua dos perdidos',
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Campo obrigatorio';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 150,
-                      height: 65,
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: cidadeControler,
-                        key: _cidadeKey,
-                        autovalidate: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Cidade',
-                          hintText: 'ex. Padre Donizete',
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Campo obrigatorio';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 60,
-                      height: 65,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: estadoControler,
-                        key: _estadoKey,
-                        autovalidate: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Estado',
-                          hintText: 'ex. PR',
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Obrigatorio';
-                          }
-                          if (value.length != 2) {
-                            return 'Invalido';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: const Text('Confirmar'),
-              onPressed: () {
-                _usuarioBloc.add(
-                  InsertEnderecoButtonPressed(
-                    cep: cepControler.text,
-                    cidade: cidadeControler.text,
-                    complemento: complementoControler.text,
-                    estado: estadoControler.text,
-                    numero: numeroControler.text,
-                    rua: ruaControler.text,
-                  ),
-                );
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final UserProfile _usuarioBloc = BlocProvider.of<UserProfile>(context);
@@ -333,19 +53,588 @@ class _ProfilePageState extends State<ProfilePage> {
       final String password = await storage.read(key: 'password');
       final String realm = await storage.read(key: 'realm');
       final String username = await storage.read(key: 'username');
-      BlocProvider.of<UserProfile>(context).add(UpdateUserbuttonPressed(
-          email: email,
-          foto: foto,
-          nome: nome,
-          password: password,
-          realm: realm,
-          username: username));
-      // await Navigator.of(context).push(
-      //   SlideRoute(
-      //     page: BlankPage(),
-      //     direction: SlideDirection.RIGHT_LEFT,
-      //   ),
-      // );
+      _usuarioBloc.add(
+        UpdateUserbuttonPressed(
+            email: email,
+            foto: foto,
+            nome: nome,
+            password: password,
+            realm: realm,
+            username: username),
+      );
+    }
+
+    Future<void> setUserImage() async {
+      final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      final String encoded = base64Encode(image.readAsBytesSync());
+      setState(() {
+        _image = encoded;
+      });
+
+      storage.write(key: 'imagem', value: encoded);
+    }
+
+    Future<void> _inputTelefone(
+        BuildContext context, UserProfile _usuarioBloc) async {
+      final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Adicionar novo telefone'),
+            content: Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 80,
+                  width: 100,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: dddControler,
+                    key: _dddKey,
+                    decoration: const InputDecoration(
+                      labelText: 'DDD',
+                      hintText: 'ex. 44',
+                    ),
+                    autovalidate: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Obrigatorio';
+                      }
+                      if (value.length > 2 || value.length < 2) {
+                        return 'Invalido';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 120,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: telefoneControler,
+                    key: _telefoneKey,
+                    autovalidate: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Telefone',
+                      hintText: 'ex. 999876643',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Campo obrigatorio';
+                      }
+                      if (value.length > 9 || value.length < 8) {
+                        return 'Telefone invalido';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: const Text('Confirmar'),
+                onPressed: () {
+                  _usuarioBloc.add(
+                    InsertContatoButtonPressed(
+                        ddd: dddControler.text,
+                        telefone: telefoneControler.text),
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _editTelefone(
+      BuildContext context,
+      UserProfile _usuarioBloc,
+      String ddd,
+      String telefone,
+      String id,
+    ) async {
+      final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
+      dddControler.text = ddd;
+      telefoneControler.text = telefone;
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Editar telefone'),
+            content: Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 80,
+                  width: 100,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: dddControler,
+                    key: _dddKey,
+                    decoration: const InputDecoration(
+                      labelText: 'DDD',
+                      hintText: 'ex. 44',
+                    ),
+                    autovalidate: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Obrigatorio';
+                      }
+                      if (value.length > 2 || value.length < 2) {
+                        return 'Invalido';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 120,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: telefoneControler,
+                    key: _telefoneKey,
+                    autovalidate: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Telefone',
+                      hintText: 'ex. 999876643',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Campo obrigatorio';
+                      }
+                      if (value.length > 9 || value.length < 8) {
+                        return 'Telefone invalido';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: const Text('Confirmar'),
+                onPressed: () {
+                  _usuarioBloc.add(
+                    EditContatoButtonPressed(
+                      ddd: dddControler.text,
+                      telefone: telefoneControler.text,
+                      id: id,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _inputEndereco(
+      BuildContext context,
+      UserProfile _usuarioBloc,
+    ) async {
+      final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Adicionar novo endereço'),
+            content: Container(
+              height: 302,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 70,
+                        height: 72,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: numeroControler,
+                          key: _numeroKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Número',
+                            hintText: 'ex. 666',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Obrigatorio';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 140,
+                        height: 72,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: cepControler,
+                          key: _cepKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'CEP',
+                            hintText: 'ex. 87000-000',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Campo obrigatorio';
+                            }
+                            if (value.length > 9 || value.length < 9) {
+                              return 'CEP invalido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 74,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: complementoControler,
+                      key: _complementoKey,
+                      autovalidate: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Complemento',
+                        hintText: 'ex. APTO 003',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Campo obrigatorio';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 74,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: ruaControler,
+                      key: _ruaKey,
+                      autovalidate: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Rua',
+                        hintText: 'ex. Rua dos perdidos',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Campo obrigatorio';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        height: 65,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: cidadeControler,
+                          key: _cidadeKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Cidade',
+                            hintText: 'ex. Padre Donizete',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Campo obrigatorio';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 60,
+                        height: 65,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: estadoControler,
+                          key: _estadoKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Estado',
+                            hintText: 'ex. PR',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Obrigatorio';
+                            }
+                            if (value.length != 2) {
+                              return 'Invalido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: const Text('Confirmar'),
+                onPressed: () {
+                  _usuarioBloc.add(
+                    InsertEnderecoButtonPressed(
+                      cep: cepControler.text,
+                      cidade: cidadeControler.text,
+                      complemento: complementoControler.text,
+                      estado: estadoControler.text,
+                      numero: numeroControler.text,
+                      rua: ruaControler.text,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _editEndereco(
+      BuildContext context,
+      UserProfile _usuarioBloc,
+      EnderecoModel endereco,
+    ) async {
+      final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _cepKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _cidadeKey = GlobalKey<FormState>();
+      final GlobalKey<FormState> _estadoKey = GlobalKey<FormState>();
+      numeroControler.text = endereco.numero;
+      complementoControler.text = endereco.complemento;
+      ruaControler.text = endereco.rua;
+      cepControler.text = endereco.cep;
+      cidadeControler.text = endereco.cidade;
+      estadoControler.text = endereco.estado;
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Editar endereço'),
+            content: Container(
+              height: 302,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 70,
+                        height: 72,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: numeroControler,
+                          key: _numeroKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Número',
+                            hintText: 'ex. 666',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Obrigatorio';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 140,
+                        height: 72,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: cepControler,
+                          key: _cepKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'CEP',
+                            hintText: 'ex. 87000-000',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Campo obrigatorio';
+                            }
+                            if (value.length > 9 || value.length < 9) {
+                              return 'CEP invalido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 74,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: complementoControler,
+                      key: _complementoKey,
+                      autovalidate: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Complemento',
+                        hintText: 'ex. APTO 003',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Campo obrigatorio';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 74,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: ruaControler,
+                      key: _ruaKey,
+                      autovalidate: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Rua',
+                        hintText: 'ex. Rua dos perdidos',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Campo obrigatorio';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        height: 65,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: cidadeControler,
+                          key: _cidadeKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Cidade',
+                            hintText: 'ex. Padre Donizete',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Campo obrigatorio';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 60,
+                        height: 65,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: estadoControler,
+                          key: _estadoKey,
+                          autovalidate: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Estado',
+                            hintText: 'ex. PR',
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Obrigatorio';
+                            }
+                            if (value.length != 2) {
+                              return 'Invalido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: const Text('Confirmar'),
+                onPressed: () {
+                  _usuarioBloc.add(
+                    EditEnderecoButtonPressed(
+                      id: endereco.id,
+                      cep: cepControler.text,
+                      cidade: cidadeControler.text,
+                      complemento: complementoControler.text,
+                      estado: estadoControler.text,
+                      numero: numeroControler.text,
+                      rua: ruaControler.text,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
 
     return BlocListener<UserProfile, UserProfileState>(
@@ -589,11 +878,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: _contatos.length,
+                    primary: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) => Card(
                       child: ListTile(
+                        onTap: () => _editTelefone(
+                          context,
+                          _usuarioBloc,
+                          _contatos[index].ddd,
+                          _contatos[index].telefone,
+                          _contatos[index].id,
+                        ),
+                        trailing: IconButton(
+                          color: Colors.red,
+                          onPressed: () => _usuarioBloc.add(
+                            DeleteContatoButtonPressed(id: _contatos[index].id),
+                          ),
+                          icon: Icon(Icons.delete_forever),
+                          iconSize: 40,
+                        ),
                         title: Text('( ' +
                             _contatos[index].ddd +
-                            ') ' +
+                            ' ) ' +
                             _contatos[index].telefone),
                       ),
                     ),
@@ -637,12 +943,38 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
+                    primary: true,
                     itemCount: _enderecos.length,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) => Card(
                       child: ListTile(
+                        onTap: () => _editEndereco(
+                          context,
+                          _usuarioBloc,
+                          EnderecoModel(
+                            cep: _enderecos[index].cep,
+                            rua: _enderecos[index].rua,
+                            cidade: _enderecos[index].cidade,
+                            estado: _enderecos[index].estado,
+                            numero: _enderecos[index].numero.toString(),
+                            complemento: _enderecos[index].complemento,
+                            id: _enderecos[index].id,
+                            usuarioId: _enderecos[index].usuarioId,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          color: Colors.red,
+                          onPressed: () => _usuarioBloc.add(
+                            DeleteEnderecoButtonPressed(
+                                id: _enderecos[index].id),
+                          ),
+                          icon: Icon(Icons.delete_forever),
+                          iconSize: 40,
+                        ),
                         title: Text(_enderecos[index].rua +
                             ', ' +
                             _enderecos[index].numero.toString()),
+                        subtitle: Text(_enderecos[index].cep),
                       ),
                     ),
                   ),
@@ -652,6 +984,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     child: FlatButton(
                       color: AppStyle.colorCyanEightHundred,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: AppStyle.colorCyanEightHundred),
+                      ),
                       child: Container(
                         child: const Text(
                           'Atualizar',
@@ -670,9 +1006,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     child: FlatButton(
                       color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.red),
+                      ),
                       child: Container(
                         child: const Text(
-                          'Vazar',
+                          'Sair',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
