@@ -18,16 +18,16 @@ class ContatosModel {
   factory ContatosModel.fromJson(String str) =>
       ContatosModel.fromMap(json.decode(str));
 
-  final int ddd;
+  final String ddd;
   final String telefone;
-  final int id;
-  final int usuarioId;
+  final String id;
+  final String usuarioId;
 
   ContatosModel copyWith({
-    int ddd,
+    String ddd,
     String telefone,
-    int id,
-    int usuarioId,
+    String id,
+    String usuarioId,
   }) =>
       ContatosModel(
         ddd: ddd ?? this.ddd,

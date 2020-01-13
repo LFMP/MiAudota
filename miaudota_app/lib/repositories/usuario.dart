@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:miaudota_app/models/contatos.dart';
+import 'package:miaudota_app/models/endereco.dart';
 import 'package:miaudota_app/models/usuario.dart';
 import 'package:miaudota_app/repositories/repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,7 +33,9 @@ class UsuarioRepository extends Repository {
         await storage.write(key: 'username', value: body['user']['username']);
         await storage.write(key: 'email', value: body['user']['email']);
         await storage.write(key: 'password', value: password);
-        await storage.write(key: 'imagem', value: body['user']['foto']);
+        if (body['user']['foto'] != null) {
+          await storage.write(key: 'imagem', value: body['user']['foto']);
+        }
         return body['id'];
       } else {
         print('[Login failed]');
@@ -81,7 +84,7 @@ class UsuarioRepository extends Repository {
     }
   }
 
-  Future<void> dispatchNormal({
+  Future<bool> dispatchNormal({
     @required String usuarioId,
     @required String cpf,
   }) async {
@@ -100,13 +103,16 @@ class UsuarioRepository extends Repository {
         await storage.write(key: 'cpf', value: body['cpf']);
       } else {
         print('[Normal failed]');
+        return false;
       }
     } catch (e) {
       print(e);
+      return false;
     }
+    return true;
   }
 
-  Future<void> dispatchEntidade({
+  Future<bool> dispatchEntidade({
     @required String usuarioId,
     @required String cnpj,
   }) async {
@@ -125,10 +131,13 @@ class UsuarioRepository extends Repository {
         await storage.write(key: 'cnpj', value: body['cnpj']);
       } else {
         print('[Entidade failed]');
+        return false;
       }
     } catch (e) {
       print(e);
+      return false;
     }
+    return true;
   }
 
   Future<UsuarioModel> getLocalUsuario() async {
@@ -148,7 +157,6 @@ class UsuarioRepository extends Repository {
     @required String usuarioId,
   }) async {
     final token = await storage.read(key: 'token');
-    print(token);
     try {
       final response = await http.get(
         Repository.API_CONTATOS.replaceFirst('\$', usuarioId),
@@ -160,6 +168,7 @@ class UsuarioRepository extends Repository {
         return ContatosModel.fromJsonList(body);
       } else {
         print('[GET contatos failed]');
+        print(body);
         return [];
       }
     } catch (e) {
@@ -168,7 +177,31 @@ class UsuarioRepository extends Repository {
     }
   }
 
-  Future<void> updateUsuario({
+  Future<List<EnderecoModel>> getEnderecos({
+    @required String usuarioId,
+  }) async {
+    final token = await storage.read(key: 'token');
+    try {
+      final response = await http.get(
+        Repository.API_ENDERECOS.replaceFirst('\$', usuarioId),
+        headers: {HttpHeaders.authorizationHeader: token},
+      );
+      final body = json.decode(response.body);
+      if (response.statusCode == 200) {
+        print('[GET enderecos sucess]');
+        return EnderecoModel.fromJsonList(body);
+      } else {
+        print('[GET enderecos failed]');
+        print(body);
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<bool> updateUsuario({
     @required String nome,
     @required String foto,
     @required String realm,
@@ -194,7 +227,9 @@ class UsuarioRepository extends Repository {
     } catch (e) {
       print('[ERRO]: ');
       print(e);
+      return false;
     }
+    return true;
   }
 
   Future<void> deleteToken() async {
