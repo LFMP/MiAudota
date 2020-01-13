@@ -23,15 +23,22 @@ import 'package:miaudota_app/utils/style.dart';
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UsuarioRepository();
-  runApp(
-    BlocProvider<AuthenticationBloc>(
-      builder: (context) {
-        return AuthenticationBloc(userRepository: userRepository)
-          ..add(AppStarted());
-      },
-      child: MiAudota(userRepository: userRepository),
-    ),
-  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthenticationBloc>(
+        builder: (context) {
+          return AuthenticationBloc(userRepository: userRepository)
+            ..add(AppStarted());
+        },
+      ),
+      BlocProvider<AnuncioBloc>(
+        builder: (context) {
+          return AnuncioBloc();
+        },
+      ),
+    ],
+    child: MiAudota(userRepository: userRepository),
+  ));
 }
 
 class SimpleBlocDelegate extends BlocDelegate {
@@ -74,7 +81,8 @@ class MiAudota extends StatelessWidget {
           }
           if (state is AuthenticationAuthenticated) {
             anuncioBloc.add(AnuncioLoad());
-            return CadastroItem();
+            // return CadastroItem();
+            return HomePage();
             //HomePage(); //BlocProvider<UserProfile>(
             //   builder: (context) => UserProfile(userRepository),
             //   child: ProfilePage(

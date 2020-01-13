@@ -1,35 +1,32 @@
+// To parse this JSON data, do
+//
+//     final item = itemFromJson(jsonString);
+
+import 'dart:convert';
+
+Item itemFromJson(String str) => Item.fromJson(json.decode(str));
+
+String itemToJson(Item data) => json.encode(data.toJson());
+
 class Item {
-  Item(
-      {this.titulo,
-      this.descricao,
-      this.quantidade,
-      this.qtdAtual,
-      this.data,
-      this.foto});
+  int qtdatual;
+  int qtdsolicitado;
+  int id;
 
-  Item.fromJson(Map<String, dynamic> json) {
-    titulo = json['titulo'];
-    descricao = json['descricao'];
-    quantidade = json['quantidade'];
-    data = json['data'];
-    qtdAtual = json['qtdAtual'];
-    foto = json['foto'];
-  }
-  String titulo;
-  String descricao;
-  String quantidade;
-  DateTime data;
-  String qtdAtual;
-  String foto;
+  Item({
+    this.qtdatual,
+    this.qtdsolicitado,
+    this.id,
+  });
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> dados = new Map<String, dynamic>();
-    dados['titulo'] = this.titulo;
-    dados['descricao'] = this.descricao;
-    dados['quantidade'] = this.quantidade;
-    dados['data'] = this.data;
-    dados['qtdAtual'] = this.qtdAtual;
-    dados['foto'] = this.foto;
-    return dados;
-  }
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+        qtdatual: json["qtdatual"],
+        qtdsolicitado: json["qtdsolicitado"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "qtdatual": qtdatual.toString(),
+        "qtdsolicitado": qtdsolicitado.toString(),
+      };
 }

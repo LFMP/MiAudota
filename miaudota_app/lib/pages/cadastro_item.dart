@@ -2,8 +2,13 @@ import 'dart:async';
 import 'dart:ui' as prefix0;
 import 'dart:io';
 
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/main.dart';
+import 'package:miaudota_app/models/anuncios.dart';
 import 'package:miaudota_app/pages/ajuda_page.dart';
 
 import 'package:miaudota_app/utils/slider.dart';
@@ -14,16 +19,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroItem extends StatefulWidget {
-  var anuncios_itens = List<Item>();
-
-  CadastroItem() {
-    anuncios_itens = [];
-  }
+  CadastroItem();
   @override
   _CadastroItemState createState() => _CadastroItemState();
 }
 
 class _CadastroItemState extends State<CadastroItem> {
+  AnuncioBloc bloc;
+
   final titleController = TextEditingController();
 
   final descController = TextEditingController();
@@ -45,30 +48,15 @@ class _CadastroItemState extends State<CadastroItem> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<AnuncioBloc>(context);
+  }
+
   GlobalKey<FormState> _key = new GlobalKey();
   bool _validate = false;
   String titulo, descricao, quantidade;
-
-  Future load() async {
-    // assincrona porque não recupera as informações em tempo real
-    var prefs = await SharedPreferences.getInstance();
-    var data = prefs.getString('data');
-
-    if (data != null) {
-      Iterable decoded = jsonDecode(data);
-      List<Item> result = decoded
-          .map((x) => Item.fromJson(x))
-          .toList(); //map percorre os itens, essa linha é como um forit
-      setState(() {
-        widget.anuncios_itens = result;
-      });
-    }
-  }
-
-  save() async {
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.setString('data', jsonEncode(widget.anuncios_itens));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +87,52 @@ class _CadastroItemState extends State<CadastroItem> {
           )
         ],
       ),
-      body: Container(
-        padding: AppStyle.padding,
-        color: AppStyle.colorWhite,
-        child: Form(
-          key: _key,
-          autovalidate: _validate,
-          child: _formUI(),
+      body: BlocListener(
+        bloc: bloc,
+        listener: (context, state) {
+          if (state is AnuncioLoadedState) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Cadastro realizado!"),
+                  content:
+                      Text("Seu cadastro de Item foi realizado com sucesso."),
+                  actions: [
+                    FlatButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        }),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: BlocBuilder(
+          bloc: bloc,
+          builder: (context, state) {
+            if (state is AnuncioLoadingState)
+              return Center(child: CircularProgressIndicator());
+
+            return Container(
+                padding: AppStyle.padding,
+                color: AppStyle.colorWhite,
+                child: Form(
+                  key: _key,
+                  autovalidate: _validate,
+                  child: _formUI(),
+                ));
+
+            // /
+            // import 'dart:async';
+// import 'dart:convert';
+// import 'dart:typed_data'
+
+            // Image.memory(base64Decode(anuncio.foto));
+          },
         ),
       ),
     );
@@ -234,7 +261,7 @@ class _CadastroItemState extends State<CadastroItem> {
     RegExp regExp = RegExp(patttern);
     if (value.length == 0) {
       return "Informe o titulo do anuncio";
-    } else if (value.length < 5) {
+    } else if (value.length <= 5) {
       return "Título muito curto";
     }
     return null;
@@ -267,17 +294,18 @@ class _CadastroItemState extends State<CadastroItem> {
     if (_key.currentState.validate()) {
       // Sem erros na validação
       _key.currentState.save();
-      widget.anuncios_itens.add(Item(
-        titulo: titulo,
-        descricao: descricao,
-        quantidade: quantidade,
-        qtdAtual: quantidade,
-        data: DateTime.now(),
-      ));
-      print("Titulo $titulo");
-      print("Descricao $descricao");
-      print("Quantidade $quantidade");
-      save();
+      final Item meuItem = Item(
+          qtdatual: int.parse(quantidade),
+          qtdsolicitado: int.parse(quantidade));
+
+      Anuncio anuncio = Anuncio(
+          item: meuItem,
+          titulo: titulo,
+          descricao: descricao,
+          data: DateTime.now(),
+          foto: base64Encode(_imagem.readAsBytesSync()));
+
+      bloc.add(AnuncioCreate(item: anuncio));
     } else {
       // erro de validação
       setState(() {
