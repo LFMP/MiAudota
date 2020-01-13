@@ -140,7 +140,13 @@ class _ItemState extends State<Item> {
             const SizedBox(
               height: 30,
             ),
-            Container(),
+            Container(
+              alignment: Alignment.center,
+              child: _imagem == null ? Text('') : Image.file(_imagem),
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: AppStyle.colorCyan,
