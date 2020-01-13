@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:miaudota_app/blocs/authentication.dart';
+import 'package:miaudota_app/blocs/events/authentication.dart';
 import 'package:miaudota_app/blocs/events/usuario.dart';
 import 'package:miaudota_app/blocs/states/usuario.dart';
 import 'package:miaudota_app/blocs/usuario.dart';
+import 'package:miaudota_app/models/contatos.dart';
+import 'package:miaudota_app/models/endereco.dart';
 import 'package:miaudota_app/models/usuario.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/style.dart';
@@ -47,7 +51,8 @@ class _ProfilePageState extends State<ProfilePage> {
     storage.write(key: 'imagem', value: encoded);
   }
 
-  Future<void> _inputTelefone(BuildContext context) async {
+  Future<void> _inputTelefone(
+      BuildContext context, List<ContatosModel> contatos) async {
     final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
     showDialog<void>(
@@ -118,6 +123,10 @@ class _ProfilePageState extends State<ProfilePage> {
             FlatButton(
               child: const Text('Confirmar'),
               onPressed: () {
+                contatos.add(ContatosModel(
+                  ddd: dddControler.text,
+                  telefone: telefoneControler.text,
+                ));
                 Navigator.of(context).pop();
               },
             ),
@@ -127,7 +136,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<void> _inputEndereco(BuildContext context) async {
+  Future<void> _inputEndereco(
+      BuildContext context, List<EnderecoModel> enderecos) async {
     final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
@@ -284,6 +294,14 @@ class _ProfilePageState extends State<ProfilePage> {
             FlatButton(
               child: const Text('Confirmar'),
               onPressed: () {
+                enderecos.add(EnderecoModel(
+                  cep: cepControler.text,
+                  rua: ruaControler.text,
+                  cidade: cidadeControler.text,
+                  estado: estadoControler.text,
+                  numero: numeroControler.text,
+                  complemento: complementoControler.text,
+                ));
                 Navigator.of(context).pop();
               },
             ),
@@ -343,8 +361,16 @@ class _ProfilePageState extends State<ProfilePage> {
             nomeControler.text = usuario.nome;
             emailControler.text = usuario.email;
             senhaControler.text = usuario.password;
-            print(state.contatos);
           }
+          final List<ContatosModel> _contatos =
+              state != UserProfileLoaded || state != UserProfileModified
+                  ? []
+                  : state.contatos;
+
+          final List<EnderecoModel> _enderecos =
+              state != UserProfileLoaded || state != UserProfileModified
+                  ? []
+                  : state.enderecos;
 
           return Scaffold(
             appBar: AppBar(
@@ -538,7 +564,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Icons.add,
                                   color: AppStyle.colorWhite,
                                 ),
-                                onTap: () => _inputTelefone(context),
+                                onTap: () => _inputTelefone(context, _contatos),
                               ),
                             ),
                           ),
@@ -546,14 +572,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  // ListView.builder(
-                  //   itemBuilder:
-                  // (BuildContext context, int index) => const Card(
-                  //     child: ListTile(
-                  //       title: Text('numero do telefone'),
-                  //     ),
-                  //   ),
-                  // ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _contatos.length,
+                    itemBuilder: (BuildContext context, int index) => Card(
+                      child: ListTile(
+                        title: Text('( ' +
+                            _contatos[index].ddd +
+                            ') ' +
+                            _contatos[index].telefone),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -582,13 +612,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Icons.add,
                                   color: AppStyle.colorWhite,
                                 ),
-                                onTap: () => _inputEndereco(context),
+                                onTap: () =>
+                                    _inputEndereco(context, _enderecos),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ],
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _enderecos.length,
+                    itemBuilder: (BuildContext context, int index) => Card(
+                      child: ListTile(
+                        title: Text(_enderecos[index].rua +
+                            ',' +
+                            _enderecos[index].numero.toString()),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -609,6 +651,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () => _formKey.currentState.validate()
                           ? _onUpdateButtonPressed()
                           : null,
+                    ),
+                  ),
+                  SizedBox(
+                    child: FlatButton(
+                      color: Colors.red,
+                      child: Container(
+                        child: const Text(
+                          'Vazar',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppStyle.colorWhite,
+                          ),
+                        ),
+                      ),
+                      onPressed: () => {
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .add(LoggedOut())
+                      },
                     ),
                   ),
                 ],
