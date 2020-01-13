@@ -12,7 +12,6 @@ import 'package:miaudota_app/utils/style.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UsuarioRepository();
