@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _inputTelefone(
-      BuildContext context, List<ContatosModel> contatos) async {
+      BuildContext context, UserProfile _usuarioBloc) async {
     final GlobalKey<FormState> _dddKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _telefoneKey = GlobalKey<FormState>();
     showDialog<void>(
@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   autovalidate: true,
                   decoration: const InputDecoration(
                     labelText: 'Telefone',
-                    hintText: 'ex. 999876543',
+                    hintText: 'ex. 999876643',
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -123,10 +123,10 @@ class _ProfilePageState extends State<ProfilePage> {
             FlatButton(
               child: const Text('Confirmar'),
               onPressed: () {
-                contatos.add(ContatosModel(
-                  ddd: dddControler.text,
-                  telefone: telefoneControler.text,
-                ));
+                _usuarioBloc.add(
+                  InsertContatoButtonPressed(
+                      ddd: dddControler.text, telefone: telefoneControler.text),
+                );
                 Navigator.of(context).pop();
               },
             ),
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _inputEndereco(
-      BuildContext context, List<EnderecoModel> enderecos) async {
+      BuildContext context, UserProfile _usuarioBloc) async {
     final GlobalKey<FormState> _numeroKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _complementoKey = GlobalKey<FormState>();
     final GlobalKey<FormState> _ruaKey = GlobalKey<FormState>();
@@ -150,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
         return AlertDialog(
           title: const Text('Adicionar novo endereço'),
           content: Container(
-            height: 322,
+            height: 302,
             child: Column(
               children: <Widget>[
                 Row(
@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     SizedBox(
                       width: 70,
-                      height: 80,
+                      height: 72,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: numeroControler,
@@ -177,8 +177,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     SizedBox(
-                      height: 80,
                       width: 140,
+                      height: 72,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: cepControler,
@@ -201,44 +201,52 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: complementoControler,
-                  key: _complementoKey,
-                  autovalidate: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Complemento',
-                    hintText: 'ex. APTO 003',
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 74,
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: complementoControler,
+                    key: _complementoKey,
+                    autovalidate: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Complemento',
+                      hintText: 'ex. APTO 003',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Campo obrigatorio';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Campo obrigatorio';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: ruaControler,
-                  key: _ruaKey,
-                  autovalidate: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Rua',
-                    hintText: 'ex. Rua dos perdidos',
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 74,
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: ruaControler,
+                    key: _ruaKey,
+                    autovalidate: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Rua',
+                      hintText: 'ex. Rua dos perdidos',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Campo obrigatorio';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Campo obrigatorio';
-                    }
-                    return null;
-                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
                       width: 150,
-                      height: 80,
+                      height: 65,
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         controller: cidadeControler,
@@ -257,8 +265,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     SizedBox(
-                      height: 80,
                       width: 60,
+                      height: 65,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: estadoControler,
@@ -294,14 +302,16 @@ class _ProfilePageState extends State<ProfilePage> {
             FlatButton(
               child: const Text('Confirmar'),
               onPressed: () {
-                enderecos.add(EnderecoModel(
-                  cep: cepControler.text,
-                  rua: ruaControler.text,
-                  cidade: cidadeControler.text,
-                  estado: estadoControler.text,
-                  numero: numeroControler.text,
-                  complemento: complementoControler.text,
-                ));
+                _usuarioBloc.add(
+                  InsertEnderecoButtonPressed(
+                    cep: cepControler.text,
+                    cidade: cidadeControler.text,
+                    complemento: complementoControler.text,
+                    estado: estadoControler.text,
+                    numero: numeroControler.text,
+                    rua: ruaControler.text,
+                  ),
+                );
                 Navigator.of(context).pop();
               },
             ),
@@ -352,25 +362,28 @@ class _ProfilePageState extends State<ProfilePage> {
       child: BlocBuilder(
         bloc: _usuarioBloc,
         builder: (context, state) {
+          List<ContatosModel> _contatos =
+              state != UserProfileLoaded || state != UserProfileModified
+                  ? []
+                  : state.contatos;
+
+          List<EnderecoModel> _enderecos =
+              state != UserProfileLoaded || state != UserProfileModified
+                  ? []
+                  : state.enderecos;
+
           if (state is UserProfileInitial) {
             _usuarioBloc.add(const LoadUserInformations());
           }
           if (state is UserProfileLoaded) {
             final UsuarioModel usuario = state.usuario;
+            _contatos = state.contatos;
+            _enderecos = state.enderecos;
             _image = usuario.foto;
             nomeControler.text = usuario.nome;
             emailControler.text = usuario.email;
             senhaControler.text = usuario.password;
           }
-          final List<ContatosModel> _contatos =
-              state != UserProfileLoaded || state != UserProfileModified
-                  ? []
-                  : state.contatos;
-
-          final List<EnderecoModel> _enderecos =
-              state != UserProfileLoaded || state != UserProfileModified
-                  ? []
-                  : state.enderecos;
 
           return Scaffold(
             appBar: AppBar(
@@ -564,7 +577,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Icons.add,
                                   color: AppStyle.colorWhite,
                                 ),
-                                onTap: () => _inputTelefone(context, _contatos),
+                                onTap: () =>
+                                    _inputTelefone(context, _usuarioBloc),
                               ),
                             ),
                           ),
@@ -613,7 +627,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   color: AppStyle.colorWhite,
                                 ),
                                 onTap: () =>
-                                    _inputEndereco(context, _enderecos),
+                                    _inputEndereco(context, _usuarioBloc),
                               ),
                             ),
                           ),
@@ -627,7 +641,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     itemBuilder: (BuildContext context, int index) => Card(
                       child: ListTile(
                         title: Text(_enderecos[index].rua +
-                            ',' +
+                            ', ' +
                             _enderecos[index].numero.toString()),
                       ),
                     ),

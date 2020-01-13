@@ -24,10 +24,10 @@ class EnderecoModel {
         rua: json['rua'] ?? json['rua'],
         cidade: json['cidade'] ?? json['cidade'],
         estado: json['estado'] ?? json['estado'],
-        numero: json['numero'] ?? json['numero'],
+        numero: json['numero'].toString() ?? json['numero'].toString(),
         complemento: json['complemento'] ?? json['complemento'],
-        id: json['id'] ?? json['id'],
-        usuarioId: json['usuarioId'] ?? json['usuarioId'],
+        id: json['id'].toString() ?? json['id'].toString(),
+        usuarioId: json['usuarioId'].toString() ?? json['usuarioId'].toString(),
       );
 
   EnderecoModel copyWith({
@@ -76,6 +76,6 @@ class EnderecoModel {
   static List<EnderecoModel> fromJsonList(List _jsonList) => _jsonList == null
       ? []
       : _jsonList
-          .map((contatoJson) => EnderecoModel.fromJson(contatoJson))
+          .map((contatoJson) => EnderecoModel.fromMap(contatoJson))
           .toList();
 }

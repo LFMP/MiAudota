@@ -168,12 +168,38 @@ class UsuarioRepository extends Repository {
         return ContatosModel.fromJsonList(body);
       } else {
         print('[GET contatos failed]');
-        print(body);
+        print(body.toString());
         return [];
       }
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<bool> postContato({
+    @required String ddd,
+    @required String telefone,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http
+          .post(Repository.API_CONTATOS.replaceFirst('\$', userId), headers: {
+        HttpHeaders.authorizationHeader: token
+      }, body: {
+        'ddd': ddd,
+        'telefone': telefone,
+      });
+      if (response.statusCode == 200) {
+        print('[Post contato sucess]');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
@@ -198,6 +224,40 @@ class UsuarioRepository extends Repository {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<bool> postEndereco({
+    @required String cep,
+    @required String rua,
+    @required String cidade,
+    @required String estado,
+    @required String numero,
+    @required String complemento,
+  }) async {
+    final token = await storage.read(key: 'token');
+    final userId = await storage.read(key: 'userId');
+    try {
+      final response = await http
+          .post(Repository.API_ENDERECOS.replaceFirst('\$', userId), headers: {
+        HttpHeaders.authorizationHeader: token
+      }, body: {
+        'cep': cep,
+        'rua': rua,
+        'cidade': cidade,
+        'estado': estado,
+        'numero': numero,
+        'complemento': complemento,
+      });
+      if (response.statusCode == 200) {
+        print('[Post contato sucess]');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 

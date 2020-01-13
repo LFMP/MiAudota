@@ -34,3 +34,35 @@ class LoadUserInformations extends UpdateUserEvent {
   @override
   List<Object> get props => [];
 }
+
+class InsertContatoButtonPressed extends UpdateUserEvent {
+  const InsertContatoButtonPressed({
+    @required this.ddd,
+    @required this.telefone,
+  }) : super();
+  final String ddd;
+  final String telefone;
+  @override
+  List<Object> get props => [ddd, telefone];
+}
+
+class InsertEnderecoButtonPressed extends UpdateUserEvent {
+  const InsertEnderecoButtonPressed({
+    @required this.cep,
+    @required this.rua,
+    @required this.cidade,
+    @required this.estado,
+    @required this.numero,
+    @required this.complemento,
+  }) : super();
+
+  final String cep;
+  final String rua;
+  final String cidade;
+  final String estado;
+  final String numero;
+  final String complemento;
+
+  @override
+  List<Object> get props => [];
+}

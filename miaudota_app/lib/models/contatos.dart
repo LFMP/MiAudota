@@ -9,10 +9,10 @@ class ContatosModel {
   });
 
   factory ContatosModel.fromMap(Map<String, dynamic> json) => ContatosModel(
-        ddd: json['ddd'] ?? json['ddd'],
+        ddd: json['ddd'].toString() ?? json['ddd'].toString(),
         telefone: json['telefone'] ?? json['telefone'],
-        id: json['id'] ?? json['id'],
-        usuarioId: json['usuarioId'] ?? json['usuarioId'],
+        id: json['id'].toString() ?? json['id'].toString(),
+        usuarioId: json['usuarioId'].toString() ?? json['usuarioId'].toString(),
       );
 
   factory ContatosModel.fromJson(String str) =>
@@ -47,6 +47,6 @@ class ContatosModel {
   static List<ContatosModel> fromJsonList(List _jsonList) => _jsonList == null
       ? []
       : _jsonList
-          .map((contatoJson) => ContatosModel.fromJson(contatoJson))
+          .map((contatoJson) => ContatosModel.fromMap(contatoJson))
           .toList();
 }

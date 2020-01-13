@@ -42,5 +42,34 @@ class UserProfile extends Bloc<UpdateUserEvent, UserProfileState> {
           await userRepository.getEnderecos(usuarioId: usuario.id);
       yield UserProfileLoaded(usuario, contatos, enderecos);
     }
+
+    if (event is InsertContatoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.postContato(
+          ddd: event.ddd,
+          telefone: event.telefone,
+        );
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
+    if (event is InsertEnderecoButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.postEndereco(
+          cep: event.cep,
+          cidade: event.cidade,
+          complemento: event.complemento,
+          estado: event.estado,
+          numero: event.numero,
+          rua: event.rua,
+        );
+        yield const UserProfileInitial(null);
+      } catch (e) {
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
   }
 }
