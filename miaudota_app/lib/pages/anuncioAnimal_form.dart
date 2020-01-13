@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-class AnuncioPage extends StatelessWidget {  // StatelessWidget é um Widget que não armazena dados)
+class AnuncioAnimalPage extends StatelessWidget {  // StatelessWidget é um Widget que não armazena dados)
   final titleController = TextEditingController();
-  final descController = TextEditingController();
+  final racaController = TextEditingController();
+  final idadeController = TextEditingController();
   final photoController = TextEditingController();
-  final dateController = TextEditingController();
-  final qtdController = TextEditingController();
-  final qtdatualController = TextEditingController();
-   @override
+  final sexoController = TextEditingController();
+  final porteController = TextEditingController();
+  final descController = TextEditingController();
+
+  @override
    
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +48,31 @@ class AnuncioPage extends StatelessWidget {  // StatelessWidget é um Widget que
             controller: descController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              labelText: 'Descrição',
+              labelStyle: TextStyle(
+                color: AppStyle.colorCyanNineHundred,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+            validator: (value) {
+                if (value.isEmpty) {
+                  return 'O campo não pode ser vazio';
+                }
+                return null;
+              },
+            style: TextStyle(
+              fontSize: 20,
+              color: AppStyle.colorCyanEightHundred,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: racaController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
               labelText: 'Raça',
               labelStyle: TextStyle(
                 color: AppStyle.colorCyanNineHundred,
@@ -68,8 +95,8 @@ class AnuncioPage extends StatelessWidget {  // StatelessWidget é um Widget que
             height: 10,
           ),
           TextFormField(
-            controller: dateController,
-            keyboardType: TextInputType.text,
+            controller: idadeController,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: 'Idade',
               labelStyle: TextStyle(
@@ -93,7 +120,7 @@ class AnuncioPage extends StatelessWidget {  // StatelessWidget é um Widget que
             height: 10,
           ),
           TextFormField(
-            controller: qtdController,
+            controller: sexoController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: 'Sexo',
@@ -118,7 +145,7 @@ class AnuncioPage extends StatelessWidget {  // StatelessWidget é um Widget que
             height: 10,
           ),
           TextFormField(
-            controller: qtdatualController,
+            controller: porteController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: 'Porte',
