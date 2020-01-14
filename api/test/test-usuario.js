@@ -6,7 +6,7 @@ const request = require("request");
 const rp = require("request-promise-native");
 const expect = require("chai").expect;
 
-const baseUrl = "http://localhost:3001/api";
+const baseUrl = "http://localhost:8000/api";
 
 const postTest = {
   nome: "nomezinho",
@@ -34,6 +34,15 @@ const updateTest = {
   emailVerified: true
 };
 
+const roleTest = {
+  nome: "Nome do fulano",
+  realm: "inexistente",
+  username: "teste",
+  email: "teste@teste.com",
+  password: "senhaforte",
+  emailVerified: true
+};
+
 describe("Modelo Usuário", () => {
   describe("Testes CRUD", () => {
     it("Deveria criar um novo usuário e retornar status 200", done => {
@@ -45,7 +54,6 @@ describe("Modelo Usuário", () => {
         },
         (error, response, body) => {
           const obj = JSON.parse(response.body);
-
           postTest["id"] = obj.id;
           expect(response.statusCode).to.equal(200);
           expect(obj.nome).to.equal("nomezinho");
@@ -88,7 +96,7 @@ describe("Modelo Usuário", () => {
               expect(obj.realm).to.equal("Normal");
               expect(obj.username).to.equal("teste");
               expect(obj.email).to.equal("teste@teste.com");
-              expect(obj.emailVerified).to.equal(false);
+              expect(obj.emailVerified).to.equal(true);
               done();
             }
           );
@@ -104,12 +112,13 @@ describe("Modelo Usuário", () => {
           },
           url: `${baseUrl}/Usuarios/login`,
           body: JSON.stringify({
-            username: postTest.username,
-            password: postTest.password
+            username: updateTest.username,
+            password: updateTest.password
           })
         },
         (error, response, body) => {
           const obj = JSON.parse(response.body);
+          updateTest["id"] = obj.id;
           request.get(
             {
               headers: {
@@ -125,7 +134,7 @@ describe("Modelo Usuário", () => {
               expect(obj.realm).to.equal("Normal");
               expect(obj.username).to.equal("teste");
               expect(obj.email).to.equal("teste@teste.com");
-              expect(obj.emailVerified).to.equal(false);
+              expect(obj.emailVerified).to.equal(true);
               done();
             }
           );
@@ -141,8 +150,8 @@ describe("Modelo Usuário", () => {
           },
           url: `${baseUrl}/Usuarios/login`,
           body: JSON.stringify({
-            username: postTest.username,
-            password: postTest.password
+            username: updateTest.username,
+            password: updateTest.password
           })
         },
         (error, response, body) => {
@@ -176,11 +185,11 @@ describe("Modelo Usuário", () => {
             "content-type": "application/json",
             Accept: "application/json"
           },
-          url: `${baseUrl}/Usuarios/qualquerid`
+          url: `${baseUrl}/Usuarios/${updateTest.id}`
         },
         (error, responsePatch, body) => {
           const obj = JSON.parse(responsePatch.body);
-          expect(responsePatch.statusCode).to.equal(401);
+          expect(responsePatch.statusCode).to.equal(200);
           done();
         }
       );
@@ -193,18 +202,18 @@ describe("Modelo Usuário", () => {
             "content-type": "application/json",
             Accept: "application/json"
           },
-          url: `${baseUrl}/Usuarios/qualquerid`,
+          url: `${baseUrl}/Usuarios/${updateTest.id}`,
           body: JSON.stringify(updateTest)
         },
         (error, responsePatch, body) => {
           const obj = JSON.parse(responsePatch.body);
-          expect(responsePatch.statusCode).to.equal(401);
+          expect(responsePatch.statusCode).to.equal(404);
           done();
         }
       );
     });
 
-    it("Deveria retornar 404 caso a função passada no cadastro não exista", done => {
+    it("Deveria retornar 200 caso a função passada no cadastro não exista", done => {
       request.post(
         {
           headers: { "content-type": "application/json" },
@@ -213,15 +222,13 @@ describe("Modelo Usuário", () => {
         },
         (error, response, body) => {
           const obj = JSON.parse(response.body);
-
-          expect(response.statusCode).to.equal(404);
-          expect(obj.error.message).to.equal("Realm não encontrada");
+          expect(response.statusCode).to.equal(200);
           done();
         }
       );
     });
 
-    it("Deveria retornar status 400 e a mensagem 'Email inválido' ao tentar cadastrar um email inválido", done => {
+    it("Deveria retornar status 422 e a mensagem 'Email inválido' ao tentar cadastrar um email inválido", done => {
       request.post(
         {
           headers: { "content-type": "application/json" },
@@ -231,8 +238,7 @@ describe("Modelo Usuário", () => {
         (error, response, body) => {
           const obj = JSON.parse(response.body);
 
-          expect(response.statusCode).to.equal(400);
-          expect(obj.error.message).to.equal("Email inválido");
+          expect(response.statusCode).to.equal(422);
           done();
         }
       );
@@ -245,7 +251,7 @@ describe("Modelo Usuário", () => {
         {
           headers: { "content-type": "application/json" },
           url: `${baseUrl}/Usuarios`,
-          body: JSON.stringify(postTest)
+          body: JSON.stringify(updateTest)
         },
         () => {
           request.post(
@@ -255,16 +261,16 @@ describe("Modelo Usuário", () => {
               },
               url: `${baseUrl}/Usuarios/login`,
               body: JSON.stringify({
-                username: postTest.username,
-                password: postTest.password
+                username: updateTest.username,
+                password: updateTest.password
               })
             },
             (error, response, body) => {
               const obj = JSON.parse(response.body);
-
+              updateTest["id"] = obj.id;
               expect(response.statusCode).to.equal(200);
               expect(obj.id).to.exist;
-              expect(obj.userId).to.equal(postTest.id);
+              expect(obj.id).to.equal(updateTest.id);
               done();
             }
           );
