@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:miaudota_app/blocs/authentication.dart';
 import 'package:miaudota_app/blocs/events/authentication.dart';
 import 'package:miaudota_app/blocs/events/usuario.dart';
@@ -690,6 +692,9 @@ class _ProfilePageState extends State<ProfilePage> {
             senhaControler.text = usuario.password;
           }
 
+          if (state is UserProfileModified) {
+            _usuarioBloc.add(const LoadUserInformations());
+          }
           if (state is UserProfileDeleted) {
             BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
           }
@@ -706,374 +711,386 @@ class _ProfilePageState extends State<ProfilePage> {
               centerTitle: true,
               backgroundColor: AppStyle.colorCyan,
             ),
-            body: Container(
-              color: AppStyle.colorWhite,
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: ListView(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 200,
-                    height: 200,
-                    alignment: const Alignment(0.0, 1.15),
-                    child: Container(
-                      child: CircleAvatar(
-                        radius: 100,
-                        backgroundImage: _image == null
-                            ? const AssetImage('assets/profile-picture.png')
-                            : MemoryImage(base64Decode(_image)),
-                        child: IconButton(
-                          padding: const EdgeInsets.only(top: 140),
-                          iconSize: 40,
-                          color: AppStyle.colorWhite,
-                          icon: const Icon(Icons.add_box),
-                          onPressed: () => setUserImage(),
-                        ),
-                      ),
+            body: state is UserProfileLoading
+                ? Center(
+                    child: Loading(
+                      indicator: BallPulseIndicator(),
+                      size: 100.0,
+                      color: AppStyle.colorCyan,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        children: const <Widget>[
-                          Text(
-                            'Informações pessoais',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerRight,
+                  )
+                : Container(
+                    color: AppStyle.colorWhite,
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: ListView(
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 200,
+                          height: 200,
+                          alignment: const Alignment(0.0, 1.15),
+                          child: Container(
                             child: CircleAvatar(
-                              backgroundColor: AppStyle.colorCyan,
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: AppStyle.colorWhite,
-                                ),
-                                onTap: () => setState(() {
-                                  _status = !_status;
-                                }),
+                              radius: 100,
+                              backgroundImage: _image == null
+                                  ? const AssetImage(
+                                      'assets/profile-picture.png')
+                                  : MemoryImage(base64Decode(_image)),
+                              child: IconButton(
+                                padding: const EdgeInsets.only(top: 140),
+                                iconSize: 40,
+                                color: AppStyle.colorWhite,
+                                icon: const Icon(Icons.add_box),
+                                onPressed: () => setUserImage(),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          enabled: _status,
-                          keyboardType: TextInputType.text,
-                          controller: nomeControler,
-                          autovalidate: true,
-                          decoration: InputDecoration(
-                            labelText: 'Nome completo',
-                            labelStyle: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Informações pessoais',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: AppStyle.colorBlack,
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'O campo não pode ser vazio';
-                            }
-                            return null;
-                          },
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: CircleAvatar(
+                                    backgroundColor: AppStyle.colorCyan,
+                                    child: GestureDetector(
+                                      child: const Icon(
+                                        Icons.edit,
+                                        color: AppStyle.colorWhite,
+                                      ),
+                                      onTap: () => setState(() {
+                                        _status = !_status;
+                                      }),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
-                          enabled: _status,
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailControler,
-                          autovalidate: true,
-                          decoration: InputDecoration(
-                            labelText: 'E-mail',
-                            labelStyle: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                            ),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                enabled: _status,
+                                keyboardType: TextInputType.text,
+                                controller: nomeControler,
+                                autovalidate: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Nome completo',
+                                  labelStyle: TextStyle(
+                                    color: Colors.black45,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppStyle.colorBlack,
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'O campo não pode ser vazio';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextFormField(
+                                enabled: _status,
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailControler,
+                                autovalidate: true,
+                                decoration: InputDecoration(
+                                  labelText: 'E-mail',
+                                  labelStyle: TextStyle(
+                                    color: Colors.black45,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppStyle.colorBlack,
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'O campo não pode ser vazio';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                enabled: _status,
+                                obscureText: true,
+                                keyboardType: TextInputType.text,
+                                controller: senhaControler,
+                                autovalidate: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Senha',
+                                  labelStyle: TextStyle(
+                                    color: Colors.black45,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppStyle.colorBlack,
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'O campo não pode ser vazio';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
                           ),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: AppStyle.colorBlack,
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'O campo não pode ser vazio';
-                            }
-                            return null;
-                          },
                         ),
-                        TextFormField(
-                          enabled: _status,
-                          obscureText: true,
-                          keyboardType: TextInputType.text,
-                          controller: senhaControler,
-                          autovalidate: true,
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
-                            labelStyle: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Telefones',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: CircleAvatar(
+                                    backgroundColor: AppStyle.colorCyan,
+                                    child: GestureDetector(
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: AppStyle.colorWhite,
+                                      ),
+                                      onTap: () =>
+                                          _inputTelefone(context, _usuarioBloc),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _contatos.length,
+                          primary: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Card(
+                            child: ListTile(
+                              onTap: () => _editTelefone(
+                                context,
+                                _usuarioBloc,
+                                _contatos[index].ddd,
+                                _contatos[index].telefone,
+                                _contatos[index].id,
+                              ),
+                              trailing: IconButton(
+                                color: Colors.red,
+                                onPressed: () => _usuarioBloc.add(
+                                  DeleteContatoButtonPressed(
+                                      id: _contatos[index].id),
+                                ),
+                                icon: Icon(Icons.delete_forever),
+                                iconSize: 40,
+                              ),
+                              title: Text('( ' +
+                                  _contatos[index].ddd +
+                                  ' ) ' +
+                                  _contatos[index].telefone),
                             ),
                           ),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: AppStyle.colorBlack,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Endereços',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: CircleAvatar(
+                                    backgroundColor: AppStyle.colorCyan,
+                                    child: GestureDetector(
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: AppStyle.colorWhite,
+                                      ),
+                                      onTap: () =>
+                                          _inputEndereco(context, _usuarioBloc),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: true,
+                          itemCount: _enderecos.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Card(
+                            child: ListTile(
+                              onTap: () => _editEndereco(
+                                context,
+                                _usuarioBloc,
+                                EnderecoModel(
+                                  cep: _enderecos[index].cep,
+                                  rua: _enderecos[index].rua,
+                                  cidade: _enderecos[index].cidade,
+                                  estado: _enderecos[index].estado,
+                                  numero: _enderecos[index].numero.toString(),
+                                  complemento: _enderecos[index].complemento,
+                                  id: _enderecos[index].id,
+                                  usuarioId: _enderecos[index].usuarioId,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                color: Colors.red,
+                                onPressed: () => _usuarioBloc.add(
+                                  DeleteEnderecoButtonPressed(
+                                      id: _enderecos[index].id),
+                                ),
+                                icon: Icon(Icons.delete_forever),
+                                iconSize: 40,
+                              ),
+                              title: Text(_enderecos[index].rua +
+                                  ', ' +
+                                  _enderecos[index].numero.toString()),
+                              subtitle: Text(_enderecos[index].cep),
+                            ),
                           ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'O campo não pode ser vazio';
-                            }
-                            return null;
-                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          child: FlatButton(
+                            color: AppStyle.colorCyanEightHundred,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: const BorderSide(
+                                  color: AppStyle.colorCyanEightHundred),
+                            ),
+                            child: Container(
+                              child: const Text(
+                                'Atualizar',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: AppStyle.colorWhite,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => _formKey.currentState.validate()
+                                ? _onUpdateButtonPressed()
+                                : null,
+                          ),
+                        ),
+                        SizedBox(
+                          child: FlatButton(
+                            color: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.orange),
+                            ),
+                            child: Container(
+                              child: const Text(
+                                'Sair',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: AppStyle.colorWhite,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => {
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(LoggedOut())
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          child: FlatButton(
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red),
+                            ),
+                            child: Container(
+                              child: const Text(
+                                'Excluir perfil',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: AppStyle.colorWhite,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => {
+                              _usuarioBloc.add(
+                                const DeleteUserButtonPressed(),
+                              ),
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        children: const <Widget>[
-                          Text(
-                            'Telefones',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: CircleAvatar(
-                              backgroundColor: AppStyle.colorCyan,
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.add,
-                                  color: AppStyle.colorWhite,
-                                ),
-                                onTap: () =>
-                                    _inputTelefone(context, _usuarioBloc),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _contatos.length,
-                    primary: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) => Card(
-                      child: ListTile(
-                        onTap: () => _editTelefone(
-                          context,
-                          _usuarioBloc,
-                          _contatos[index].ddd,
-                          _contatos[index].telefone,
-                          _contatos[index].id,
-                        ),
-                        trailing: IconButton(
-                          color: Colors.red,
-                          onPressed: () => _usuarioBloc.add(
-                            DeleteContatoButtonPressed(id: _contatos[index].id),
-                          ),
-                          icon: Icon(Icons.delete_forever),
-                          iconSize: 40,
-                        ),
-                        title: Text('( ' +
-                            _contatos[index].ddd +
-                            ' ) ' +
-                            _contatos[index].telefone),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        children: const <Widget>[
-                          Text(
-                            'Endereços',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: CircleAvatar(
-                              backgroundColor: AppStyle.colorCyan,
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.add,
-                                  color: AppStyle.colorWhite,
-                                ),
-                                onTap: () =>
-                                    _inputEndereco(context, _usuarioBloc),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    primary: true,
-                    itemCount: _enderecos.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) => Card(
-                      child: ListTile(
-                        onTap: () => _editEndereco(
-                          context,
-                          _usuarioBloc,
-                          EnderecoModel(
-                            cep: _enderecos[index].cep,
-                            rua: _enderecos[index].rua,
-                            cidade: _enderecos[index].cidade,
-                            estado: _enderecos[index].estado,
-                            numero: _enderecos[index].numero.toString(),
-                            complemento: _enderecos[index].complemento,
-                            id: _enderecos[index].id,
-                            usuarioId: _enderecos[index].usuarioId,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          color: Colors.red,
-                          onPressed: () => _usuarioBloc.add(
-                            DeleteEnderecoButtonPressed(
-                                id: _enderecos[index].id),
-                          ),
-                          icon: Icon(Icons.delete_forever),
-                          iconSize: 40,
-                        ),
-                        title: Text(_enderecos[index].rua +
-                            ', ' +
-                            _enderecos[index].numero.toString()),
-                        subtitle: Text(_enderecos[index].cep),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    child: FlatButton(
-                      color: AppStyle.colorCyanEightHundred,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: const BorderSide(
-                            color: AppStyle.colorCyanEightHundred),
-                      ),
-                      child: Container(
-                        child: const Text(
-                          'Atualizar',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: AppStyle.colorWhite,
-                          ),
-                        ),
-                      ),
-                      onPressed: () => _formKey.currentState.validate()
-                          ? _onUpdateButtonPressed()
-                          : null,
-                    ),
-                  ),
-                  SizedBox(
-                    child: FlatButton(
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.orange),
-                      ),
-                      child: Container(
-                        child: const Text(
-                          'Sair',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: AppStyle.colorWhite,
-                          ),
-                        ),
-                      ),
-                      onPressed: () => {
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(LoggedOut())
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    child: FlatButton(
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.red),
-                      ),
-                      child: Container(
-                        child: const Text(
-                          'Excluir perfil',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: AppStyle.colorWhite,
-                          ),
-                        ),
-                      ),
-                      onPressed: () => {
-                        _usuarioBloc.add(
-                          const DeleteUserButtonPressed(),
-                        ),
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
           );
         },
       ),

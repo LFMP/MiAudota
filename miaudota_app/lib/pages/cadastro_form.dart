@@ -2,6 +2,8 @@ import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:miaudota_app/blocs/events/signup.dart';
 import 'package:miaudota_app/blocs/signup.dart';
 import 'package:miaudota_app/blocs/states/signup.dart';
@@ -71,7 +73,7 @@ class PessoaFisica extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
                 }
-                if(value.length < 4 || value.length > 8){
+                if (value.length < 4 || value.length > 8) {
                   return 'username deve conter  de 4 a 8 caracteres';
                 }
                 return null;
@@ -109,7 +111,7 @@ class PessoaFisica extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
                 }
-                if(value.length < 7 || value.length > 30){
+                if (value.length < 7 || value.length > 30) {
                   return 'Nome deve conter de 7 a 30 caracteres';
                 }
                 return null;
@@ -219,7 +221,7 @@ class PessoaFisica extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
                 }
-                if(value.length < 6 || value.length > 16){
+                if (value.length < 6 || value.length > 16) {
                   return 'Senha deve conter de 6 a 16 caracteres';
                 }
                 return null;
@@ -579,12 +581,20 @@ class CadastroForm extends StatelessWidget {
                   ],
                 ),
               ),
-              body: TabBarView(
-                children: <Widget>[
-                  PessoaFisica(),
-                  PessoaJuridica(),
-                ],
-              ),
+              body: state is SignUPLoading
+                  ? Center(
+                      child: Loading(
+                        indicator: BallSpinFadeLoaderIndicator(),
+                        size: 100.0,
+                        color: AppStyle.colorCyan,
+                      ),
+                    )
+                  : TabBarView(
+                      children: <Widget>[
+                        PessoaFisica(),
+                        PessoaJuridica(),
+                      ],
+                    ),
             ),
           );
         },

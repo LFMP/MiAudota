@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading/indicator/line_scale_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:miaudota_app/blocs/events/login.dart';
 import 'package:miaudota_app/blocs/login.dart';
 import 'package:miaudota_app/blocs/states/login.dart';
@@ -173,7 +175,13 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   Container(
                     child: state is LoginLoading
-                        ? const CircularProgressIndicator()
+                        ? Center(
+                            child: Loading(
+                              indicator: LineScaleIndicator(),
+                              size: 100.0,
+                              color: AppStyle.colorWhite,
+                            ),
+                          )
                         : null,
                   ),
                 ],
