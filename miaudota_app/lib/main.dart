@@ -68,7 +68,7 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return AjudaPage();
+            return AjudaCadastro();
             //   return BlocProvider<UserProfile>(
             //     builder: (context) => UserProfile(userRepository),
             //     child: ProfilePage(

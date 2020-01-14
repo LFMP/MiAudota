@@ -123,6 +123,77 @@ class AjudaPage extends StatelessWidget {
 class AjudaCadastro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Ajuda com o cadastro',
+            style: TextStyle(
+              color: AppStyle.colorWhite,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () =>
+                Navigator.of(context).pop(), //para voltar para a tela anterior
+            color: AppStyle.colorWhite,
+            icon: Icon(Icons.arrow_back),
+          ),
+        ),
+        body: ListView(
+          children: <Widget>[
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Como realizar o cadastro',
+              style: TextStyle(fontSize: 25, fontStyle: Bold()),
+              textAlign: (TextAlign.center),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Na página inicial do aplicativo, clique no botão cadastrar-se.',
+              style: TextStyle(fontSize: 20),
+              textAlign: (TextAlign.center),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 600,
+              height: 350,
+              child: Image.asset('assets/cadastroTinicial.jpg'),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Após isso você será direcionado para a página de cadastro.\n\nSelecione qual tipo de pessoa você é: Pessoa Física ou Jurídica',
+              style: TextStyle(fontSize: 20),
+              textAlign: (TextAlign.center),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 600,
+              height: 350,
+              child: Image.asset('assets/cadastro.jpg'),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Preencha seus dados nos campos indicados e clique no botão concluir.',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: (TextAlign.center),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+          ],
+        ));
   }
 }
