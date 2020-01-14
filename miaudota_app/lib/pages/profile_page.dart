@@ -71,7 +71,23 @@ class _ProfilePageState extends State<ProfilePage> {
         _image = encoded;
       });
 
-      storage.write(key: 'imagem', value: encoded);
+      await storage.write(key: 'imagem', value: encoded);
+      final String email = await storage.read(key: 'email');
+      final String foto = await storage.read(key: 'imagem');
+      final String nome = await storage.read(key: 'nome');
+      final String password = await storage.read(key: 'password');
+      final String realm = await storage.read(key: 'realm');
+      final String username = await storage.read(key: 'username');
+      _usuarioBloc.add(
+        UpdateUserbuttonPressed(
+          email: email,
+          foto: foto,
+          nome: nome,
+          password: password,
+          realm: realm,
+          username: username,
+        ),
+      );
     }
 
     Future<void> _inputTelefone(

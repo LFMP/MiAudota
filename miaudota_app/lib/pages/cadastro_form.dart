@@ -9,6 +9,7 @@ import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:miaudota_app/widgets/commons/ajuda.dart';
 
 class PessoaFisica extends StatelessWidget {
   final _usernameController = TextEditingController();
@@ -56,6 +57,15 @@ class PessoaFisica extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.help),
+                  color: AppStyle.colorBlack,
+                  onPressed: () => showHelp(context,
+                      campo: 'Username',
+                      texto: 'O campo username (nome de usuario) '
+                          'deve conter de 4 a 8 caracteres '
+                          'e nao pode ser alterado.'),
+                ),
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -82,6 +92,15 @@ class PessoaFisica extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.help),
+                  color: AppStyle.colorBlack,
+                  onPressed: () => showHelp(context,
+                      campo: 'Nome',
+                      texto: 'O campo deve conter o nome completo e '
+                          'deve conter de 7 a 30 caracteres '
+                          'e pode ser alterado posteriormente.'),
+                ),
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -104,6 +123,15 @@ class PessoaFisica extends StatelessWidget {
                   color: AppStyle.colorCyanNineHundred,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.help),
+                  color: AppStyle.colorBlack,
+                  onPressed: () => showHelp(context,
+                      campo: 'CPF',
+                      texto: 'O campo CPF '
+                          'deve conter um CPF valido '
+                          'e nao pode ser alterado.'),
                 ),
               ),
               validator: (value) {
@@ -131,6 +159,15 @@ class PessoaFisica extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.help),
+                  color: AppStyle.colorBlack,
+                  onPressed: () => showHelp(context,
+                      campo: 'E-mail',
+                      texto: 'O campo E-mail '
+                          'deve conter um e-mail valido '
+                          'e nao pode ser alterado.'),
+                ),
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -153,9 +190,19 @@ class PessoaFisica extends StatelessWidget {
             TextFormField(
               controller: _passwordController,
               autovalidate: true,
+              obscureText: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Senha',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.help),
+                  color: AppStyle.colorBlack,
+                  onPressed: () => showHelp(context,
+                      campo: 'Senha',
+                      texto: 'Neste campo uma senha de 6 a 16 '
+                          'caracteres deve ser informada.'
+                          'A senha pode ser alterada posteriormente'),
+                ),
                 labelStyle: TextStyle(
                   color: AppStyle.colorCyanNineHundred,
                   fontWeight: FontWeight.w400,
@@ -263,6 +310,15 @@ class PessoaJuridica extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
                       ),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.help),
+                        color: AppStyle.colorBlack,
+                        onPressed: () => showHelp(context,
+                            campo: 'Username',
+                            texto: 'O campo username (nome de usuario) '
+                                'deve conter de 4 a 8 caracteres '
+                                'e nao pode ser alterado.'),
+                      ),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -289,6 +345,15 @@ class PessoaJuridica extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
                       ),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.help),
+                        color: AppStyle.colorBlack,
+                        onPressed: () => showHelp(context,
+                            campo: 'Razão social',
+                            texto: 'O campo deve conter a razão social e '
+                                'deve conter de 7 a 30 caracteres '
+                                'e pode ser alterado posteriormente.'),
+                      ),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -311,6 +376,15 @@ class PessoaJuridica extends StatelessWidget {
                         color: AppStyle.colorCyanNineHundred,
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.help),
+                        color: AppStyle.colorBlack,
+                        onPressed: () => showHelp(context,
+                            campo: 'CNPJ',
+                            texto: 'O campo CNPJ '
+                                'deve conter um CNPJ valido '
+                                'e nao pode ser alterado.'),
                       ),
                     ),
                     validator: (value) {
@@ -338,6 +412,15 @@ class PessoaJuridica extends StatelessWidget {
                         color: AppStyle.colorCyanNineHundred,
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.help),
+                        color: AppStyle.colorBlack,
+                        onPressed: () => showHelp(context,
+                            campo: 'E-mail',
+                            texto: 'O campo E-mail '
+                                'deve conter um e-mail valido '
+                                'e nao pode ser alterado.'),
                       ),
                     ),
                     validator: (value) {
@@ -367,6 +450,15 @@ class PessoaJuridica extends StatelessWidget {
                         color: AppStyle.colorCyanNineHundred,
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.help),
+                        color: AppStyle.colorBlack,
+                        onPressed: () => showHelp(context,
+                            campo: 'Senha',
+                            texto: 'Neste campo uma senha de 6 a 16 '
+                                'caracteres deve ser informada.'
+                                'A senha pode ser alterada posteriormente'),
                       ),
                     ),
                     validator: (value) {

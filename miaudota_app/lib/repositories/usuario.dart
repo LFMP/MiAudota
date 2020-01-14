@@ -24,8 +24,6 @@ class UsuarioRepository extends Repository {
       );
       final body = json.decode(response?.body);
       if (response.statusCode == 200) {
-        print('[Login sucessfull]');
-        print(body.toString());
         await storage.write(key: 'token', value: body['id']);
         await storage.write(key: 'userId', value: body['userId'].toString());
         await storage.write(key: 'nome', value: body['user']['nome']);
