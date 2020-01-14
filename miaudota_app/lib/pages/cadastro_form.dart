@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miaudota_app/blocs/events/signup.dart';
 import 'package:miaudota_app/blocs/signup.dart';
 import 'package:miaudota_app/blocs/states/signup.dart';
+import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -37,17 +38,17 @@ class PessoaFisica extends StatelessWidget {
     }
 
     return Container(
-      padding: AppStyle.padding,
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
       color: AppStyle.colorWhite,
       child: Form(
         key: _formKey,
         autovalidate: true,
-        onChanged: () => _formKey.currentState.validate(),
         child: ListView(
           children: <Widget>[
             TextFormField(
               controller: _usernameController,
               keyboardType: TextInputType.text,
+              autovalidate: true,
               decoration: InputDecoration(
                 labelText: 'Username',
                 labelStyle: TextStyle(
@@ -72,6 +73,7 @@ class PessoaFisica extends StatelessWidget {
             ),
             TextFormField(
               controller: _nameController,
+              autovalidate: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Nome',
@@ -95,6 +97,7 @@ class PessoaFisica extends StatelessWidget {
             TextFormField(
               controller: _cpfController,
               keyboardType: TextInputType.number,
+              autovalidate: true,
               decoration: InputDecoration(
                 labelText: 'CPF',
                 labelStyle: TextStyle(
@@ -119,6 +122,7 @@ class PessoaFisica extends StatelessWidget {
             ),
             TextFormField(
               controller: _emailController,
+              autovalidate: true,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'E-mail',
@@ -148,6 +152,7 @@ class PessoaFisica extends StatelessWidget {
             ),
             TextFormField(
               controller: _passwordController,
+              autovalidate: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Senha',
@@ -188,7 +193,9 @@ class PessoaFisica extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => _onSignUPButtonPressed(),
+                  onPressed: () => _formKey.currentState.validate()
+                      ? _onSignUPButtonPressed()
+                      : null,
                 ),
               ),
             ),
@@ -239,16 +246,15 @@ class PessoaJuridica extends StatelessWidget {
       child: BlocBuilder<SignUPBloc, SignUPState>(
         builder: (context, state) {
           return Container(
-            padding: AppStyle.padding,
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
             color: AppStyle.colorWhite,
             child: Form(
               key: _formKey,
-              autovalidate: true,
-              onChanged: () => _formKey.currentState.validate(),
               child: ListView(
                 children: <Widget>[
                   TextFormField(
                     controller: _usernameController,
+                    autovalidate: true,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       labelText: 'Username',
@@ -275,6 +281,7 @@ class PessoaJuridica extends StatelessWidget {
                   TextFormField(
                     controller: _nameController,
                     keyboardType: TextInputType.phone,
+                    autovalidate: true,
                     decoration: InputDecoration(
                       labelText: 'Razão social',
                       labelStyle: TextStyle(
@@ -297,6 +304,7 @@ class PessoaJuridica extends StatelessWidget {
                   TextFormField(
                     controller: _cnpjController,
                     keyboardType: TextInputType.number,
+                    autovalidate: true,
                     decoration: InputDecoration(
                       labelText: 'CNPJ',
                       labelStyle: TextStyle(
@@ -323,6 +331,7 @@ class PessoaJuridica extends StatelessWidget {
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    autovalidate: true,
                     decoration: InputDecoration(
                       labelText: 'E-mail',
                       labelStyle: TextStyle(
@@ -336,8 +345,8 @@ class PessoaJuridica extends StatelessWidget {
                         return 'O campo não pode ser vazio';
                       }
                       if (!emailregex.hasMatch(value)) {
-                          return 'Email inválido';
-                        }
+                        return 'Email inválido';
+                      }
                       return null;
                     },
                     style: const TextStyle(
@@ -351,6 +360,7 @@ class PessoaJuridica extends StatelessWidget {
                   TextFormField(
                     controller: _passwordController,
                     keyboardType: TextInputType.text,
+                    autovalidate: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       labelStyle: TextStyle(
@@ -382,7 +392,7 @@ class PessoaJuridica extends StatelessWidget {
                       child: FlatButton(
                         child: Container(
                           child: const Text(
-                            'Próximo',
+                            'Concluir',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -390,7 +400,9 @@ class PessoaJuridica extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () => _onSignUPButtonPressed(),
+                        onPressed: () => _formKey.currentState.validate()
+                            ? _onSignUPButtonPressed()
+                            : null,
                       ),
                     ),
                   ),
@@ -405,43 +417,76 @@ class PessoaJuridica extends StatelessWidget {
 }
 
 class CadastroForm extends StatelessWidget {
+  const CadastroForm({Key key, @required this.userRepository})
+      : assert(userRepository != null),
+        super(key: key);
+  final UsuarioRepository userRepository;
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Informações básicas',
-            style: TextStyle(
-              color: AppStyle.colorWhite,
+    final SignUPBloc _signupBloc = BlocProvider.of<SignUPBloc>(context);
+    return BlocListener<SignUPBloc, SignUPState>(
+      listener: (context, state) {
+        if (state is SignUPFailure) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${state.error}'),
+              backgroundColor: Colors.red,
             ),
-          ),
-          bottom: const TabBar(
-            tabs: <Widget>[
-              Tab(
-                text: 'Pessoa Física',
-                icon: Icon(
-                  Icons.person,
+          );
+        }
+      },
+      child: BlocBuilder(
+        bloc: _signupBloc,
+        builder: (context, state) {
+          if (state is SignUPComplete) {
+            Navigator.of(context).pop();
+          }
+          return DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Informações básicas',
+                  style: TextStyle(
+                    color: AppStyle.colorWhite,
+                  ),
+                ),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
                   color: AppStyle.colorWhite,
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                centerTitle: true,
+                bottom: const TabBar(
+                  labelColor: AppStyle.colorWhite,
+                  tabs: <Widget>[
+                    Tab(
+                      text: 'Pessoa Física',
+                      icon: Icon(
+                        Icons.person,
+                        color: AppStyle.colorWhite,
+                      ),
+                    ),
+                    Tab(
+                      text: 'Pessoa Jurídica',
+                      icon: Icon(
+                        Icons.people,
+                        color: AppStyle.colorWhite,
+                      ),
+                    )
+                  ],
                 ),
               ),
-              Tab(
-                text: 'Pessoa Jurídica',
-                icon: Icon(
-                  Icons.people,
-                  color: AppStyle.colorWhite,
-                ),
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            PessoaFisica(),
-            PessoaJuridica(),
-          ],
-        ),
+              body: TabBarView(
+                children: <Widget>[
+                  PessoaFisica(),
+                  PessoaJuridica(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

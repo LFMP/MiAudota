@@ -674,6 +674,10 @@ class _ProfilePageState extends State<ProfilePage> {
             senhaControler.text = usuario.password;
           }
 
+          if (state is UserProfileDeleted) {
+            BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+          }
+
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -986,7 +990,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: AppStyle.colorCyanEightHundred,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: AppStyle.colorCyanEightHundred),
+                        side: const BorderSide(
+                            color: AppStyle.colorCyanEightHundred),
                       ),
                       child: Container(
                         child: const Text(
@@ -1005,10 +1010,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   SizedBox(
                     child: FlatButton(
-                      color: Colors.red,
+                      color: Colors.orange,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.red),
+                        side: BorderSide(color: Colors.orange),
                       ),
                       child: Container(
                         child: const Text(
@@ -1023,6 +1028,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () => {
                         BlocProvider.of<AuthenticationBloc>(context)
                             .add(LoggedOut())
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    child: FlatButton(
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.red),
+                      ),
+                      child: Container(
+                        child: const Text(
+                          'Excluir perfil',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppStyle.colorWhite,
+                          ),
+                        ),
+                      ),
+                      onPressed: () => {
+                        _usuarioBloc.add(
+                          const DeleteUserButtonPressed(),
+                        ),
                       },
                     ),
                   ),

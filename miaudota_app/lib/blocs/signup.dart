@@ -9,7 +9,7 @@ import 'package:miaudota_app/repositories/usuario.dart';
 class SignUPBloc extends Bloc<SignUPEvent, SignUPState> {
   SignUPBloc({
     @required this.userRepository,
-  })  : assert(userRepository != null);
+  }) : assert(userRepository != null);
 
   final UsuarioRepository userRepository;
 
@@ -39,7 +39,12 @@ class SignUPBloc extends Bloc<SignUPEvent, SignUPState> {
             usuarioId: userID,
           );
         }
-        yield SignUPInitial();
+        if (userID != null) {
+          yield SignUPComplete();
+        } else {
+          yield const SignUPFailure(
+              error: 'Cadastro ja existente com este CPF ou email');
+        }
       } catch (error) {
         yield SignUPFailure(error: error.toString());
       }

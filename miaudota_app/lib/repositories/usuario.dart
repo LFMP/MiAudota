@@ -76,6 +76,7 @@ class UsuarioRepository extends Repository {
         return body['id'].toString();
       } else {
         print('[Sign UP failed]');
+        print(body);
         return null;
       }
     } catch (e) {
@@ -138,6 +139,26 @@ class UsuarioRepository extends Repository {
       return false;
     }
     return true;
+  }
+
+  Future<bool> deleteUsuario() async {
+    final token = await storage.read(key: 'token');
+    final id = await storage.read(key: 'userId');
+    try {
+      final response = await http.delete(Repository.API_USUARIOS + id,
+          headers: {HttpHeaders.authorizationHeader: token});
+      if (response.statusCode == 204) {
+        print('[Delete usuario sucess]');
+        return true;
+      } else {
+        print('[Delete usuario fail]');
+        print(response.body);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
   Future<UsuarioModel> getLocalUsuario() async {
@@ -416,6 +437,7 @@ class UsuarioRepository extends Repository {
 
   Future<void> deleteToken() async {
     await storage.delete(key: 'token');
+    await storage.delete(key: 'imagem');
     return;
   }
 

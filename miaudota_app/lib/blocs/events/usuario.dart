@@ -35,6 +35,12 @@ class LoadUserInformations extends UpdateUserEvent {
   List<Object> get props => [];
 }
 
+class DeleteUserButtonPressed extends UpdateUserEvent {
+  const DeleteUserButtonPressed();
+  @override
+  List<Object> get props => [];
+}
+
 class InsertContatoButtonPressed extends UpdateUserEvent {
   const InsertContatoButtonPressed({
     @required this.ddd,

@@ -12,6 +12,8 @@ class SignUPInitial extends SignUPState {}
 
 class SignUPLoading extends SignUPState {}
 
+class SignUPComplete extends SignUPState {}
+
 class SignUPFailure extends SignUPState {
   const SignUPFailure({@required this.error});
   final String error;

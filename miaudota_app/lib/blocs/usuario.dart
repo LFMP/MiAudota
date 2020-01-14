@@ -121,5 +121,15 @@ class UserProfile extends Bloc<UpdateUserEvent, UserProfileState> {
         yield UserProfileFailure(error: e.toString());
       }
     }
+    if (event is DeleteUserButtonPressed) {
+      yield const UserProfileLoading(null);
+      try {
+        await userRepository.deleteUsuario();
+        yield const UserProfileDeleted(null);
+      } catch (e) {
+        print(e);
+        yield UserProfileFailure(error: e.toString());
+      }
+    }
   }
 }

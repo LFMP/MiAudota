@@ -18,7 +18,7 @@ class UserProfileInitial extends UserProfileState {
 }
 
 class UserProfileLoading extends UserProfileState {
-  const UserProfileLoading(UsuarioModel usuario) : super(usuario, null,null);
+  const UserProfileLoading(UsuarioModel usuario) : super(usuario, null, null);
 }
 
 class UserProfileLoaded extends UserProfileState {
@@ -28,11 +28,15 @@ class UserProfileLoaded extends UserProfileState {
 }
 
 class UserProfileModified extends UserProfileState {
-  const UserProfileModified(UsuarioModel usuario) : super(usuario, null,null);
+  const UserProfileModified(UsuarioModel usuario) : super(usuario, null, null);
+}
+
+class UserProfileDeleted extends UserProfileState {
+  const UserProfileDeleted(UsuarioModel usuario) : super(usuario, null, null);
 }
 
 class UserProfileFailure extends UserProfileState {
-  const UserProfileFailure({@required this.error}) : super(null, null,null);
+  const UserProfileFailure({@required this.error}) : super(null, null, null);
   final String error;
 
   @override
