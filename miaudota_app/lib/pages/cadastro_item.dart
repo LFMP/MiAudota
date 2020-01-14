@@ -127,7 +127,7 @@ class _CadastroItemState extends State<CadastroItem> {
         TextFormField(
           controller: descController,
           keyboardType: TextInputType.text,
-          maxLength: 150,
+          maxLength: 200,
           decoration: InputDecoration(
             labelText: 'Descrição',
             labelStyle: TextStyle(
