@@ -73,7 +73,7 @@ class _AnuncioItemPageState extends State<AnuncioItemPage> {
           ),
           Container(
             child: Text(
-              widget.anuncio.descricao,
+              widget.anuncio.titulo,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: 30, height: 2),
@@ -125,7 +125,32 @@ class _AnuncioItemPageState extends State<AnuncioItemPage> {
                   ),
                 ),
               ),
-              onPressed: () => print("Doado"),
+              onPressed: () => {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Doação realizada!"),
+                      content: Text("Sua doação foi realizada com sucesso."),
+                      actions: [
+                        FlatButton(
+                            child: Text("OK"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                SlideRoute(
+                                  page: HomePage(),
+                                  direction: SlideDirection.RIGHT_LEFT,
+                                ),
+                              );
+                              // Navigator.of(context).pop();
+                            }),
+                      ],
+                    );
+                  },
+                ),
+                widget.anuncio.item.qtdatual -= 1,
+              },
             ),
           ),
         ]).toList(),

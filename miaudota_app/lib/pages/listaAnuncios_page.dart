@@ -68,7 +68,6 @@ class _ListaPageState extends State<ListaPage> {
                 itemCount: anuncios.length,
                 itemBuilder: (context, index) {
                   final anuncio = anuncios[index];
-
                   return Column(
                     children: <Widget>[
                       Container(
@@ -91,14 +90,17 @@ class _ListaPageState extends State<ListaPage> {
                                   FlatButton(
                                     child: const Text('Ver Mais'),
                                     color: AppStyle.colorCyanNineHundred,
-                                    onPressed: () => Navigator.of(context).push(
-                                      SlideRoute(
-                                        page: AnuncioItemPage(
-                                          anuncio: anuncio,
+                                    onPressed: () => {
+                                      Navigator.of(context).push(
+                                        SlideRoute(
+                                          page: AnuncioItemPage(
+                                            anuncio: anuncio,
+                                          ),
+                                          direction: SlideDirection.RIGHT_LEFT,
                                         ),
-                                        direction: SlideDirection.RIGHT_LEFT,
                                       ),
-                                    ),
+                                      bloc.add(AnuncioDelete(item: anuncio))
+                                    },
                                   ),
                                   // IconButton(
                                   //   icon: anuncio.animal.id != null ||
