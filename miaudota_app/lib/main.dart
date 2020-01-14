@@ -68,12 +68,13 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return BlocProvider<UserProfile>(
-              builder: (context) => UserProfile(userRepository),
-              child: ProfilePage(
-                userRepository: userRepository,
-              ),
-            );
+            return CadastroAnimalPage();
+            //HomePage(); //BlocProvider<UserProfile>(
+            //   builder: (context) => UserProfile(userRepository),
+            //   child: ProfilePage(
+            //     userRepository: userRepository,
+            //   ),
+            // );
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);
