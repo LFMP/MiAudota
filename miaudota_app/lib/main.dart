@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:miaudota_app/pages/anuncioAnimal_form.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miaudota_app/blocs/anuncios.dart';
+import 'package:miaudota_app/pages/cadastro_animal.dart';
 import 'package:miaudota_app/pages/home_page.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-void main() => runApp(MiAudota());
+void main() => runApp(BlocProvider<AnuncioBloc>(
+    builder: (context) => AnuncioBloc(), child: MiAudota()));
 
 class MiAudota extends StatelessWidget {
   @override
@@ -15,7 +18,7 @@ class MiAudota extends StatelessWidget {
         primaryColor: AppStyle.colorCyan,
       ),
       home: HomePage(),
-      //AnuncioAnimalPage(),
+      // CadastroAnimalPage(),
     );
   }
 }
