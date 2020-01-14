@@ -84,12 +84,6 @@
       "permission": "ALLOW"
     },
     {
-      "principalType": "ROLE",
-      "principalId": "admin",
-      "permission": "ALLOW",
-      "acessType": "WRITE"
-    },
-    {
       "accessType": "WRITE",
       "principalType": "ROLE",
       "principalId": "admin",

@@ -31,8 +31,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           username: event.username,
           password: event.password,
         );
-        authenticationBloc.add(LoggedIn(token: token));
-        yield LoginInitial();
+        print('token: ' + token);
+        if (token != null) {
+          authenticationBloc.add(LoggedIn(token: token));
+          yield LoginInitial();
+        } else {
+          yield const LoginFailure(error: 'Login invalido');
+        }
       } catch (error) {
         yield LoginFailure(error: error.toString());
       }

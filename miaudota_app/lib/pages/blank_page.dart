@@ -12,6 +12,10 @@ class BlankPage extends StatelessWidget {
             color: AppStyle.colorWhite,
           ),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, true),
+        ),
       ),
     );
   }

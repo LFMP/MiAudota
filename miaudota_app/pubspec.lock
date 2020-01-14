@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  cpf_cnpj_validator:
+    dependency: "direct main"
+    description:
+      name: cpf_cnpj_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   crypto:
     dependency: transitive
     description:
@@ -97,6 +104,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_masked_text:
+    dependency: "direct main"
+    description:
+      name: flutter_masked_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -130,6 +144,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  image_picker:
+    dependency: "direct main"
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.2+1"
   intl:
     dependency: "direct main"
     description:
