@@ -65,7 +65,7 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return Item();
+            return teste();
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);

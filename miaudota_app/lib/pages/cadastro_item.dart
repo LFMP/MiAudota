@@ -8,12 +8,12 @@ import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Item extends StatefulWidget {
+class CadastroItem extends StatefulWidget {
   @override
-  _ItemState createState() => _ItemState();
+  _CadastroItemState createState() => _CadastroItemState();
 }
 
-class _ItemState extends State<Item> {
+class _CadastroItemState extends State<CadastroItem> {
   final titleController = TextEditingController();
 
   final descController = TextEditingController();
@@ -144,7 +144,7 @@ class _ItemState extends State<Item> {
               alignment: Alignment.center,
               child: _imagem == null ? Text('') : Image.file(_imagem),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -167,6 +167,9 @@ class _ItemState extends State<Item> {
                   onPressed: () => print('Cadastrar item'),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
           ],
         ),
