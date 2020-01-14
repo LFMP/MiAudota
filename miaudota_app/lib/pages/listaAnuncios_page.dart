@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/models/anuncios.dart';
-import 'package:miaudota_app/pages/home_page.dart';
+import 'package:miaudota_app/pages/AnuncioItemPage.dart';
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:miaudota_app/repositories/usuario.dart';
 
 class ListaPage extends StatefulWidget {
@@ -75,10 +78,9 @@ class _ListaPageState extends State<ListaPage> {
                             children: <Widget>[
                               ListTile(
                                 leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: NetworkImage(
-                                      'https://pbs.twimg.com/media/DySmEisVYAI0YIb.jpg'),
-                                ),
+                                    radius: 30,
+                                    backgroundImage: MemoryImage(
+                                        base64Decode(anuncio.foto))),
                                 title:
                                     Text(anuncio.titulo, textScaleFactor: 1.5),
                                 subtitle: Text(anuncio.descricao,
@@ -89,16 +91,23 @@ class _ListaPageState extends State<ListaPage> {
                                   FlatButton(
                                     child: const Text('Ver Mais'),
                                     color: AppStyle.colorCyanNineHundred,
-                                    onPressed: () => print('vermais'),
+                                    onPressed: () => Navigator.of(context).push(
+                                      SlideRoute(
+                                        page: AnuncioItemPage(
+                                          anuncio: anuncio,
+                                        ),
+                                        direction: SlideDirection.RIGHT_LEFT,
+                                      ),
+                                    ),
                                   ),
-                                  IconButton(
-                                    icon: anuncio.animal.id != null ||
-                                            anuncio.item.id != null
-                                        ? Icon(Icons.favorite)
-                                        : Icon(Icons.favorite_border),
-                                    color: Colors.red,
-                                    onPressed: null,
-                                  ),
+                                  // IconButton(
+                                  //   icon: anuncio.animal.id != null ||
+                                  //           anuncio.item.id != null
+                                  //       ? Icon(Icons.favorite)
+                                  //       : Icon(Icons.favorite_border),
+                                  //   color: Colors.red,
+                                  //   onPressed: null,
+                                  // ),
                                 ],
                               ),
                             ],

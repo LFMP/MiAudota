@@ -30,12 +30,6 @@ class AjudaPage extends StatelessWidget {
             color: AppStyle.colorWhite,
           ),
         ),
-        leading: IconButton(
-          onPressed: () =>
-              Navigator.of(context).pop(), //para voltar para a tela anterior
-          color: AppStyle.colorWhite,
-          icon: Icon(Icons.arrow_back),
-        ),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,

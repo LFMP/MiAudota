@@ -83,7 +83,7 @@ class MiAudota extends StatelessWidget {
           if (state is AuthenticationAuthenticated) {
             anuncioBloc.add(AnuncioLoad());
             // return CadastroItem();
-            return CadastroAnimalPage();
+            return HomePage();
             //HomePage(); //BlocProvider<UserProfile>(
             //   builder: (context) => UserProfile(userRepository),
             //   child: ProfilePage(

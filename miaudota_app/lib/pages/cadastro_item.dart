@@ -10,6 +10,7 @@ import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/main.dart';
 import 'package:miaudota_app/models/anuncios.dart';
 import 'package:miaudota_app/pages/ajuda_page.dart';
+import 'package:miaudota_app/pages/home_page.dart';
 
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
@@ -67,12 +68,6 @@ class _CadastroItemState extends State<CadastroItem> {
             color: AppStyle.colorWhite,
           ),
         ),
-        leading: IconButton(
-          onPressed: () =>
-              Navigator.of(context).pop(), //para voltar para a tela anterior
-          color: AppStyle.colorWhite,
-          icon: Icon(Icons.arrow_back),
-        ),
         actions: <Widget>[
           IconButton(
             onPressed: () => Navigator.of(context).push(
@@ -102,7 +97,13 @@ class _CadastroItemState extends State<CadastroItem> {
                         child: Text("OK"),
                         onPressed: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            SlideRoute(
+                              page: HomePage(),
+                              direction: SlideDirection.RIGHT_LEFT,
+                            ),
+                          );
+                          // Navigator.of(context).pop();
                         }),
                   ],
                 );
