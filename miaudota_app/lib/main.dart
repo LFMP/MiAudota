@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:miaudota_app/blocs/authentication.dart';
+import 'package:miaudota_app/blocs/events/authentication.dart';
+import 'package:miaudota_app/blocs/states/authentication.dart';
+import 'package:miaudota_app/blocs/usuario.dart';
+import 'package:miaudota_app/pages/login_page.dart';
+import 'package:miaudota_app/pages/profile_page.dart';
+import 'package:miaudota_app/pages/splash_page.dart';
+import 'package:miaudota_app/repositories/usuario.dart';
+import 'package:miaudota_app/utils/loading.dart';
+import 'package:miaudota_app/utils/style.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miaudota_app/blocs/anuncios.dart';
 import 'package:miaudota_app/pages/cadastro_animal.dart';
@@ -17,8 +28,28 @@ class MiAudota extends StatelessWidget {
       theme: ThemeData(
         primaryColor: AppStyle.colorCyan,
       ),
-      home: HomePage(),
-      // CadastroAnimalPage(),
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationUninitialized) {
+            return SplashPage();
+          }
+          if (state is AuthenticationAuthenticated) {
+            return BlocProvider<UserProfile>(
+              builder: (context) => UserProfile(userRepository),
+              child: ProfilePage(
+                userRepository: userRepository,
+              ),
+            );
+          }
+          if (state is AuthenticationUnauthenticated) {
+            return LoginPage(userRepository: userRepository);
+          }
+          if (state is AuthenticationLoading) {
+            return LoadingIndicator();
+          }
+          return LoginPage(userRepository: userRepository);
+        },
+      ),
     );
   }
 }

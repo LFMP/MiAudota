@@ -8,6 +8,9 @@
   "properties": {
     "nome": {
       "type": "string"
+    },
+    "foto": {
+      "type": "string"
     }
   },
   "validations": [],
@@ -69,15 +72,33 @@
     {
       "accessType": "WRITE",
       "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW"
     },
     {
+      "acessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW",
-      "property": "deleteById",
-      "acessType": "EXECUTE"
+      "property": "deleteById"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
     }
   ],
   "methods": {}
