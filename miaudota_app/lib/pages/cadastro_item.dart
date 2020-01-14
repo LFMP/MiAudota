@@ -150,7 +150,7 @@ class _CadastroItemState extends State<CadastroItem> {
         ),
         TextFormField(
           controller: qtdController,
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Quantidade',
             labelStyle: TextStyle(
@@ -216,12 +216,12 @@ class _CadastroItemState extends State<CadastroItem> {
   }
 
   String _validarTitulo(String value) {
-    String patttern = r'(^[a-zA-Z ]*$)';
+    String patttern = r'(^[a-zA-Z1-9 ]*$)';
     RegExp regExp = RegExp(patttern);
     if (value.length == 0) {
       return "Informe o titulo do anuncio";
-    } else if (!regExp.hasMatch(value)) {
-      return "O titulo deve conter caracteres de a-z ou A-Z";
+    } else if (value.length < 5) {
+      return "Título muito curto";
     }
     return null;
   }
@@ -229,7 +229,7 @@ class _CadastroItemState extends State<CadastroItem> {
   String _validarDescricao(String value) {
     if (value.length == 0) {
       return "Informe a descricao";
-    } else if (value.length < 10) {
+    } else if (value.length < 25) {
       return "Descricao muito curta!";
     }
 
@@ -237,14 +237,14 @@ class _CadastroItemState extends State<CadastroItem> {
   }
 
   String _validarQuantidade(String value) {
-    String pattern = r'(^[a-zA-Z1-9]*$)';
-
-    RegExp regExp = new RegExp(pattern);
+    String pattern = r'(^[1-9]*$)';
+    RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return "Informe a quantidade";
-    } else {
-      return null;
+    } else if (!regExp.hasMatch(value)) {
+      return "A quantidade deve conter somente números";
     }
+    return null;
   }
 
   _sendForm() {
