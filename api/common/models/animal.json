@@ -3,9 +3,6 @@
   "plural": "Animais",
   "base": "PersistedModel",
   "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
   "properties": {
     "sexo": {
       "type": "string"
@@ -22,7 +19,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "anuncio": {
+      "type": "belongsTo",
+      "model": "Anuncio",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",
@@ -46,6 +52,12 @@
       "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "admin",
       "permission": "ALLOW"
     }
   ],

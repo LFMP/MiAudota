@@ -15,6 +15,10 @@ import 'package:miaudota_app/utils/loading.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miaudota_app/blocs/anuncios.dart';
+import 'package:miaudota_app/pages/cadastro_animal.dart';
+import 'package:miaudota_app/pages/home_page.dart';
+import 'package:miaudota_app/utils/style.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -56,6 +60,7 @@ class MiAudota extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AnuncioBloc anuncioBloc = AnuncioBloc();
     return MaterialApp(
       title: 'MiAudota',
       debugShowCheckedModeBanner: false,
@@ -68,13 +73,14 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return AjudaPerfil();
-            //   return BlocProvider<UserProfile>(
-            //     builder: (context) => UserProfile(userRepository),
-            //     child: ProfilePage(
-            //       userRepository: userRepository,
-            //     ),
-            //   );
+            anuncioBloc.add(AnuncioLoad());
+            return HomePage();
+            //HomePage(); //BlocProvider<UserProfile>(
+            //   builder: (context) => UserProfile(userRepository),
+            //   child: ProfilePage(
+            //     userRepository: userRepository,
+            //   ),
+            // );
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);

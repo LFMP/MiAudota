@@ -13,6 +13,7 @@
     "mem": "NODE_ENV='mem' DS='miaudota' MAIL='teste@teste.com' MAILPASSWORD='teste' node ."
   },
   "dependencies": {
+    "async": "^3.1.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "helmet": "^3.10.0",

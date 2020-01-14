@@ -7,4 +7,5 @@ class Repository {
   static const API_ENDERECOS = '$API_USUARIOS/\$/enderecos';
   static const API_REPLACE_USER = '$API_USUARIOS/\$/replace';
   static const API_USUARIOS_LOGIN = '$API_USUARIOS/login/?include=user';
+  static const API_ANUNCIOS = '$API_URL/Anuncios';
 }
