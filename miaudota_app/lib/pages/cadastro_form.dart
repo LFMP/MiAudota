@@ -488,7 +488,6 @@ class CadastroForm extends StatelessWidget {
           );
         },
       ),
-    ),
     );
   }
 }

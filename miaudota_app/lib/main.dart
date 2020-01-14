@@ -16,10 +16,44 @@ import 'package:miaudota_app/pages/cadastro_animal.dart';
 import 'package:miaudota_app/pages/home_page.dart';
 import 'package:miaudota_app/utils/style.dart';
 
-void main() => runApp(BlocProvider<AnuncioBloc>(
-    builder: (context) => AnuncioBloc(), child: MiAudota()));
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  final userRepository = UsuarioRepository();
+  runApp(
+    BlocProvider<AuthenticationBloc>(
+      builder: (context) {
+        return AuthenticationBloc(userRepository: userRepository)
+          ..add(AppStarted());
+      },
+      child: MiAudota(userRepository: userRepository),
+    ),
+  );
+}
+
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print(error);
+  }
+}
 
 class MiAudota extends StatelessWidget {
+  const MiAudota({Key key, this.userRepository}) : super(key: key);
+  final UsuarioRepository userRepository;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
