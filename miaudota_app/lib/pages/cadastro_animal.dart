@@ -22,7 +22,7 @@ class _AnimalState extends State<CadastroAnimalPage> {
   File _image;
   final titleController = TextEditingController();
   final racaController = TextEditingController();
-  final idadeController = MaskedTextController(mask: '00');
+  final idadeController = TextEditingController();
   final photoController = TextEditingController();
   final sexoController = TextEditingController();
   final porteController = TextEditingController();
@@ -211,9 +211,9 @@ class _AnimalState extends State<CadastroAnimalPage> {
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'O campo não pode ser vazio';
-                        } else if (value.length < 40) {
-                          return "O campo deve conter valor menor que 40";
-                        }
+                        } //else if (value.length < 40) {
+                        //   return "O campo deve conter valor menor que 40";
+                        // }
                         return null;
                       },
                       style: TextStyle(
@@ -316,27 +316,29 @@ class _AnimalState extends State<CadastroAnimalPage> {
                               ),
                             ),
                             onPressed: () {
-                              // if (_formkey.currentState.validate()) {
-                              Scaffold.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Preencha este campo!'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              final Animal meuAnimal = Animal(
-                                  sexo: sexoController.text,
-                                  raca: racaController.text,
-                                  porte: porteController.text,
-                                  idade: int.parse(idadeController.text));
+                              if (_formkey.currentState.validate()) {
+                                _formkey.currentState.save();
+                                // Scaffold.of(context).showSnackBar(
+                                //   SnackBar(
+                                //     content: Text('Preencha este campo!'),
+                                //     backgroundColor: Colors.red,
+                                //   ),
+                                // );
+                                final Animal meuAnimal = Animal(
+                                    sexo: sexoController.text,
+                                    raca: racaController.text,
+                                    porte: porteController.text,
+                                    idade: int.parse(idadeController.text));
 
-                              Anuncio anuncio = Anuncio(
-                                  animal: meuAnimal,
-                                  titulo: titleController.text,
-                                  descricao: descController.text,
-                                  data: DateTime.now(),
-                                  foto: base64Encode(_image.readAsBytesSync()));
-                              bloc.add(AnuncioCreate(item: anuncio));
-                              // }
+                                Anuncio anuncio = Anuncio(
+                                    animal: meuAnimal,
+                                    titulo: titleController.text,
+                                    descricao: descController.text,
+                                    data: DateTime.now(),
+                                    foto:
+                                        base64Encode(_image.readAsBytesSync()));
+                                bloc.add(AnuncioCreate(item: anuncio));
+                              }
                             }),
                       ),
                     ),
