@@ -71,6 +71,9 @@ class PessoaFisica extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
                 }
+                if(value.length < 4 || value.length > 8){
+                  return 'username deve conter  de 4 a 8 caracteres';
+                }
                 return null;
               },
               style: const TextStyle(
@@ -105,6 +108,9 @@ class PessoaFisica extends StatelessWidget {
               validator: (value) {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
+                }
+                if(value.length < 7 || value.length > 30){
+                  return 'Nome deve conter de 7 a 30 caracteres';
                 }
                 return null;
               },
@@ -212,6 +218,9 @@ class PessoaFisica extends StatelessWidget {
               validator: (value) {
                 if (value.isEmpty) {
                   return 'O campo não pode ser vazio';
+                }
+                if(value.length < 6 || value.length > 16){
+                  return 'Senha deve conter de 6 a 16 caracteres';
                 }
                 return null;
               },
