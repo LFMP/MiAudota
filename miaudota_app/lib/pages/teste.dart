@@ -8,8 +8,8 @@ import 'package:miaudota_app/main.dart';
 import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:flutter/material.dart';
+import 'package:miaudota_app/models/modelo_Item.dart';
 
 void main() => runApp(new teste());
 

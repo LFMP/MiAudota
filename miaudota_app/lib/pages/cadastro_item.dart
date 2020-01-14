@@ -8,8 +8,15 @@ import 'package:miaudota_app/utils/slider.dart';
 import 'package:miaudota_app/utils/style.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:miaudota_app/models/modelo_Item.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroItem extends StatefulWidget {
+  var anuncios_itens = List<Item>();
+
+  CadastroItem() {
+    anuncios_itens = [];
+  }
   @override
   _CadastroItemState createState() => _CadastroItemState();
 }
@@ -39,6 +46,27 @@ class _CadastroItemState extends State<CadastroItem> {
   GlobalKey<FormState> _key = new GlobalKey();
   bool _validate = false;
   String titulo, descricao, quantidade;
+
+  Future load() async {
+    // assincrona porque não recupera as informações em tempo real
+    var prefs = await SharedPreferences.getInstance();
+    var data = prefs.getString('data');
+
+    if (data != null) {
+      Iterable decoded = jsonDecode(data);
+      List<Item> result = decoded
+          .map((x) => Item.fromJson(x))
+          .toList(); //map percorre os itens, essa linha é como um forit
+      setState(() {
+        widget.anuncios_itens = result;
+      });
+    }
+  }
+
+  save() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString('data', jsonEncode(widget.anuncios_itens));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,9 +251,17 @@ class _CadastroItemState extends State<CadastroItem> {
     if (_key.currentState.validate()) {
       // Sem erros na validação
       _key.currentState.save();
+      widget.anuncios_itens.add(Item(
+        titulo: titulo,
+        descricao: descricao,
+        quantidade: quantidade,
+        qtdAtual: quantidade,
+        data: DateTime.now(),
+      ));
       print("Titulo $titulo");
       print("Descricao $descricao");
       print("Quantidade $quantidade");
+      save();
     } else {
       // erro de validação
       setState(() {
