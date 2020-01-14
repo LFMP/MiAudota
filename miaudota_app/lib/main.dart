@@ -5,7 +5,9 @@ import 'package:miaudota_app/blocs/states/authentication.dart';
 import 'package:miaudota_app/pages/cadastro_item.dart';
 import 'package:miaudota_app/pages/teste.dart';
 import 'package:miaudota_app/pages/blank_page.dart';
+import 'package:miaudota_app/blocs/usuario.dart';
 import 'package:miaudota_app/pages/login_page.dart';
+import 'package:miaudota_app/pages/profile_page.dart';
 import 'package:miaudota_app/pages/splash_page.dart';
 import 'package:miaudota_app/repositories/usuario.dart';
 import 'package:miaudota_app/utils/loading.dart';
@@ -65,7 +67,13 @@ class MiAudota extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return CadastroItem();
+            // return CadastroItem();
+            return BlocProvider<UserProfile>(
+              builder: (context) => UserProfile(userRepository),
+              child: ProfilePage(
+                userRepository: userRepository,
+              ),
+            );
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);

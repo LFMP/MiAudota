@@ -12,13 +12,15 @@ class CadastroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
+      body: BlocProvider<SignUPBloc>(
         builder: (context) {
           return SignUPBloc(
             userRepository: userRepository,
           );
         },
-        child: CadastroForm(),
+        child: CadastroForm(
+          userRepository: userRepository,
+        ),
       ),
     );
   }
