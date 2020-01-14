@@ -84,6 +84,13 @@ class _CadastroItemState extends State<CadastroItem> {
           color: AppStyle.colorWhite,
           icon: Icon(Icons.arrow_back),
         ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            color: AppStyle.colorWhite,
+            icon: Icon(Icons.help),
+          )
+        ],
       ),
       body: Container(
         padding: AppStyle.padding,
@@ -216,7 +223,7 @@ class _CadastroItemState extends State<CadastroItem> {
   }
 
   String _validarTitulo(String value) {
-    String patttern = r'(^[a-zA-Z1-9 ]*$)';
+    String patttern = r'(^[a-zA-Z0-9 ]*$)';
     RegExp regExp = RegExp(patttern);
     if (value.length == 0) {
       return "Informe o titulo do anuncio";
@@ -237,12 +244,14 @@ class _CadastroItemState extends State<CadastroItem> {
   }
 
   String _validarQuantidade(String value) {
-    String pattern = r'(^[1-9]*$)';
+    String pattern = r'(^[0-9]*$)';
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return "Informe a quantidade";
     } else if (!regExp.hasMatch(value)) {
       return "A quantidade deve conter somente números";
+    } else if (value.length > 6) {
+      return "Retorne um numero com menos digitos";
     }
     return null;
   }
